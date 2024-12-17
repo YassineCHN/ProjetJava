@@ -75,6 +75,9 @@ public class GestionUtilisateur implements GestionUtilisateurLocal {
 
     @Override
     public Object[] authentificationUtilisateur(String login, String mdp) {
+        
+        // j'utilise un object plutôt qu'un Utilisateur parce que j'avais des problèmes pour manipuler le rôle de l'user dans la servlet
+        // avec ça c'est plus simple
         Utilisateur user = utilisateurFacade.authentification(login, mdp);
         RolesUtilisateurs role =null;
         
