@@ -172,6 +172,11 @@ Comment s'y prendre?
 3. Comparez votre branche avec « main » et créez une pull request.
 4. Ajoutez un commentaire expliquant vos modifications.
 5. Attendez la validation ou les retours des autres membres de l’équipe.
+
+### 3.3 Schéma récapitulatif des commandes git 
+
+![image](https://github.com/user-attachments/assets/1bdae018-16e2-42db-817a-802a76664ef6)
+
 ---
 
 ## 4. Gestion des conflits
@@ -194,13 +199,13 @@ Un conflit survient lorsque deux membres modifient la même partie du code. Voic
 
 ---
 
-## 5. Bonnes pratiques et Schema recapitulatif des commandes git 
+## 5. Bonnes pratiques et Schema recapitulatif 
 - **Commitez souvent** : Réalisez de petits commits avec des messages clairs.
 - **Utilisez des branches** pour chaque fonctionnalité ou correction.
 - **Synchronisez régulièrement** votre copie locale avec « main ».
 - **Ajoutez des commentaires sur vos pull requests** pour faciliter la revue.
 - **Communiquez avec votre équipe** pour éviter les conflits inutiles.
- 
-![image](https://github.com/user-attachments/assets/3dc4aca6-8d9b-4272-98fc-1d1566f99dbf)
+
+![image](https://github.com/user-attachments/assets/33442f47-e8d2-4884-a739-6daecfa24bc9)
 
 
