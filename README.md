@@ -78,7 +78,9 @@ Quand on travaille avec git on va modifier ou créer des fichiers dans le réper
 
 3. **Créer une branche** : Créez une branche pour vos modifications afin de ne pas affecter directement la branche principale (« main »)
 
-Une branche est une version parrallèle du répertoire, par défaut la branche du répertoire se nomme "main" ou "master", on ne va pas apporter de modification directement sur cette branche car elle représente le projet final.
+Une branche est une copie du code du répertoire à un instant T, par défaut la branche du répertoire se nomme "main" ou "master", on ne va pas apporter de modification directement sur cette branche car elle représente le projet final.
+`git branch` permet de visualiser toutes les branches du dépôt
+
 
 Ainsi, il est préférable de créer de nouvelles branches afin de réaliser des modifications sans modifier le projet principal. Pour créer une nouvelle branche :
    ```bash
@@ -123,7 +125,7 @@ Ajoutez les modifications à l’index :
   **Explication** :
   - `git add` : prépare les fichiers modifiés pour le prochain commit.
 
-Pour l’instant le git add a simplement ajouter les fichiers à une liste temporaire qui est en attente d’envoi
+Pour l’instant le git add a simplement ajouter les fichiers à une liste temporaire qui est en attente d’envoi dans le dépot local.
 
 L'historique d'un projet est une séquence de « photos », contenant l'état de tous les fichiers du projet. Ces « photos » s'appellent des commits, et possèdent : une date, un auteur, une description textuelle, un lien vers le(s) commit(s) précédent(s)
 
@@ -158,11 +160,12 @@ Ensuite on peut envoyer ce pack (commit) dans le repository en ligne :
    - `git push` : transfère vos commits vers le repository distant.
    - `dev` : est le nom de la branche que vous souhaitez pousser.
 
-Pour intégrer les modifications d’une branche à une autre :
+
+Pour intégrer les modifications d’une branche à une autre, on se place sur la branche main ou dev avec git checkout et on execute : 
   ```bash
-  git merge branche
+  git merge branche_fnc
   ```
-  - Git merge Fusionne les commits d'une branche vers une autre.
+  - Git merge fusionne les commits de la branche branche_fnc vers la branche main ou dev (en fonction de sur laquelle on s'est placé).
 
 ### 3.2 Créer une pull request (PR)
 Le pull request montre aux autres collaborateurs les changements sur notre branche et leur permet d'accepter, rejeter ou suggérer des changements supplémentaires. C'est une demande formelle de révision des modifications par les pairs avant intégration.
@@ -174,7 +177,12 @@ Comment s'y prendre?
 5. Attendez la validation ou les retours des autres membres de l’équipe.
 
 ### 3.3 Schéma récapitulatif des commandes git 
+- Le working directory correpond au dossier du projet sur l'ordinateur
+- Le stage ou l'index est un intermediaire entre le working directory et le repository, représentant tous les fichiers modifiés que l'on souhaite voir apparaitre dans la prochaine version de code
+- Le repository est le dépôt local
+- Le dépôt Github est le dépôt distant 
 
+![image](https://github.com/user-attachments/assets/534b41c9-3bad-491c-b7d9-2d3d99486b49)
 ![image](https://github.com/user-attachments/assets/1bdae018-16e2-42db-817a-802a76664ef6)
 
 ---
