@@ -7,8 +7,13 @@
         <div class="logo"><a href="landing_page.jsp">Finance and Operations</a></div>
         <div class="onglets">
             <ul>
-                <%String utilisateurIdentifie0 = (String) session.getAttribute("utilisateur");
-            String role_utilisateur = (String) session.getAttribute("role");%>
+                <%String utilisateurIdentifie0 = (String) session.getAttribute("utilisateur2");
+            String role_utilisateur = (String) session.getAttribute("role2");
+                System.out.println("CI DESSOUS LE ROLE DANS LA JSP");
+                System.out.println("==========================================");
+                System.out.println(role_utilisateur);
+                System.out.println("==========================================");
+                %>
                 <% if (utilisateurIdentifie0 != null) { %>
                 <!-- Cas pour l'utilisateur ADMIN : voir toutes les navbars -->
                 <% if ("ADMIN".equals(role_utilisateur)) { %>
@@ -37,7 +42,7 @@
             <% if (utilisateurIdentifie0 != null) {%>
             <p>Bonjour, <strong><%= utilisateurIdentifie0%></strong> !</p>
             <% } else { %>
-            <p>Vous n'etes pas connecte. <a href="login.jsp">Connectez-vous ici</a>.</p>
+            <p>Vous n'etes pas connecte. <a href="z_user_auth.jsp">Connectez-vous ici</a>.</p>
             <% } %>
         </div>
     </div>

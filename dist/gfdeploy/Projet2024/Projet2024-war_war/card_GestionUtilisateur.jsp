@@ -4,7 +4,7 @@
     <div class="card_gestion">
         <div class="card_titre">
             <p>
-                <a href="NewServlet?action=afficherUtilisateurs">Gestion des Utilisateurs</a>
+                <a href="NewServlet?action=afficherUtilisateursMedecins">Gestion des Utilisateurs</a>
             </p>
         </div>
         <div class="card_image">
