@@ -338,7 +338,7 @@ public class NewServlet extends HttpServlet {
 
             Long id_utilisateur = Long.valueOf(test);
 
-            Utilisateur user = gestionUtilisateur.trouverUtilisateurParId(id_utilisateur);
+            Z_USER user = z_USER_BEAN.trouverUtilisateurParId(id_utilisateur);
 
             request.setAttribute("utilisateurFicheUtilisateur", user);
         }
@@ -366,6 +366,28 @@ public class NewServlet extends HttpServlet {
             gestionService.SupprimerService(value);
             
 
+        }
+        else if (act.equals("creerUtilisateur")) {
+                jspClient="/landing_page.jsp";
+//                Pourquoi pas rediriger vers GestionUtilisateur.jsp ?
+//                même problème que pour la suppression d'un service
+                String login = request.getParameter("loginAjouterUser");
+                String mdp = request.getParameter("passwordAjouterUser");
+                String role = request.getParameter("roleAjouterUser");
+                if (role.equals("MEDECIN")) {
+                    String specialite = request.getParameter("specialiteAjouterUser");
+                    z_USER_BEAN.creerMedecin(login, mdp, specialite);
+                    System.out.println("ON CREE MEDECIN");
+                }
+                if (role.equals("ADMIN")){
+                    String status = request.getParameter("adminStatusAjouterUser");
+                    z_USER_BEAN.creerAdmin(login, mdp, status);
+                    System.out.println("ON CREE ADMIN");
+                }
+            }
+        else if (act.equals("modifierUtilisateur")) {
+            jspClient="/GestionUtilisateur.jsp";
+            
         }
 
         RequestDispatcher Rd; // Déclare un RequestDispatcher pour gérer la redirection ou le forwarding

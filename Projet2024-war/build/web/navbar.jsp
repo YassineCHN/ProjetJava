@@ -9,10 +9,7 @@
             <ul>
                 <%String utilisateurIdentifie0 = (String) session.getAttribute("utilisateur2");
             String role_utilisateur = (String) session.getAttribute("role2");
-                System.out.println("CI DESSOUS LE ROLE DANS LA JSP");
-                System.out.println("==========================================");
-                System.out.println(role_utilisateur);
-                System.out.println("==========================================");
+                
                 %>
                 <% if (utilisateurIdentifie0 != null) { %>
                 <!-- Cas pour l'utilisateur ADMIN : voir toutes les navbars -->

@@ -25,4 +25,10 @@ public interface Z_USER_BEANLocal {
     List<Z_USER> trouverTousLesUtilisateurs();
 
     List<Z_MEDECIN> trouverTousLesUtilisateursMedecins();
+
+    void creerMedecin(String login, String mdp, String specialite);
+
+    void creerAdmin(String login, String mdp, String adminStatus);
+
+    Z_USER trouverUtilisateurParId(Long id);
 }

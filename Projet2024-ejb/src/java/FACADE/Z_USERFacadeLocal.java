@@ -44,5 +44,9 @@ public interface Z_USERFacadeLocal {
 
     List<Z_MEDECIN> trouverTousLesUtilisateursMedecin();
 
+    void creerMedecin(String login, String mdp, String specialite);
+
+    void creerAdmin(String login, String mdp, String adminStatus);
+
     
 }

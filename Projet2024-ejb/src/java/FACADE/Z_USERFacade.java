@@ -6,6 +6,7 @@ package FACADE;
 
 import ENTITE.Service;
 import ENTITE.Utilisateur;
+import ENTITE.Z_ADMIN;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_USER;
 import java.util.List;
@@ -61,9 +62,10 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
         Z_USER user = new Z_USER();
         user.setLogin(login);
         user.setMdp(mdp);
-
+        
         getEntityManager().persist(user);
     }
+    
 
     @Override
     public void mettreAJourUtilisateur(Z_USER user) {
@@ -101,7 +103,52 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
     public List<Z_MEDECIN> trouverTousLesUtilisateursMedecin() {
         return em.createQuery("SELECT s FROM Z_MEDECIN as s where s.specialite IS NOT NULL", Z_MEDECIN.class).getResultList();
     }
-//test
+//pas besoin de préciser le rôle
+//    c'est automatique dans la stratégie single_table
+//    le champ propre à médecin/admin sera rempli automatiquement
+
+    
+//    @Override
+//    public void creerMedecin(String login, String mdp, String specialite) {
+//        System.out.println("appel de la méthode creerMedecin");
+//        Z_MEDECIN user = new Z_MEDECIN();
+//        user.setLogin(login);
+//        user.setMdp(mdp);
+//        user.setSpecialite(specialite);
+//        getEntityManager().persist(user);
+//    }
+    @Override
+public void creerMedecin(String login, String mdp, String specialite) {
+    System.out.println("appel de la méthode creerMedecin");
+    Z_MEDECIN user = new Z_MEDECIN();
+    user.setLogin(login);
+    user.setMdp(mdp);
+    user.setSpecialite(specialite);
+
+    try {
+        getEntityManager().persist(user);
+        System.out.println("Utilisateur médecin créé avec succès : " + user.getLogin());
+    } catch (Exception e) {
+        System.err.println("Erreur lors de la création de l'utilisateur médecin : " + e.getMessage());
+    }
+}
+
+
+    @Override
+    public void creerAdmin(String login, String mdp, String adminStatus) {
+        System.out.println("appel de la méthode creerAdmin");
+    Z_ADMIN user = new Z_ADMIN();
+        user.setLogin(login);
+        user.setMdp(mdp);
+        user.setADMIN_STATUS(adminStatus);
+        try {
+        getEntityManager().persist(user);
+        System.out.println("Utilisateur ADMIN créé avec succès : " + user.getLogin());
+    } catch (Exception e) {
+        System.err.println("Erreur lors de la création de l'utilisateur ADMIN : " + e.getMessage());
+    }
+    
+    }
     
     
     

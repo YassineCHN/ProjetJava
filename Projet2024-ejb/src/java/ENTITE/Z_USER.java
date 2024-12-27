@@ -23,6 +23,21 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
 @DiscriminatorColumn(name = "ROLE", discriminatorType = DiscriminatorType.STRING)
 public class Z_USER implements Serializable {
+//
+//
+//
+//pour info
+//Lors des tests, ne pas saisir un ID user faible (1,2 etc...)
+//    car ca rentre en conflit avec la génération auto de l'ID
+//    lorsqu'on crée des users via la facade
+//    
+//    
+//
+//
+//
+//
+//
+//    
     
     public String getRole() {
         // Utilisation d'une expression JPA pour récupérer la valeur de la colonne discriminante

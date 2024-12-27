@@ -49,13 +49,13 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
     public Z_USER Z_authentificationUtilisateur(String login, String mdp) {
         Z_USER user = z_USERFacade.authentification(login, mdp);
         if (user != null) {
-            System.out.println("AUCUN RESULTAT PAR LA RECHERCHE ");
+            
 //            putain la folie, j'avais écrit "if (user != null)"
 //          alors return null
             return user;
 
         } else {
-            System.out.println("OUI RESULTAT ");
+            
             return null;
         }
 
@@ -82,6 +82,22 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
     @Override
     public List<Z_MEDECIN> trouverTousLesUtilisateursMedecins() {
         return z_USERFacade.trouverTousLesUtilisateursMedecin();
+    }
+
+    @Override
+    public void creerMedecin(String login, String mdp, String specialite) {
+        z_USERFacade.creerMedecin(login, mdp, specialite);
+    }
+
+    @Override
+    public void creerAdmin(String login, String mdp, String adminStatus) {
+        z_USERFacade.creerAdmin(login, mdp, adminStatus);
+    }
+
+    @Override
+    public Z_USER trouverUtilisateurParId(Long id) {
+        Z_USER user = z_USERFacade.trouverUtilisateurParId(id);
+        return user;
     }
     
     
