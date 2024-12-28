@@ -5,6 +5,7 @@
 package SESSION;
 
 import ENTITE.Z_MEDECIN;
+import ENTITE.Z_PATIENT;
 import java.util.List;
 import ENTITE.Z_USER;
 import FACADE.Z_USERFacadeLocal;
@@ -83,7 +84,7 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
     public List<Z_MEDECIN> trouverTousLesUtilisateursMedecins() {
         return z_USERFacade.trouverTousLesUtilisateursMedecin();
     }
-
+    
     @Override
     public void creerMedecin(String login, String mdp, String specialite) {
         z_USERFacade.creerMedecin(login, mdp, specialite);
@@ -98,6 +99,21 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
     public Z_USER trouverUtilisateurParId(Long id) {
         Z_USER user = z_USERFacade.trouverUtilisateurParId(id);
         return user;
+    }
+
+    @Override
+    public void supprimerUtilisateur(long id) {
+        z_USERFacade.supprimerUtilisateur(id);
+    }
+
+    @Override
+    public List<Z_PATIENT> trouverTousLesUtilisateursPatients() {
+        return z_USERFacade.trouverTousLesUtilisateursPatients();
+    }
+
+    @Override
+    public void creerPatient(String login, String mdp, String numSecuSoc) {
+        z_USERFacade.creerPatient(login, mdp, numSecuSoc);
     }
     
     

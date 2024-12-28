@@ -29,14 +29,11 @@ public class GestionService implements GestionServiceLocal {
     
     
     @Override
-    public void CreerService(String login, String mdp,String nomService, String localisationService) {
-        Utilisateur user = utilisateurFacade.authentification(login, mdp);
-        if(user!=null && user.getUtilisateurRole() == RolesUtilisateurs.ADMIN) {
+    public void CreerService(String nomService, String localisationService) {
+       
             serviceFacade.creerService(nomService, localisationService);
-        }
-        else {
-            System.out.println("utilisateur pas admin ou inexistant");
-        }
+        
+        
             
     }
     

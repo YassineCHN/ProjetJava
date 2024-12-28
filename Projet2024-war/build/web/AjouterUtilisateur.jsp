@@ -66,6 +66,10 @@
             <label for="specialiteAjouterUser">SPECIALITE :</label>
             <input type="text" id="specialiteAjouterUser" name="specialiteAjouterUser"><br><br>
         </div>
+        <div id="medecinField" class="">
+            <label for="PatientNumSecuSocAjouterUser">Numéro de sécurité sociale :</label>
+            <input type="text" id="PatientNumSecuSocAjouterUser" name="PatientNumSecuSocAjouterUser"><br><br>
+        </div>
 
         <input type="hidden" name="action" value="creerUtilisateur">
         <input type="submit" value="Créer">

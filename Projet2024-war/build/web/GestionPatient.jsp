@@ -5,6 +5,7 @@
 --%>
 
    
+<%@page import="ENTITE.Z_PATIENT"%>
 <%@page import="ENTITE.Z_MEDECIN"%>
 <%@page import="java.util.List"%>
 <%@page import="ENTITE.Utilisateur"%>
@@ -15,7 +16,7 @@
     <head>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <% List<Z_MEDECIN> list = (List<Z_MEDECIN>) request.getAttribute("listeUtilisateurMedecins"); %>
+        <% List<Z_PATIENT> list = (List<Z_PATIENT>) request.getAttribute("listeUtilisateurPatients"); %>
         <title>Utilisateur</title>
     </head>
     <body>
@@ -23,7 +24,7 @@
         <h1>Afficher Utilisateurs</h1>
         
         <div class="ruban_actions">
-            <a href="AjouterMedecin.jsp" class="button_link">Ajouter un utilisateur</a>
+            <a href="AjouterPatient.jsp" class="button_link">Ajouter un utilisateur</a>
         </div>
     
         <TABLE border width=50%>
@@ -32,9 +33,9 @@
                 <TD>Login</TD>
                 <TD>Mot de passe</TD>
                 <TD>Role</TD>
-                <td>Specialite</td>
+                <td>Numéro Sécurité sociale</td>
             </tr>
-            <% for (Z_MEDECIN cp : list) { %>
+            <% for (Z_PATIENT cp : list) { %>
                 <tr>
                     <!-- Dans chaque ligne du tableau, on récupère les informations du patient qu'on encapsule dans une balise <a> -->
                     <!-- Cette balise redirige vers la jsp "fichePatient.jsp" avec dans l'URL l'id du patient -->
@@ -51,7 +52,7 @@
                         <a href="NewServlet?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getId() %>"><%= cp.getRole()%></a>
                     </td>
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getSpecialite()%>"><%= cp.getRole()%></a>
+                        <a href="NewServlet?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getId()%>"><%= cp.getNumSecuSoc()%></a>
                     </td>
                 </tr>
             <% } %>

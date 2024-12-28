@@ -5,6 +5,7 @@
 package FACADE;
 
 import ENTITE.Z_MEDECIN;
+import ENTITE.Z_PATIENT;
 import ENTITE.Z_USER;
 import java.util.List;
 import javax.ejb.Local;
@@ -36,7 +37,7 @@ public interface Z_USERFacadeLocal {
 
     void mettreAJourUtilisateur(Z_USER user);
 
-    void supprimerUtilisateur(Z_USER user);
+    void supprimerUtilisateur(long id);
 
     Z_USER trouverUtilisateurParId(long id);
 
@@ -47,6 +48,10 @@ public interface Z_USERFacadeLocal {
     void creerMedecin(String login, String mdp, String specialite);
 
     void creerAdmin(String login, String mdp, String adminStatus);
+
+    List<Z_PATIENT> trouverTousLesUtilisateursPatients();
+
+    void creerPatient(String login, String mdp, String numSecuSoc);
 
     
 }

@@ -15,7 +15,7 @@ import javax.ejb.Local;
 @Local
 public interface GestionServiceLocal {
 
-    void CreerService(String login, String mdp,String nomService, String localisationService) ;
+    void CreerService(String nomService, String localisationService) ;
 
     void SupprimerService(Long idService);
 

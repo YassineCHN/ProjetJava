@@ -8,6 +8,7 @@ import ENTITE.Service;
 import ENTITE.Utilisateur;
 import ENTITE.Z_ADMIN;
 import ENTITE.Z_MEDECIN;
+import ENTITE.Z_PATIENT;
 import ENTITE.Z_USER;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -73,8 +74,22 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
     }
 
     @Override
-    public void supprimerUtilisateur(Z_USER user) {
-        getEntityManager().remove(getEntityManager().merge(user));
+    public void supprimerUtilisateur(long id_test) {
+        try {
+        if (id_test == 0) {
+            throw new IllegalArgumentException("ID invalide");
+        }
+        Z_USER user = em.find(Z_USER.class, id_test);
+        if (user != null) {
+            em.remove(user);
+        }
+    } catch (IllegalArgumentException e) {
+        // Gérer l'exception lorsque id est null
+        System.err.println("Erreur : " + e.getMessage());
+    } catch (Exception e) {
+        // Gérer toute autre exception
+        System.err.println("Une erreur s'est produite lors de la suppression de utilisateur : " + e.getMessage());
+    }
     }
 
     @Override
@@ -101,7 +116,7 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
 
     @Override
     public List<Z_MEDECIN> trouverTousLesUtilisateursMedecin() {
-        return em.createQuery("SELECT s FROM Z_MEDECIN as s where s.specialite IS NOT NULL", Z_MEDECIN.class).getResultList();
+        return em.createQuery("SELECT s FROM Z_MEDECIN as s where s.id IS NOT NULL", Z_MEDECIN.class).getResultList();
     }
 //pas besoin de préciser le rôle
 //    c'est automatique dans la stratégie single_table
@@ -148,6 +163,26 @@ public void creerMedecin(String login, String mdp, String specialite) {
         System.err.println("Erreur lors de la création de l'utilisateur ADMIN : " + e.getMessage());
     }
     
+    }
+
+    @Override
+    public List<Z_PATIENT> trouverTousLesUtilisateursPatients() {
+        return em.createQuery("SELECT s FROM Z_PATIENT as s where s.id IS NOT NULL", Z_PATIENT.class).getResultList();
+    }
+
+    @Override
+    public void creerPatient(String login, String mdp, String numSecuSoc) {
+          System.out.println("appel de la méthode creerPatient");
+    Z_PATIENT user = new Z_PATIENT();
+        user.setLogin(login);
+        user.setMdp(mdp);
+        user.setNumSecuSoc(numSecuSoc);
+        try {
+        getEntityManager().persist(user);
+        System.out.println("Utilisateur PATIENT créé avec succès : " + user.getLogin());
+    } catch (Exception e) {
+        System.err.println("Erreur lors de la création de l'utilisateur PATIENT : " + e.getMessage());
+    }
     }
     
     

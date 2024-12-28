@@ -40,8 +40,11 @@
     </fieldset>
     <input type="submit" value="Valider" />
 </form>
-
-
+ <form action="NewServlet">
+        <input type="hidden" id="supprimerService" name="supprimerUtilisateur" value="<%=Long.toString(user.getId())%>">
+        <input type="hidden" name="action" value="supprimerUtilisateur">
+        <input type="submit" value="Supprimer utilisateur" />
+    </form>
     
     <%@ include file="footer.jsp" %>
 </body>

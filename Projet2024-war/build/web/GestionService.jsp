@@ -23,7 +23,7 @@
         <h1>Afficher Utilisateurs</h1>
         
         <div class="ruban_actions">
-            <a href="#" class="button_link">Ajouter un utilisateur</a>
+            <a href="AjouterService.jsp" class="button_link">Ajouter un service</a>
         </div>
     
         <TABLE border width=50%>

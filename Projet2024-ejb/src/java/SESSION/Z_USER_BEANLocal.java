@@ -5,6 +5,7 @@
 package SESSION;
 
 import ENTITE.Z_MEDECIN;
+import ENTITE.Z_PATIENT;
 import ENTITE.Z_USER;
 import javax.ejb.Local;
 import java.util.List;
@@ -31,4 +32,12 @@ public interface Z_USER_BEANLocal {
     void creerAdmin(String login, String mdp, String adminStatus);
 
     Z_USER trouverUtilisateurParId(Long id);
+
+    void supprimerUtilisateur(long id);
+
+    List<Z_PATIENT> trouverTousLesUtilisateursPatients();
+
+    void creerPatient(String login, String mdp, String numSecuSoc);
+
+    
 }
