@@ -74,7 +74,7 @@ public class DossierHospitalisation implements Serializable {
         this.dateHospitalisation = dateHospitalisation;
     }
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date heureArrivee;
 
     public Date getHeureArrivee() {
@@ -85,7 +85,7 @@ public class DossierHospitalisation implements Serializable {
         this.heureArrivee = heureArrivee;
     }
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date heureDepart;
 
     public Date getHeureDepart() {

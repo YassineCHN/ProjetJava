@@ -34,7 +34,7 @@ public interface DossierHospitalisationFacadeLocal {
 
     int count();
 
-    void creerDossierHospitalisation(Z_PATIENT patient, Service service, List<Acte> actes, Date dateHospitalisation);
+    void creerDossierHospitalisation(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart);
 
     void modifierDossierHospitalisation(Long id, Date heureArrivee, Date heureDepart);
 

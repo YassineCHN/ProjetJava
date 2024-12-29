@@ -39,5 +39,7 @@ public interface Z_USER_BEANLocal {
 
     void creerPatient(String login, String mdp, String numSecuSoc);
 
+    Z_PATIENT trouverPatientParNumSecu(String numSecu);
+
     
 }

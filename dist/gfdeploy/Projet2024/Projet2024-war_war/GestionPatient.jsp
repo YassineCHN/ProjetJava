@@ -17,14 +17,14 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% List<Z_PATIENT> list = (List<Z_PATIENT>) request.getAttribute("listeUtilisateurPatients"); %>
-        <title>Utilisateur</title>
+        <title>Patients</title>
     </head>
     <body>
         <div class="main_content">
-        <h1>Afficher Utilisateurs</h1>
+        <h1>Afficher Patients</h1>
         
         <div class="ruban_actions">
-            <a href="AjouterPatient.jsp" class="button_link">Ajouter un utilisateur</a>
+            <a href="AjouterPatient.jsp" class="button_link">Ajouter un Patient</a>
         </div>
     
         <TABLE border width=50%>

@@ -184,6 +184,23 @@ public void creerMedecin(String login, String mdp, String specialite) {
         System.err.println("Erreur lors de la création de l'utilisateur PATIENT : " + e.getMessage());
     }
     }
+
+    @Override
+    public Z_PATIENT trouverPatientParNumSecu(String numSecu) {
+        Z_PATIENT user = null;
+        String txt = "SELECT u from Z_PATIENT as u where u.numSecuSoc=:variable";
+        Query req = em.createQuery(txt);
+        req.setParameter("variable",numSecu);
+        List<Z_PATIENT> result = req.getResultList();
+        if (result.size()==0 || result==null) {
+            return null;
+        }
+        else if (result.size()==1){
+            user = result.get(0);
+            return user;
+        }
+        return user;
+    }
     
     
     

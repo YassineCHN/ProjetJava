@@ -115,6 +115,12 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
     public void creerPatient(String login, String mdp, String numSecuSoc) {
         z_USERFacade.creerPatient(login, mdp, numSecuSoc);
     }
+
+    @Override
+    public Z_PATIENT trouverPatientParNumSecu(String numSecu) {
+       Z_PATIENT user = z_USERFacade.trouverPatientParNumSecu(numSecu);
+       return user;
+    }
     
     
     

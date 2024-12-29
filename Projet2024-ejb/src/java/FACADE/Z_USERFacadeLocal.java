@@ -53,5 +53,7 @@ public interface Z_USERFacadeLocal {
 
     void creerPatient(String login, String mdp, String numSecuSoc);
 
+    Z_PATIENT trouverPatientParNumSecu(String numSecu);
+
     
 }

@@ -17,10 +17,7 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% List<DossierHospitalisation> list = (List<DossierHospitalisation>) request.getAttribute("listeDossiers"); %>
-        <% System.out.println("DANS LA JSP") ;%>
-        <% System.out.println(list.get(0).getId()) ;%>
-        <% System.out.println(list.get(0).getId()) ;%>
-        <% System.out.println(list.get(0).getId()) ;%>
+        
         <title>Utilisateur</title>
     </head>
     <body>
@@ -31,55 +28,50 @@
             <a href="AjouterDossier.jsp" class="button_link">Créer un dossier</a>
         </div>
     
-        <TABLE border width=50%>
+      
+
+
+    <TABLE border width=50%>
+        <tr>
+            <TD>ID</TD>
+            <TD>Date d'hospitalisation</TD>
+            <TD>Date d'arrivée</TD>
+            <TD>Date de départ</TD>
+            <td>ID du patient</td>
+            <td>ID du service</td>
+            <td>Nom du service</td>
+        </tr>
+        <% if (list != null || !list.isEmpty()) { %>
+        <% for (DossierHospitalisation cp : list) { %>
             <tr>
-                <TD>ID</TD>
-                <TD>Date d'hospitalisation</TD>
-                <TD>Date d'arrivée</TD>
-                <TD>Date de départ</TD>
-                <td>ID du patient</td>
-                <td>ID du service</td>
-                <td>Nom du service</td>
-                
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getId() %></a>
+                </td>
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getDateHospitalisation()%></a>
+                </td>
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getHeureArrivee()%></a>
+                </td>
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getHeureDepart()%></a>
+                </td>
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLePatient().getLogin()%></a>
+                </td>
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLeService().getId()%></a>
+                </td>
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLeService().getServiceNom()%></a>
+                </td>
             </tr>
-            <% for (DossierHospitalisation cp : list) { %>
-                <tr>
-                    <!-- Dans chaque ligne du tableau, on récupère les informations du patient qu'on encapsule dans une balise <a> -->
-                    <!-- Cette balise redirige vers la jsp "fichePatient.jsp" avec dans l'URL l'id du patient -->
-                    <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getId() %>"><%= cp.getId() %></a>
-                    </td>
-                    <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getId() %>"><%= cp.getDateHospitalisation()%></a>
-                    </td>
-                    <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getId() %>"><%= cp.getHeureArrivee()%></a>
-                    </td>
-                    <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getId() %>"><%= cp.getHeureDepart()%></a>
-                    </td>
-                    <td Width=15%>
-                        <!--TROUVER LE MOYEN DE REDIRIGER VERS FICHE PATIENT/SERVICE-->
-                        <!--TROUVER LE MOYEN DE REDIRIGER VERS FICHE PATIENT/SERVICE-->
-                        <!--TROUVER LE MOYEN DE REDIRIGER VERS FICHE PATIENT/SERVICE-->
-                        <!--TROUVER LE MOYEN DE REDIRIGER VERS FICHE PATIENT/SERVICE-->
-                        <!--TROUVER LE MOYEN DE REDIRIGER VERS FICHE PATIENT/SERVICE-->
-                        
-                        <a href="/fiche?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLePatient().getLogin()%></a>
-                    </td>
-                    <td Width=15%>
-                        
-                        
-                        <a href="/fiche?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLeService().getId()%></a>
-                    </td>
-                    <td Width=15%>
-                        
-                        
-                        <a href="/fiche?action=afficherFicheUtilisateurMedecin&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLeService().getServiceNom()%></a>
-                    </td>
-                </tr>
-            <% } %>
-        </TABLE> 
+        <% } %>
+    </TABLE>
+<% } else { %>
+    </TABLE>
+<% } %>
+
     <td Width=25%><A HREF="landing_page.jsp" class="button_link"> Retour
             Menu</A></td>
             <br>

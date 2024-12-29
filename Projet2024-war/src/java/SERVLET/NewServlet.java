@@ -5,6 +5,7 @@
 
 package SERVLET;
 
+import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
 import ENTITE.RolesUtilisateurs;
 import ENTITE.Service;
@@ -17,8 +18,13 @@ import SESSION.GestionServiceLocal;
 import SESSION.GestionUtilisateurLocal;
 import SESSION.Z_USER_BEANLocal;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,7 +51,7 @@ public class NewServlet extends HttpServlet {
     
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
 
         HttpSession session = request.getSession(true); // création/récupération de la session utilisateur
         String jspClient = null; // Initialisation de la variable pour stocker le chemin de la JSP à afficher
@@ -114,17 +120,18 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("afficherDossiers")){
             jspClient = "/GestionDossier.jsp";
             List<DossierHospitalisation> lesDossiers =  gestionDossierHospitalisation.afficherDossier();
-            if (lesDossiers.size() == 0) {
-                System.out.println("LA FACADE A RETOURNE AUCUN DOSSIERS (0)");
-                System.out.println(lesDossiers.get(0).getId());
-            }
-            else {
-                 System.out.println("LA FACADE A RETOURNE UN TRUC (0)");
-                 System.out.println(lesDossiers.size());
-                 
-                request.setAttribute("listeDossiers", lesDossiers);
+            request.setAttribute("listeDossiers", lesDossiers);
             request.setAttribute("message", "Liste des dossiers existants");
-            }
+//            if (lesDossiers.size() == 0) {
+//                System.out.println("LA FACADE A RETOURNE AUCUN DOSSIERS (0)");
+//                System.out.println(lesDossiers.get(0).getId());
+//            }
+//            else {
+//                 System.out.println("LA FACADE A RETOURNE UN TRUC (0)");
+//                 System.out.println(lesDossiers.size());
+//                 
+//                
+//            }
         }
         else if(act.equals("afficherServices")) {
             // Action pour afficher les services, comme utilisateur
@@ -154,6 +161,17 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("ficheService", service);
             
         }
+        else if (act.equals("afficherFicheDossier")){
+            jspClient = "/ficheDossier.jsp";
+            
+            String test = request.getParameter("id_dossier");
+
+            Long id_dossier = Long.valueOf(test);
+            
+            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(id_dossier);
+          
+            request.setAttribute("ficheDossier", dossier);
+        }
         
         else if (act.equals("supprimerService")) {
             jspClient = "/landing_page.jsp";
@@ -178,6 +196,11 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("supprimerPatient")){
             jspClient = "/landing_page.jsp";
 // C'est en fait le même cas que la suppression d'un utilisateur normal
+        }
+        else if (act.equals("supprimerDossier")) {
+            jspClient="/landing_page.jsp";
+            Long value = Long.parseLong(request.getParameter("id_supprimerDossier"));
+            gestionDossierHospitalisation.supprimerDossier(value);
         }
         else if (act.equals("creerUtilisateur")) {
                 jspClient="/landing_page.jsp";
@@ -237,6 +260,87 @@ public class NewServlet extends HttpServlet {
             
             }
 
+        else if (act.equals("creerDossierMedical")) {
+                    //             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+            jspClient="/landing_page.jsp";
+            
+            String dateHospitalisationStr = request.getParameter("dateHospitalisation");
+            String heureArriveeStr = request.getParameter("heureArrivee");
+            String heureDepartStr = request.getParameter("heureDepart");
+            String serviceIdStr = request.getParameter("serviceId"); 
+            
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+//             Date dateHospitalisation = null;
+//             Date heureArrivee = null;
+//             Date heureDepart = null;
+             
+            Date dateHospitalisation_test = sdf.parse(dateHospitalisationStr);
+            Date heureArrivee_test = sdf.parse(heureArriveeStr);
+            Date heureDepart_test = sdf.parse(heureDepartStr);
+             Z_PATIENT patient = null;
+             Long serviceId = Long.valueOf(serviceIdStr);
+             Service service = gestionService.trouverServiceParID(serviceId);
+             
+             if (request.getParameter("newPatientCheckbox") != null) {
+                String loginPatient = request.getParameter("loginPatient");
+                String mdpPatient = request.getParameter("mdpPatient");
+                String numSecuPatient = request.getParameter("numSecuPatient");
+                
+                if (loginPatient.trim().isEmpty() || mdpPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty() ) {
+                    z_USER_BEAN.creerPatient(loginPatient, mdpPatient, numSecuPatient);
+                }
+                else {
+                    jspClient = "/landing_page.jsp";
+                    System.out.println("formulaire incomplet");
+                }
+                patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
+                 gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
+             }
+             else {
+                 String patientIdStr = request.getParameter("patientId");
+                 Long patientId = Long.valueOf(patientIdStr);
+                 patient = (Z_PATIENT) z_USER_BEAN.trouverUtilisateurParId(patientId);
+                 gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
+             }
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+//             TESTER LA CREATION DOSSIER
+             
+        }
+
         RequestDispatcher Rd; // Déclare un RequestDispatcher pour gérer la redirection ou le forwarding
         Rd = getServletContext().getRequestDispatcher(jspClient); // Récupère le dispatcher pour la JSP cible
         Rd.forward(request, response); // Forward la requête et la réponse vers la JSP cible
@@ -244,12 +348,20 @@ public class NewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(NewServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(NewServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
 
