@@ -97,13 +97,13 @@ public class DossierHospitalisation implements Serializable {
     }
 
     @ManyToOne
-    private Patient lePatient;
+    private Z_PATIENT lePatient;
 
-    public Patient getLePatient() {
+    public Z_PATIENT getLePatient() {
         return lePatient;
     }
 
-    public void setLePatient(Patient lePatient) {
+    public void setLePatient(Z_PATIENT lePatient) {
         this.lePatient = lePatient;
     }
 

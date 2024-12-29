@@ -6,8 +6,9 @@ package FACADE;
 
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
-import ENTITE.Patient;
+
 import ENTITE.Service;
+import ENTITE.Z_PATIENT;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -34,7 +35,7 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     }
 
     @Override
-    public void creerDossierHospitalisation(Patient patient, Service service, List<Acte> actes, Date dateHospitalisation) {
+    public void creerDossierHospitalisation(Z_PATIENT patient, Service service, List<Acte> actes, Date dateHospitalisation) {
         DossierHospitalisation dossier = new DossierHospitalisation();
         dossier.setLePatient(patient);
         dossier.setLeService(service);

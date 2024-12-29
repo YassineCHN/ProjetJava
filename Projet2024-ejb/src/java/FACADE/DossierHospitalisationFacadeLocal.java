@@ -8,6 +8,7 @@ import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
 import ENTITE.Patient;
 import ENTITE.Service;
+import ENTITE.Z_PATIENT;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -33,7 +34,7 @@ public interface DossierHospitalisationFacadeLocal {
 
     int count();
 
-    void creerDossierHospitalisation(Patient patient, Service service, List<Acte> actes, Date dateHospitalisation);
+    void creerDossierHospitalisation(Z_PATIENT patient, Service service, List<Acte> actes, Date dateHospitalisation);
 
     void modifierDossierHospitalisation(Long id, Date heureArrivee, Date heureDepart);
 

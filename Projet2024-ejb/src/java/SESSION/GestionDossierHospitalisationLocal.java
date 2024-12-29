@@ -4,6 +4,8 @@
  */
 package SESSION;
 
+import java.util.List;
+import ENTITE.DossierHospitalisation;
 import javax.ejb.Local;
 
 /**
@@ -12,5 +14,10 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionDossierHospitalisationLocal {
+
+    List<DossierHospitalisation> afficherDossier();
+
+    
+
     
 }

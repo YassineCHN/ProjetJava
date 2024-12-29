@@ -5,11 +5,13 @@
 package ENTITE;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -19,6 +21,8 @@ import javax.persistence.Id;
 @DiscriminatorValue("PATIENT")
 public class Z_PATIENT extends Z_USER{
 
+    @OneToMany(mappedBy = "lePatient")
+    private List<DossierHospitalisation> dossierHospitalisations;
 //    private static final long serialVersionUID = 1L;
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)

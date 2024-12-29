@@ -5,12 +5,14 @@
 
 package SERVLET;
 
+import ENTITE.DossierHospitalisation;
 import ENTITE.RolesUtilisateurs;
 import ENTITE.Service;
 import ENTITE.Utilisateur;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
 import ENTITE.Z_USER;
+import SESSION.GestionDossierHospitalisationLocal;
 import SESSION.GestionServiceLocal;
 import SESSION.GestionUtilisateurLocal;
 import SESSION.Z_USER_BEANLocal;
@@ -30,11 +32,14 @@ import javax.servlet.http.HttpSession;
 public class NewServlet extends HttpServlet {
 
     @EJB
+    private GestionDossierHospitalisationLocal gestionDossierHospitalisation;
+
+    @EJB
     private GestionServiceLocal gestionService;
 
     @EJB
     private Z_USER_BEANLocal z_USER_BEAN;
-
+    
     @EJB
     private GestionUtilisateurLocal gestionUtilisateur;
     
@@ -105,6 +110,21 @@ public class NewServlet extends HttpServlet {
             List<Z_PATIENT> lesUtilisateurs = z_USER_BEAN.trouverTousLesUtilisateursPatients();
             request.setAttribute("listeUtilisateurPatients", lesUtilisateurs);
             request.setAttribute("message", "Liste des patients existants");
+        }
+        else if (act.equals("afficherDossiers")){
+            jspClient = "/GestionDossier.jsp";
+            List<DossierHospitalisation> lesDossiers =  gestionDossierHospitalisation.afficherDossier();
+            if (lesDossiers.size() == 0) {
+                System.out.println("LA FACADE A RETOURNE AUCUN DOSSIERS (0)");
+                System.out.println(lesDossiers.get(0).getId());
+            }
+            else {
+                 System.out.println("LA FACADE A RETOURNE UN TRUC (0)");
+                 System.out.println(lesDossiers.size());
+                 
+                request.setAttribute("listeDossiers", lesDossiers);
+            request.setAttribute("message", "Liste des dossiers existants");
+            }
         }
         else if(act.equals("afficherServices")) {
             // Action pour afficher les services, comme utilisateur

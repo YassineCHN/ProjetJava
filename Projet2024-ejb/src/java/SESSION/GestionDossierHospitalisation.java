@@ -4,6 +4,10 @@
  */
 package SESSION;
 
+import ENTITE.DossierHospitalisation;
+import FACADE.DossierHospitalisationFacadeLocal;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -13,6 +17,22 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionDossierHospitalisation implements GestionDossierHospitalisationLocal {
 
+    @EJB
+    private DossierHospitalisationFacadeLocal dossierHospitalisationFacade;
+
+    
+    
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public List<DossierHospitalisation> afficherDossier() {
+        List<DossierHospitalisation> result = dossierHospitalisationFacade.trouverTousLesDossiers();
+        System.out.println(result.toString());
+        return result;
+    }
+
+    
+    
 }
