@@ -25,7 +25,7 @@
         <h1>Afficher dossier</h1>
         
         <div class="ruban_actions">
-            <a href="AjouterDossier.jsp" class="button_link">Créer un dossier</a>
+            <a href="NewServlet?action=ajouterDossierForm" class="button_link">Créer un dossier</a>
         </div>
     
       

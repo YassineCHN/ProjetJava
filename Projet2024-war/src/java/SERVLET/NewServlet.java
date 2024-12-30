@@ -172,7 +172,7 @@ public class NewServlet extends HttpServlet {
           
             request.setAttribute("ficheDossier", dossier);
         }
-        
+       
         else if (act.equals("supprimerService")) {
             jspClient = "/landing_page.jsp";
 //            Là vous vous demander pk ça redirige vers landing_page
@@ -259,26 +259,16 @@ public class NewServlet extends HttpServlet {
             }
             
             }
-
+        else if (act.equals("ajouterDossierForm")){
+            jspClient = "/AjouterDossier.jsp";
+            List<Z_PATIENT> lesUtilisateurs = z_USER_BEAN.trouverTousLesUtilisateursPatients();
+            request.setAttribute("listeUtilisateurPatientsAjoutDossier", lesUtilisateurs);
+            
+            List<Service> lesServices = gestionService.tousLesServices();
+            request.setAttribute("listeServicesAjoutDossier", lesServices);
+        }
         else if (act.equals("creerDossierMedical")) {
-                    //             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
+   
             jspClient="/landing_page.jsp";
             
             String dateHospitalisationStr = request.getParameter("dateHospitalisation");
@@ -304,40 +294,55 @@ public class NewServlet extends HttpServlet {
                 String mdpPatient = request.getParameter("mdpPatient");
                 String numSecuPatient = request.getParameter("numSecuPatient");
                 
+                
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                System.out.println(loginPatient);
+                System.out.println(mdpPatient);
+                System.out.println(numSecuPatient);
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                
+                
+                
                 if (loginPatient.trim().isEmpty() || mdpPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty() ) {
-                    z_USER_BEAN.creerPatient(loginPatient, mdpPatient, numSecuPatient);
-                }
-                else {
                     jspClient = "/landing_page.jsp";
                     System.out.println("formulaire incomplet");
                 }
+                else {
+                    z_USER_BEAN.creerPatient(loginPatient, mdpPatient, numSecuPatient);
+                }
+                
                 patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
+                
+                System.out.println("creer Patient puis creer Dossier");
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                System.out.println(patient.getNumSecuSoc());
+                System.out.println(patient.getId());
+                System.out.println(patient.getLogin());
+                
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                
                  gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
              }
              else {
+                 System.out.println("Chercher patient puis créer dossier");
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
+                System.out.println("===========================================================================");
                  String patientIdStr = request.getParameter("patientId");
                  Long patientId = Long.valueOf(patientIdStr);
                  patient = (Z_PATIENT) z_USER_BEAN.trouverUtilisateurParId(patientId);
                  gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
              }
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
-//             TESTER LA CREATION DOSSIER
+//  
              
         }
 

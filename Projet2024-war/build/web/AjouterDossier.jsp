@@ -1,8 +1,15 @@
+<%@page import="ENTITE.Service"%>
+<%@page import="ENTITE.Z_PATIENT"%>
+<%@page import="java.util.List"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="navbar.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
+        <!--listeServicesAjoutDossier-->
+        <% List<Z_PATIENT> listPatient = (List<Z_PATIENT>) request.getAttribute("listeUtilisateurPatientsAjoutDossier"); %>
+        <% List<Service> listService = (List<Service>) request.getAttribute("listeServicesAjoutDossier"); %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Créer Dossier Médical</title>
         <style>
@@ -48,7 +55,18 @@
 
                 <div id="existingPatientField">
                     <label for="patientId">ID du patient :</label>
-                    <input type="text" id="patientId" name="patientId"><br><br>
+                    
+                    <!--                    <input type="text" id="patientId" name="patientId"><br><br>-->
+                    <select id="patientId" name="patientId">
+                        <option value="" disabled selected>ID - Login patient</option>
+                        A l'avenir faudra récupérer le nom patient
+                        <%for (Z_PATIENT cp : listPatient) {%>
+                        <option value="<%= cp.getId()%>"><p><%=cp.getId()%> — <%=cp.getLogin()%></p></option>
+
+                    
+
+                    <%}%>
+                    </select>
                 </div>
 
                 <div id="newPatientField" class="hidden">
@@ -70,12 +88,22 @@
                 </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Informations du Service</legend>
+                    <fieldset>
+                        <legend>Informations du Service</legend>
+                        <label for="serviceId">ID du service :</label>
 
-                <label for="serviceId">ID du service :</label>
-                <input type="text" id="serviceId" name="serviceId" required><br><br>
-            </fieldset>
+                        <!--                
+                                        <input type="text" id="serviceId" name="serviceId" required><br><br>-->
+
+                        <select id="serviceId" name="serviceId">
+                            <option value="" disabled selected>ID - Nom du service</option>
+                            <%for (Service cp : listService) {%>
+                            <option value="<%= cp.getId()%>"><p><%=cp.getId()%> — <%=cp.getServiceNom()%></p></option>
+
+                       
+                        <%}%>
+                         </select>
+                    </fieldset>
 
             <input type="hidden" name="action" value="creerDossierMedical">
             <input type="submit" value="Créer">
