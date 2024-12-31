@@ -18,6 +18,30 @@ import javax.persistence.InheritanceType;
 /**
  *
  * @author charl
+ azeazeazeazeazaze
+ azezaezaeazeazeza
+ 
+ azezaezaeazeazeza
+ 
+ azezaezaeazeazeza
+ 
+ azezaezaeazeazeza
+ 
+ azezaezaeazeazeza
+
+ 
+ azezaezaeazeazeza
+ 
+ azezaezaeazeazeza
+ 
+ azezaezaeazeazeza
+ 
+ azezaezaeazeazeza
+
+ 
+ azezaezaeazeazeza
+ 
+ azezaezaeazeazeza
  */
 @Entity
 @Inheritance
