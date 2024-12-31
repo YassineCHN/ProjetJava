@@ -4,6 +4,8 @@
  */
 package SESSION;
 
+import ENTITE.Service;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,8 +15,12 @@ import javax.ejb.Local;
 @Local
 public interface GestionServiceLocal {
 
-//    void CreerService(String login, String mdp,String nomService, String localisationService) ;
-//
-//    void SupprimerService(String login, String mdp, Long idService);
+    void CreerService(String nomService, String localisationService) ;
+
+    void SupprimerService(Long idService);
+
+    List<Service> tousLesServices();
+
+    Service trouverServiceParID(Long id);
     
 }

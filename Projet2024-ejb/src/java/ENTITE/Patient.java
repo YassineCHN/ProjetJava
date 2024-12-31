@@ -19,8 +19,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Patient extends Utilisateur implements Serializable {
 
-    @OneToMany(mappedBy = "lePatient")
-    private List<DossierHospitalisation> dossierHospitalisations;
+//    @OneToMany(mappedBy = "lePatient")
+//    private List<DossierHospitalisation> dossierHospitalisations;
 
     private static final long serialVersionUID = 1L;
     @Id

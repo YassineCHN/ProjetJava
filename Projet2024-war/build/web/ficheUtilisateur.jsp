@@ -1,3 +1,4 @@
+<%@page import="ENTITE.Z_USER"%>
 <%@page import="ENTITE.Utilisateur"%>
 <!DOCTYPE html>
 <%@ include file="navbar.jsp" %>
@@ -8,25 +9,42 @@
     <title>Document</title>
 </head>
 <body>
-    <%Utilisateur user = (Utilisateur) request.getAttribute("utilisateurFicheUtilisateur");%>
-    <label for ="id_utilisateur"> ID utilisateur : </label>
-            <input type ="text" id="id_utilisateur" name="id_utilisateur" value="<%=Long.toString(user.getId())%>" disabled required>
-    <form action="NewServlet">
-        <fieldset>
+    <%Z_USER user = (Z_USER) request.getAttribute("utilisateurFicheUtilisateur");%>
+    
+    <form action="NewServlet" method="post">
+    <fieldset>
+        <label for="id_utilisateurFicheUtilisateur">ID utilisateur :</label>
+        <input type="text" id="id_utilisateurFicheUtilisateur" name="id_utilisateurFicheUtilisateur" value="<%=Long.toString(user.getId())%>" disabled required>
+        <br><br>
+        <label for="login">Login :</label>
+        <input type="text" id="login" name="login_ficheUtilisateur" value="<%=user.getLogin()%>" required>
+        <br><br>
+        <label for="password">Mot de passe :</label>
+        <input type="text" id="password" name="password_ficheUtilisateur" value="<%=user.getMdp()%>" required>
+        <br><br>
+        <label for="role">Rôle de l'utilisateur :</label>
+        <select id="role" name="role_ficheUtilisateur" required>
             
-            <br><br>
-            <label for="login">Login :</label>
-            <input type="text" id="login" name="login_ficheUtilisateur" value="<%=user.getUtilisateurLogin()%>" required>
-            <br><br>
-            <label for="password">Mot de passe :</label>
-            <input type="text" id="password" name="password_ficheUtilisateur" value="<%=user.getUtilisateurMDP()%>" required>
-            <label for="role">Role de l'utilisateur :</label>
-            <input type="text" id="role" name="role_ficheUtilisateur" value="<%=user.getUtilisateurRole()%>" required>
-            <input type="hidden" name="action" value="modifierUtilisateur">
-        </fieldset>
-        <input type="submit" value="Valider"  />
+<!--            On utilise l'opérateur conditinnel/ternaire comme un if else
+            On modifie/active l'attribut "selected" d'un des 3 tags "option"
+            Ca permet de préselectionner la valeur de la liste déroulante.
+            Si l'user change la valeur sur la page, l'attribut selected n'a pas d'impact et ne fige pas la liste
+           
+-->
+            <option value="ADMIN" <%= "ADMIN".equals(user.getRole()) ? "selected" : "" %>>ADMIN</option>
+            <option value="MEDECIN" <%= "MEDECIN".equals(user.getRole()) ? "selected" : "" %>>MEDECIN</option>
+            <option value="PATIENT" <%= "PATIENT".equals(user.getRole()) ? "selected" : "" %>>PATIENT</option>
+        </select>
+        <br><br>
+        <input type="hidden" name="action" value="modifierUtilisateur">
+    </fieldset>
+    <input type="submit" value="Valider" />
+</form>
+ <form action="NewServlet">
+        <input type="hidden" id="supprimerService" name="supprimerUtilisateur" value="<%=Long.toString(user.getId())%>">
+        <input type="hidden" name="action" value="supprimerUtilisateur">
+        <input type="submit" value="Supprimer utilisateur" />
     </form>
-
     
     <%@ include file="footer.jsp" %>
 </body>

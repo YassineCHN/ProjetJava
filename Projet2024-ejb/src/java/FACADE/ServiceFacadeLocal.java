@@ -36,7 +36,7 @@ public interface ServiceFacadeLocal {
 
     void supprimerService(Long id);
 
-    Service trouverServiceParNom(String nom);
+    Service trouverServiceParId(Long id);
 
     List<Service> trouverTousLesServices();
 }

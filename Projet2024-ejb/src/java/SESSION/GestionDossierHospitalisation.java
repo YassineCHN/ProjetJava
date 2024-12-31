@@ -4,6 +4,14 @@
  */
 package SESSION;
 
+import ENTITE.Acte;
+import ENTITE.DossierHospitalisation;
+import ENTITE.Service;
+import ENTITE.Z_PATIENT;
+import FACADE.DossierHospitalisationFacadeLocal;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -13,6 +21,38 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionDossierHospitalisation implements GestionDossierHospitalisationLocal {
 
+    @EJB
+    private DossierHospitalisationFacadeLocal dossierHospitalisationFacade;
+
+    
+    
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public List<DossierHospitalisation> afficherDossier() {
+        List<DossierHospitalisation> result = dossierHospitalisationFacade.trouverTousLesDossiers();
+        System.out.println(result.toString());
+        return result;
+    }
+
+    @Override
+    public DossierHospitalisation trouverDossierParId(Long id) {
+        DossierHospitalisation dossier = dossierHospitalisationFacade.trouverDossierHospitalisationParId(id);
+        return dossier;
+    }
+
+    @Override
+    public void supprimerDossier(Long id) {
+        dossierHospitalisationFacade.annulerDossierHospitalisation(id);
+    }
+
+    @Override
+    public void creerDossier(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart) {
+        dossierHospitalisationFacade.creerDossierHospitalisation(patient, service ,dateHospitalisation,heureArrivee,heureDepart );
+    }
+
+    
+    
 }

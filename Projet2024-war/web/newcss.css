@@ -77,6 +77,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 body {
     font-family: 'Times New Roman', Times, serif;
     margin: 0;
+    background-color: hsl(285, 8%, 9.8%);
    
     
 }
@@ -121,6 +122,24 @@ label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
+}
+input:disabled {
+/*    background-color: #f0f0f0;  Couleur de fond grise claire */
+    color: #a0a0a0; /* Couleur du texte grise */
+    border: 1px solid #d0d0d0; /* Bordure grise */
+    cursor: not-allowed; /* Changer le curseur pour indiquer que l'input est désactivé */
+/*    opacity: 0.6;  Réduire l'opacité pour indiquer visuellement que l'input est désactivé */
+}
+input:not(:placeholder-shown):valid {
+    border: 2px solid green; /* Bordure verte lorsque le champ n'est pas vide */
+}
+
+select :disabled{
+/*    background-color: #f0f0f0;  Couleur de fond grise claire */
+    color: #a0a0a0; /* Couleur du texte grise */
+    border: 1px solid #d0d0d0; /* Bordure grise */
+    cursor: not-allowed; /* Changer le curseur pour indiquer que l'input est désactivé */
+/*    opacity: 0.6;  Réduire l'opacité pour indiquer visuellement que l'input est désactivé */
 }
 
 /* Style pour les champs de texte */

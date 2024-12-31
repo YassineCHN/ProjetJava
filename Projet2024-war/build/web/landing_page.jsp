@@ -21,6 +21,7 @@
             <h1>
                 
                 Projet 2024 - Cas hospitalisation. <br>
+                <%=message_affichage%>
 
             </h1>
             <hr>
@@ -36,12 +37,14 @@
                 <%@ include file="card_GestionService.jsp" %>
                 <%@ include file="card_GestionUtilisateur.jsp" %>
                 <%@ include file="card_EspacePatient.jsp" %>
+                <%@ include file="card_GestionDossier.jsp" %>
                 <% } else if ("MEDECIN".equals(role_utilisateur)) { %>
                 <!-- Cas pour l'utilisateur MEDECIN : voir certaines cartes spécifiques -->
                 <%@ include file="card_GestionActe.jsp" %>
                 <%@ include file="card_GestionMedecin.jsp" %>
                 <%@ include file="card_GestionService.jsp" %>
                 <%@ include file="card_GestionPatient.jsp" %>
+                <%@ include file="card_GestionDossier.jsp" %>
                 <% } else if ("PATIENT".equals(role_utilisateur)) { %>
                 <!-- Cas pour l'utilisateur PATIENT : voir uniquement la carte Espace Patient -->
                 <%@ include file="card_EspacePatient.jsp" %>

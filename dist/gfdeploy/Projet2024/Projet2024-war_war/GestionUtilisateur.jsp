@@ -5,6 +5,7 @@
 --%>
 
    
+<%@page import="ENTITE.Z_USER"%>
 <%@page import="java.util.List"%>
 <%@page import="ENTITE.Utilisateur"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,7 +15,7 @@
     <head>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <% List<Utilisateur> list = (List<Utilisateur>) request.getAttribute("listeUtilisateur"); %>
+        <% List<Z_USER> list = (List<Z_USER>) request.getAttribute("listeUtilisateur"); %>
         <title>Utilisateur</title>
     </head>
     <body>
@@ -22,7 +23,7 @@
         <h1>Afficher Utilisateurs</h1>
         
         <div class="ruban_actions">
-            <a href="#" class="button_link">Ajouter un utilisateur</a>
+            <a href="AjouterUtilisateur.jsp" class="button_link">Ajouter un utilisateur</a>
         </div>
     
         <TABLE border width=50%>
@@ -32,7 +33,7 @@
                 <TD>Mot de passe</TD>
                 <TD>Role</TD>
             </tr>
-            <% for (Utilisateur cp : list) { %>
+            <% for (Z_USER cp : list) { %>
                 <tr>
                     <!-- Dans chaque ligne du tableau, on récupère les informations du patient qu'on encapsule dans une balise <a> -->
                     <!-- Cette balise redirige vers la jsp "fichePatient.jsp" avec dans l'URL l'id du patient -->
@@ -40,13 +41,13 @@
                         <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getId() %></a>
                     </td>
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getUtilisateurLogin() %></a>
+                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getLogin()%></a>
                     </td>
                     <td Width=30%>
-                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getUtilisateurMDP() %></a>
+                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getMdp()%></a>
                     </td>
                     <td Width=30%>
-                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getUtilisateurRole() %></a>
+                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getRole()%></a>
                     </td>
                 </tr>
             <% } %>

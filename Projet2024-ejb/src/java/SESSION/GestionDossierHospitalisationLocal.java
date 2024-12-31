@@ -4,6 +4,12 @@
  */
 package SESSION;
 
+import ENTITE.Acte;
+import java.util.List;
+import ENTITE.DossierHospitalisation;
+import ENTITE.Service;
+import ENTITE.Z_PATIENT;
+import java.util.Date;
 import javax.ejb.Local;
 
 /**
@@ -12,5 +18,16 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionDossierHospitalisationLocal {
+
+    List<DossierHospitalisation> afficherDossier();
+
+    DossierHospitalisation trouverDossierParId(Long id);
+
+    void supprimerDossier(Long id);
+
+    void creerDossier(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart);
+
+    
+
     
 }

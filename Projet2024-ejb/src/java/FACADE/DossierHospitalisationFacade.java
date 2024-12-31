@@ -6,13 +6,16 @@ package FACADE;
 
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
-import ENTITE.Patient;
+
 import ENTITE.Service;
+import ENTITE.Z_PATIENT;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -34,12 +37,14 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     }
 
     @Override
-    public void creerDossierHospitalisation(Patient patient, Service service, List<Acte> actes, Date dateHospitalisation) {
+    public void creerDossierHospitalisation(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart) {
         DossierHospitalisation dossier = new DossierHospitalisation();
         dossier.setLePatient(patient);
         dossier.setLeService(service);
-        dossier.setLesActes(actes);
+//        dossier.setLesActes(actes != null ? actes : new ArrayList<>()); 
         dossier.setDateHospitalisation(dateHospitalisation);
+        dossier.setHeureArrivee(heureArrivee);
+        dossier.setHeureDepart(heureDepart);
         em.persist(dossier);
     }
 
@@ -63,11 +68,26 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
 
     @Override
     public DossierHospitalisation trouverDossierHospitalisationParId(Long id) {
-        return em.find(DossierHospitalisation.class, id);
+//        return em.find(DossierHospitalisation.class, id);
+        DossierHospitalisation dossier = null;
+        String txt = "SELECT d from DossierHospitalisation as d where d.id=:variable";
+        Query req = em.createQuery(txt);
+        req.setParameter("variable", id);
+        List<DossierHospitalisation> result = req.getResultList();
+        if (result.size()==0 || result==null) {
+            return null;
+        }
+        else if (result.size()==1) {
+            dossier = result.get(0);
+            return dossier;
+        }
+        return dossier;
+
     }
 
     @Override
     public List<DossierHospitalisation> trouverTousLesDossiers() {
         return em.createQuery("SELECT d FROM DossierHospitalisation d", DossierHospitalisation.class).getResultList();
     }
+    
 }
