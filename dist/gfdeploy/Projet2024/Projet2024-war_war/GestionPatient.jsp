@@ -8,7 +8,6 @@
 <%@page import="ENTITE.Z_PATIENT"%>
 <%@page import="ENTITE.Z_MEDECIN"%>
 <%@page import="java.util.List"%>
-//
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="navbar.jsp" %>
 <!DOCTYPE html>
