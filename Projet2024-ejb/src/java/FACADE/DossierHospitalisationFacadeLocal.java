@@ -6,7 +6,7 @@ package FACADE;
 
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
-import ENTITE.Patient;
+
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
 import java.util.Date;

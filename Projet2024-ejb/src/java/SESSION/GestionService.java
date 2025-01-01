@@ -4,11 +4,11 @@
  */
 package SESSION;
 
-import ENTITE.RolesUtilisateurs;
+
 import ENTITE.Service;
-import ENTITE.Utilisateur;
+
 import FACADE.ServiceFacadeLocal;
-import FACADE.UtilisateurFacadeLocal;
+
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -23,9 +23,7 @@ public class GestionService implements GestionServiceLocal {
     @EJB
     private ServiceFacadeLocal serviceFacade;
 
-    @EJB
-    private UtilisateurFacadeLocal utilisateurFacade;
-
+    
     
     
     @Override

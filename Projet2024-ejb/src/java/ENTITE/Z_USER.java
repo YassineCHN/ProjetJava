@@ -5,6 +5,7 @@
 package ENTITE;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -23,6 +25,9 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
 @DiscriminatorColumn(name = "ROLE", discriminatorType = DiscriminatorType.STRING)
 public class Z_USER implements Serializable {
+
+    @OneToMany(mappedBy = "utilisateurCreateur")
+    private List<JournalActe> journalActes;
 //
 //
 //

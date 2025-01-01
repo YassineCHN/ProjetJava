@@ -1,5 +1,5 @@
 <%@page import="ENTITE.Z_USER"%>
-<%@page import="ENTITE.Utilisateur"%>
+//
 <!DOCTYPE html>
 <%@ include file="navbar.jsp" %>
 <html lang="en">
@@ -22,12 +22,12 @@
         <label for="password">Mot de passe :</label>
         <input type="text" id="password" name="password_ficheUtilisateur" value="<%=user.getMdp()%>" required>
         <br><br>
-        <label for="role">Rôle de l'utilisateur :</label>
+        <label for="role">Rï¿½le de l'utilisateur :</label>
         <select id="role" name="role_ficheUtilisateur" required>
             
-<!--            On utilise l'opérateur conditinnel/ternaire comme un if else
+<!--            On utilise l'opï¿½rateur conditinnel/ternaire comme un if else
             On modifie/active l'attribut "selected" d'un des 3 tags "option"
-            Ca permet de préselectionner la valeur de la liste déroulante.
+            Ca permet de prï¿½selectionner la valeur de la liste dï¿½roulante.
             Si l'user change la valeur sur la page, l'attribut selected n'a pas d'impact et ne fige pas la liste
            
 -->

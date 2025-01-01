@@ -1,5 +1,5 @@
 <%@page import="ENTITE.Service"%>
-<%@page import="ENTITE.Utilisateur"%>
+//
 <!DOCTYPE html>
 <%@ include file="navbar.jsp" %>
 <html lang="en">

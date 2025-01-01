@@ -7,7 +7,7 @@
    
 <%@page import="ENTITE.Z_USER"%>
 <%@page import="java.util.List"%>
-<%@page import="ENTITE.Utilisateur"%>
+//
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="navbar.jsp" %>
 <!DOCTYPE html>

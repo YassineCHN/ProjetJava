@@ -38,4 +38,6 @@ public interface ActeFacadeLocal {
     Acte trouverActeParNom(String nom);
 
     List<Acte> trouverTousLesActes();
+
+    Acte trouverActeParId(long id);
 }

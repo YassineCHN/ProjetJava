@@ -6,7 +6,7 @@
 
    
 <%@page import="java.util.List"%>
-<%@page import="ENTITE.Utilisateur"%>
+//
 <%@page import="ENTITE.Service"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="navbar.jsp" %>
