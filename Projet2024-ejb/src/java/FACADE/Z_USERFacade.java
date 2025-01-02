@@ -4,8 +4,6 @@
  */
 package FACADE;
 
-import ENTITE.Service;
-import ENTITE.Utilisateur;
 import ENTITE.Z_ADMIN;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;

@@ -1,6 +1,6 @@
 <%@page import="ENTITE.DossierHospitalisation"%>
 <%@page import="ENTITE.Service"%>
-<%@page import="ENTITE.Utilisateur"%>
+//
 <%@page import ="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 
@@ -30,10 +30,10 @@
             <label for="login">DateHospitalisation :</label>
             <input type="datetime-local" id="DateHospitalisation_ficheDossier" name="DateHospitalisation_ficheDossier" value="<%=dateHospitalisation%>" required>
             <br><br>
-            <label for="login">Date d'arrivée :</label>
+            <label for="login">Date d'arrivï¿½e :</label>
             <input type="datetime-local" id="DateArrivee_ficheDossier" name="DateArrivee_ficheDossier" value="<%=HeureArrivee%>" required>
             <br><br>
-            <label for="login">Date de départ :</label>
+            <label for="login">Date de dï¿½part :</label>
             <input type="datetime-local" id="DateDepart_ficheDossier" name="DateDepart_ficheDossier" value="<%=HeureDepart%>" required>
             <br><br>
             <label for="login">ID du patient :</label>

@@ -22,6 +22,9 @@ import javax.persistence.Temporal;
 @Entity
 public class DossierHospitalisation implements Serializable {
 
+    @OneToMany(mappedBy = "Dossier")
+    private List<JournalActe> journalActes;
+
     @OneToMany(mappedBy = "leDossier")
     private List<Facture> factures;
 
@@ -119,16 +122,16 @@ public class DossierHospitalisation implements Serializable {
     }
 
     
-    @OneToMany(mappedBy = "leDossier")
-    private List<Acte> lesActes;
-
-    public List<Acte> getLesActes() {
-        return lesActes;
-    }
-
-    public void setLesActes(List<Acte> lesActes) {
-        this.lesActes = lesActes;
-    }
+//    @OneToMany(mappedBy = "leDossier")
+//    private List<Acte> lesActes;
+//
+//    public List<Acte> getLesActes() {
+//        return lesActes;
+//    }
+//
+//    public void setLesActes(List<Acte> lesActes) {
+//        this.lesActes = lesActes;
+//    }
 
 }
 

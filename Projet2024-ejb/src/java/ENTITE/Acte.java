@@ -86,15 +86,15 @@ public class Acte implements Serializable {
         this.actePrix = actePrix;
     }
 
-    @ManyToOne
-    private DossierHospitalisation leDossier;
-
-    public DossierHospitalisation getLeDossier() {
-        return leDossier;
-    }
-
-    public void setLeDossier(DossierHospitalisation leDossier) {
-        this.leDossier = leDossier;
-    }
+//    @ManyToOne
+//    private DossierHospitalisation leJournal;
+//
+//    public DossierHospitalisation getLeJournal() {
+//        return leDossier;
+//    }
+//
+//    public void setLeDossier(DossierHospitalisation leDossier) {
+//        this.leDossier = leDossier;
+//    }
     
 }

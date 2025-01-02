@@ -4,6 +4,8 @@
  */
 package SESSION;
 
+import ENTITE.Acte;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -12,5 +14,13 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionActeLocal {
+
+    List<Acte> trouverTousLesActes();
+
+    Acte trouverActeParId(long id);
+
+    void supprimerActe(Long id);
+
+    void creerActe(String nom, String description, double prix);
     
 }

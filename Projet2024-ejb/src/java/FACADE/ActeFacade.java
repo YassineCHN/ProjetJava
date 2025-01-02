@@ -51,10 +51,21 @@ public class ActeFacade extends AbstractFacade<Acte> implements ActeFacadeLocal 
 
     @Override
     public void supprimerActe(Long id) {
+        try {
+        if (id == null) {
+            throw new IllegalArgumentException("L'identifiant du service ne peut pas être null.");
+        }
         Acte acte = em.find(Acte.class, id);
         if (acte != null) {
             em.remove(acte);
         }
+    } catch (IllegalArgumentException e) {
+        // Gérer l'exception lorsque id est null
+        System.err.println("Erreur : " + e.getMessage());
+    } catch (Exception e) {
+        // Gérer toute autre exception
+        System.err.println("Une erreur s'est produite lors de la suppression de acte : " + e.getMessage());
+    }
     }
 
     @Override
@@ -65,10 +76,19 @@ public class ActeFacade extends AbstractFacade<Acte> implements ActeFacadeLocal 
             return null;
         }
     }
-
+    
     @Override
     public List<Acte> trouverTousLesActes() {
         return em.createQuery("SELECT a FROM Acte a", Acte.class).getResultList();
+    }
+
+    @Override
+    public Acte trouverActeParId(long id) {
+        try {
+            return em.createQuery("SELECT a FROM Acte a WHERE a.id = :nom", Acte.class).setParameter("nom", id).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
     
 }

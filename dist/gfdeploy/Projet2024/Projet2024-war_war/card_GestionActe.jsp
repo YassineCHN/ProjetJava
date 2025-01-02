@@ -4,7 +4,7 @@
     <div class="card_gestion">
         <div class="card_titre">
             <p>
-                Gestion des Actes
+                <a href="NewServlet?action=afficherActes">Gestion des actes</a>
             </p>
         </div>
         <div class="card_image">

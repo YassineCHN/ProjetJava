@@ -19,9 +19,29 @@ import javax.persistence.OneToMany;
 @Entity
 public class Service implements Serializable {
 
-    @OneToMany(mappedBy = "leService")
-    private List<Medecin> medecins;
 
+    @OneToMany(mappedBy = "service")
+    private List<Z_MEDECIN> lesMedecins;
+
+    /**
+     * Get the value of lesMedecins
+     *
+     * @return the value of lesMedecins
+     */
+    public List<Z_MEDECIN> getLesMedecins() {
+        return lesMedecins;
+    }
+
+    /**
+     * Set the value of lesMedecins
+     *
+     * @param lesMedecins new value of lesMedecins
+     */
+    public void setLesMedecins(List<Z_MEDECIN> lesMedecins) {
+        this.lesMedecins = lesMedecins;
+    }
+
+    
     @OneToMany(mappedBy = "leService")
     private List<DossierHospitalisation> dossierHospitalisations;
 

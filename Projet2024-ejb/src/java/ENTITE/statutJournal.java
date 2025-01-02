@@ -8,6 +8,6 @@ package ENTITE;
  *
  * @author charl
  */
-public enum RolesUtilisateurs {
-    ADMIN, MEDECIN, PATIENT
+public enum statutJournal {
+    Brouillon, Annulé, Validé
 }
