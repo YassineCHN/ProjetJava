@@ -5,17 +5,19 @@
 
 package SERVLET;
 
+//import ENTITE.Acte;
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
-import ENTITE.RolesUtilisateurs;
+
 import ENTITE.Service;
-import ENTITE.Utilisateur;
+
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
 import ENTITE.Z_USER;
+import SESSION.GestionActeLocal;
 import SESSION.GestionDossierHospitalisationLocal;
 import SESSION.GestionServiceLocal;
-import SESSION.GestionUtilisateurLocal;
+
 import SESSION.Z_USER_BEANLocal;
 import java.io.IOException;
 import java.text.ParseException;
@@ -38,6 +40,9 @@ import javax.servlet.http.HttpSession;
 public class NewServlet extends HttpServlet {
 
     @EJB
+    private GestionActeLocal gestionActe;
+
+    @EJB
     private GestionDossierHospitalisationLocal gestionDossierHospitalisation;
 
     @EJB
@@ -46,8 +51,7 @@ public class NewServlet extends HttpServlet {
     @EJB
     private Z_USER_BEANLocal z_USER_BEAN;
     
-    @EJB
-    private GestionUtilisateurLocal gestionUtilisateur;
+
     
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -140,6 +144,12 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("listeService", lesServices);
             request.setAttribute("message", "Liste des Services existants");
         }
+        else if (act.equals("afficherActes")){
+            jspClient = "/GestionActe.jsp";
+            List<Acte> lesActes = gestionActe.trouverTousLesActes();
+            request.setAttribute("listeActe", lesActes);
+            request.setAttribute("message", "Liste des Actes existants");
+        }
         else if (act.equals("afficherFicheUtilisateur")) {
             jspClient = "/ficheUtilisateur.jsp";
             String test = request.getParameter("id_utilisateur");
@@ -172,7 +182,18 @@ public class NewServlet extends HttpServlet {
           
             request.setAttribute("ficheDossier", dossier);
         }
-       
+        else if (act.equals("afficherFicheActe")){
+           jspClient = "/ficheActe.jsp";
+            
+            String test = request.getParameter("id_Acte");
+
+            Long id_acte = Long.valueOf(test);
+            
+            Acte acte = gestionActe.trouverActeParId(id_acte);
+          
+            request.setAttribute("ficheActe", acte);
+       }
+        
         else if (act.equals("supprimerService")) {
             jspClient = "/landing_page.jsp";
 //            Là vous vous demander pk ça redirige vers landing_page
@@ -201,6 +222,11 @@ public class NewServlet extends HttpServlet {
             jspClient="/landing_page.jsp";
             Long value = Long.parseLong(request.getParameter("id_supprimerDossier"));
             gestionDossierHospitalisation.supprimerDossier(value);
+        }
+        else if (act.equals("supprimerActe")){
+            jspClient="/landing_page.jsp";
+            Long value = Long.parseLong(request.getParameter("id_supprimerActe"));
+            gestionActe.supprimerActe(value);
         }
         else if (act.equals("creerUtilisateur")) {
                 jspClient="/landing_page.jsp";
@@ -267,6 +293,22 @@ public class NewServlet extends HttpServlet {
             List<Service> lesServices = gestionService.tousLesServices();
             request.setAttribute("listeServicesAjoutDossier", lesServices);
         }
+        else if (act.equals("creerActe")){
+            jspClient="/landing_page.jsp";
+            String acteNom = request.getParameter("acteNom");
+            String acteDescription = request.getParameter("acteDescription");
+            String actePrix = request.getParameter("actePrix");
+            if(acteNom.trim().isEmpty() || acteDescription.trim().isEmpty() || actePrix.trim().isEmpty()){
+                String message = "Formulaire de création patient erroné";
+                request.setAttribute("message", message);
+            } else {
+                double prix = Double.parseDouble(actePrix);
+                gestionActe.creerActe(actePrix, acteNom, prix);
+                String message = "Acte créé";
+                request.setAttribute("message", message);
+            }
+        }
+        
         else if (act.equals("creerDossierMedical")) {
    
             jspClient="/landing_page.jsp";
@@ -346,6 +388,19 @@ public class NewServlet extends HttpServlet {
              
         }
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         RequestDispatcher Rd; // Déclare un RequestDispatcher pour gérer la redirection ou le forwarding
         Rd = getServletContext().getRequestDispatcher(jspClient); // Récupère le dispatcher pour la JSP cible
         Rd.forward(request, response); // Forward la requête et la réponse vers la JSP cible

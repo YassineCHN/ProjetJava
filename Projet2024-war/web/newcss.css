@@ -14,13 +14,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     justify-content: center;
     align-items: center;
     gap: 5vw;
-    background-color: #6643b5;
-    color: white;
+    background-color: #1160b7;
+  
     padding: 10px;
+    
+    
 }
+a {
 
+    
+}
+a:hover{
+    color: #1160b7;
+}
 .logo {
-    color: white;
+    
     font-size: 1.5em;
     font-weight: bold;
 }
@@ -39,7 +47,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .onglets ul li a {
     text-decoration: none;
-    color: white;
+    
     padding: 14px 20px;
     display: block;
 }
@@ -77,7 +85,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 body {
     font-family: 'Times New Roman', Times, serif;
     margin: 0;
-    background-color: hsl(285, 8%, 9.8%);
+    background-color: #dfe2e8;
    
     
 }
@@ -88,7 +96,7 @@ body {
 /* Style pour le titre principal */
 h1 {
     text-align: center;
-    color: black;
+    
     padding: 20px 0;
     margin: 0;
 }
@@ -114,7 +122,7 @@ Style pour le fieldset fieldset {
 legend {
     font-size: 1.2em;
     padding: 0 10px;
-    color: #333;
+    
 }
 
 /* Style pour les étiquettes */
@@ -182,7 +190,7 @@ input[type="reset"] {
     border: none;
     border-radius: 4px;
     background-color: #333;
-    color: white;
+    
     cursor: pointer;
     margin-right: 10px;
 }
@@ -196,7 +204,7 @@ input[type="reset"]:hover {
     border: none;
     border-radius: 4px;
     background-color: #333;
-    color: white;
+   
     cursor: pointer;
     margin-right: 10px;
     background-color: #555;
@@ -213,7 +221,7 @@ table {
 /* Style pour les en-têtes de colonnes */
 th {
     background-color: #f2f2f2;
-    color: #333;
+    
     text-align: left;
     padding: 10px;
     border-bottom: 2px solid #ddd;
@@ -256,7 +264,7 @@ a:hover {
 
 footer {
     background-color: #6643b5;
-    color: white;
+  
     padding: 20px 0;
     position: fixed;
     width: 100%;
@@ -289,7 +297,7 @@ footer {
 }
 
 .footer-right ul li a {
-    color: white;
+ 
     text-decoration: none;
 }
 
