@@ -102,6 +102,14 @@ public class NewServlet extends HttpServlet {
                 }
             }
         }
+        else if (act.equals("logout")) {
+            jspClient = "/landing_page.jsp";
+            request.setAttribute("message", "Vous avez été déconnecté avec succès.");
+            if (session != null) {
+                session.invalidate(); // Invalide la session
+            }
+        
+    }
         else if (act.equals("afficherUtilisateurs")) {
             // Action pour afficher les utilisateurs
             jspClient = "/GestionUtilisateur.jsp";
