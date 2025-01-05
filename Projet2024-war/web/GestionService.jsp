@@ -15,11 +15,11 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% List<Service> list = (List<Service>) request.getAttribute("listeService"); %>
-        <title>Utilisateur</title>
+        <title>Services</title>
     </head>
     <body>
         <div class="main_content">
-        <h1>Afficher Utilisateurs</h1>
+        <h1>Afficher Services</h1>
         
         <div class="ruban_actions">
             <a href="AjouterService.jsp" class="button_link">Ajouter un service</a>
