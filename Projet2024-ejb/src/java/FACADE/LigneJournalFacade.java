@@ -41,6 +41,8 @@ public class LigneJournalFacade extends AbstractFacade<LigneJournal> implements 
         ligne.setCommentaire(commentaire);
         ligne.setId_acte(acte);
         ligne.setId_journal(journal);
+        em.persist(ligne);
+        System.out.println("CREATION LIGNE DANS FACADE");
     }
 
     @Override

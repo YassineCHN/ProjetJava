@@ -39,6 +39,7 @@
                 <%@ include file="card_EspacePatient.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
                 <%@ include file="card_GestionFacturation.jsp" %>
+                <%@ include file="card_afficherLignes.jsp" %>
                 
                 <% } else if ("MEDECIN".equals(role_utilisateur)) { %>
                 <!-- Cas pour l'utilisateur MEDECIN : voir certaines cartes spécifiques -->
