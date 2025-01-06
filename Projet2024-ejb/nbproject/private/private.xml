@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/Z_USERFacade.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/ServiceFacade.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/ServiceFacadeLocal.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/Z_PERSONNEL.java</file>
+            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/DossierHospitalisation.java</file>
+            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/DossierHospitalisationFacade.java</file>
+            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/DossierHospitalisationFacadeLocal.java</file>
+            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/LigneJournalFacade.java</file>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/JournalActe.java</file>
         </group>
     </open-files>

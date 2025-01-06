@@ -9,6 +9,7 @@ import ENTITE.DossierHospitalisation;
 
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
+import ENTITE.statutDossier;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +42,7 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
         DossierHospitalisation dossier = new DossierHospitalisation();
         dossier.setLePatient(patient);
         dossier.setLeService(service);
+        dossier.setStatutD(statutDossier.Actif);
 //        dossier.setLesActes(actes != null ? actes : new ArrayList<>()); 
         dossier.setDateHospitalisation(dateHospitalisation);
         dossier.setHeureArrivee(heureArrivee);
