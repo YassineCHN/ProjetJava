@@ -81,10 +81,10 @@ public void supprimerService(Long id) {
     public List<Service> trouverTousLesServices() {
         return em.createQuery("SELECT s FROM Service s", Service.class).getResultList();
     }
+    
 
 
+
     
-    
-    
-    
+     
 }

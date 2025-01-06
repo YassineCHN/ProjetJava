@@ -33,6 +33,7 @@
     <TABLE border width=50%>
         <tr>
             <TD>ID</TD>
+            <TD>Statut du dossier</TD>
             <TD>Date d'hospitalisation</TD>
             <TD>Date d'arrivée</TD>
             <TD>Date de départ</TD>
@@ -45,6 +46,9 @@
             <tr>
                 <td Width=15%>
                     <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getId() %></a>
+                </td>
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getStatutD() %></a>
                 </td>
                 <td Width=15%>
                     <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getDateHospitalisation()%></a>

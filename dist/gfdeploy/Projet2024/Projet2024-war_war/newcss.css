@@ -20,10 +20,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     
     
 }
-a {
 
-    
-}
 a:hover{
     color: #1160b7;
 }
@@ -111,7 +108,13 @@ form {
     width: 500px;
 }
 /* Style pour le fieldset */
- fieldset {
+/*  fieldset {
+/*Style pour que le formulaire sous forme de bouton ne prenne pas le style hérité du formulaire*/
+form.formulairebouton{
+  all : unset;
+} 
+
+Style pour le fieldset fieldset {
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 8px;
@@ -360,5 +363,31 @@ test
 
 */
 form.lignes_journal{
-      width: 700px; 
+      width: 700px; }
+
+.logout-button {
+    background-color: #E74C3C; /* Couleur rouge */
+    color: white;
+    border: none; /* Supprime toute bordure */
+    padding: 8px 15px;
+    border-radius: 5px; /* Arrondi les bords */
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: none; /* Supprime les ombres */
+    outline: none; /* Supprime les contours */
+}
+
+.logout-button:hover {
+    background-color: #C0392B; /* Changement de couleur au survol */
+}
+
+.logout {
+    position: absolute;
+    top: 30px;
+    right: 20px; /* Ajuste la position droite */
+    background: none; /* Supprime le fond autour */
+    padding: 0; /* Supprime tout espacement interne */
+    margin: 0; /* Supprime tout espacement externe */
+    box-shadow: none; /* Supprime les ombres éventuelles */
 }

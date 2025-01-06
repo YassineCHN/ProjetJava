@@ -4,8 +4,10 @@
  */
 package FACADE;
 
+import ENTITE.Service;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import java.util.List;
 import javax.ejb.Local;
@@ -54,6 +56,10 @@ public interface Z_USERFacadeLocal {
     void creerPatient(String login, String mdp, String numSecuSoc);
 
     Z_PATIENT trouverPatientParNumSecu(String numSecu);
+    
+    void creerPersonnel(String login, String mdp, Service service);
+    
+    List<Z_PERSONNEL> trouverTousLesUtilisateursPersonnel();
 
     
 }

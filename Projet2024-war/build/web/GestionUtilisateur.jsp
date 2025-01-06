@@ -22,9 +22,12 @@
         <h1>Afficher Utilisateurs</h1>
         
         <div class="ruban_actions">
-            <a href="AjouterUtilisateur.jsp" class="button_link">Ajouter un utilisateur</a>
+            <form action="NewServlet" method="get" class="formulairebouton">
+                <input type="hidden" name="action" value="ajouterUtilisateur">
+                <input type="submit" value="Ajouter un utilisateur" class="button_link">
+            </form>
         </div>
-    
+
         <TABLE border width=50%>
             <tr>
                 <TD>ID</TD>

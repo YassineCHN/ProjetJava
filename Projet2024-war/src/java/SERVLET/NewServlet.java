@@ -122,6 +122,11 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("listeUtilisateur", lesUtilisateurs);
             request.setAttribute("message", "Liste des utilisateurs existants");
         }
+        else if (act.equals("ajouterUtilisateur")) {
+            List <Service> list = gestionService.tousLesServices(); 
+            request.setAttribute("listeservices",list); 
+            jspClient="/AjouterUtilisateur.jsp"; 
+        }
         else if (act.equals("afficherUtilisateursMedecins")){
             jspClient = "/GestionMedecin.jsp";
             List<Z_MEDECIN> lesUtilisateurs = z_USER_BEAN.trouverTousLesUtilisateursMedecins();
@@ -273,7 +278,24 @@ public class NewServlet extends HttpServlet {
                     z_USER_BEAN.creerPatient(login, mdp, numSecuSoc);
                     System.out.println("ON CREE PATIENT");
                 }
-            }
+                if (role.equals("PERSONNEL")){
+                    String serviceparam = request.getParameter("PersonnelServiceAjouterUser");
+                    if (serviceparam == null || serviceparam.isEmpty() ) {
+                        request.setAttribute("erreur", "Un service doit être sélectionné pour créer un utilisateur de type PERSONNEL.");
+                        List<Service> listeServices = gestionService.tousLesServices();
+                        request.setAttribute("listeServices", listeServices);
+                        request.getRequestDispatcher("AjouterUtilisateur.jsp").forward(request, response);
+                        return; 
+                    }
+                    else{
+                    long serviceId = Long.parseLong(serviceparam);
+                    Service service = gestionService.trouverServiceParID(serviceId);
+               
+                    z_USER_BEAN.creerPersonnel(login, mdp, service);
+                    System.out.println("Utilisateur PERSONNEL créé avec succès !"); 
+                    }
+                }
+        }      
         else if (act.equals("creerPatient")){
             jspClient="/landing_page.jsp";
             String login = request.getParameter("loginPatient");

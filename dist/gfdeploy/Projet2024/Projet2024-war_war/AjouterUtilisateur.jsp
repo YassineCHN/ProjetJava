@@ -4,6 +4,8 @@
     Author     : charl
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="ENTITE.Service"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="navbar.jsp" %>
 <!DOCTYPE html>
@@ -38,6 +40,7 @@
 //            }
 //        }
     </script>
+    <jsp:useBean id="listeservices" scope="request" class="java.util.List"></jsp:useBean>
     </head>
     <body>
         <h1>Hello World!</h1>
@@ -54,6 +57,7 @@
             <option value="ADMIN">ADMIN</option>
             <option value="MEDECIN">MEDECIN</option>
             <option value="PATIENT">PATIENT</option>
+            <option value="PERSONNEL">PERSONNEL</option>
         </select><br><br>
 
         <div id="adminField" class="">
@@ -71,6 +75,18 @@
             <input type="text" id="PatientNumSecuSocAjouterUser" name="PatientNumSecuSocAjouterUser"><br><br>
         </div>
 
+        
+        <%  List<Service> lesServ=listeservices;%> 
+        <div id="personnelField" class="">
+        <label for="PersonnelServiceAjouterUser">Services : </label> 
+                <select name="PersonnelServiceAjouterUser"> 
+                    <option value="">Aucun</option>
+                    <% for (Service s :lesServ) {%> 
+                    <option value ="<%=s.getId()%>"><%=s.getServiceNom()%></option> 
+                    <% }%> 
+                </select><br><br>
+        </div>
+                
         <input type="hidden" name="action" value="creerUtilisateur">
         <input type="submit" value="Créer">
         
