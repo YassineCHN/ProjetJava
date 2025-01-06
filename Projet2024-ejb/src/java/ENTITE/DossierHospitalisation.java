@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -121,6 +123,16 @@ public class DossierHospitalisation implements Serializable {
         this.leService = leService;
     }
 
+    @Enumerated(EnumType.STRING)
+    private statutDossier StatutD;
+    
+    public statutDossier getStatutD() {
+        return StatutD;
+    }
+
+    public void setStatutD(statutDossier StatutD) {
+        this.StatutD = StatutD;
+    }
     
 //    @OneToMany(mappedBy = "leDossier")
 //    private List<Acte> lesActes;

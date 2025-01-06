@@ -37,9 +37,15 @@ public class JournalActe implements Serializable {
     @Enumerated(EnumType.STRING)
     private statutJournal Statut;
 
-    
-    
-    
+    public statutJournal getStatut() {
+        return Statut;
+    }
+
+    public void setStatut(statutJournal Statut) {
+        this.Statut = Statut;
+    }
+
+     
     public Long getId() {
         return id;
     }

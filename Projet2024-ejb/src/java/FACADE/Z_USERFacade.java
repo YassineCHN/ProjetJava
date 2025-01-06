@@ -4,9 +4,11 @@
  */
 package FACADE;
 
+import ENTITE.Service;
 import ENTITE.Z_ADMIN;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -201,9 +203,23 @@ public void creerMedecin(String login, String mdp, String specialite) {
     }
     
     
+    public void creerPersonnel(String login, String mdp, Service service) {
+          System.out.println("appel de la méthode creerPersonnel");
+    Z_PERSONNEL user = new Z_PERSONNEL();
+        user.setLogin(login);
+        user.setMdp(mdp);
+        user.setService(service);
+        try {
+        getEntityManager().persist(user);
+        System.out.println("Utilisateur PERSONNEL créé avec succès : " + user.getLogin());
+    } catch (Exception e) {
+        System.err.println("Erreur lors de la création de l'utilisateur Personnel : " + e.getMessage());
+    }
+    }
     
-    
-    
+    public List<Z_PERSONNEL> trouverTousLesUtilisateursPersonnel() {
+        return em.createQuery("SELECT s FROM Z_PERSONNEL as p where p.id IS NOT NULL", Z_PERSONNEL.class).getResultList();
+    }
     
     
 }

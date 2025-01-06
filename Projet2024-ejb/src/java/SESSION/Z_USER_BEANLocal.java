@@ -4,8 +4,10 @@
  */
 package SESSION;
 
+import ENTITE.Service;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import javax.ejb.Local;
 import java.util.List;
@@ -41,5 +43,8 @@ public interface Z_USER_BEANLocal {
 
     Z_PATIENT trouverPatientParNumSecu(String numSecu);
 
+    void creerPersonnel(String login, String mdp, Service service);
+    
+    List<Z_PERSONNEL> trouverTousLesUtilisateursPersonnel();
     
 }

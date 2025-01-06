@@ -4,8 +4,10 @@
  */
 package SESSION;
 
+import ENTITE.Service;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNEL;
 import java.util.List;
 import ENTITE.Z_USER;
 import FACADE.Z_USERFacadeLocal;
@@ -122,6 +124,15 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
        return user;
     }
     
+    
+    public void creerPersonnel(String login, String mdp, Service service) {
+        z_USERFacade.creerPersonnel(login, mdp, service);
+    }
+    
+    
+    public List<Z_PERSONNEL> trouverTousLesUtilisateursPersonnel() {
+        return z_USERFacade.trouverTousLesUtilisateursPersonnel();
+    }
     
     
     

@@ -41,10 +41,30 @@ public class Service implements Serializable {
         this.lesMedecins = lesMedecins;
     }
 
+    @OneToMany(mappedBy = "service")
+    private List<Z_PERSONNEL> lesPersonnels;
+
+
+    public List<Z_PERSONNEL> getLesPersonnels() {
+        return lesPersonnels;
+    }
+
+    public void setLesPersonnels (List<Z_PERSONNEL> lesPersonnels) {
+        this.lesPersonnels = lesPersonnels;
+    }
     
     @OneToMany(mappedBy = "leService")
     private List<DossierHospitalisation> dossierHospitalisations;
 
+    public List<DossierHospitalisation> getDossierHospitalisations() {
+        return dossierHospitalisations;
+    }
+
+    public void setDossierHospitalisations(List<DossierHospitalisation> dossierHospitalisations) {
+        this.dossierHospitalisations = dossierHospitalisations;
+    }
+
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
