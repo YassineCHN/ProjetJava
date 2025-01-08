@@ -21,7 +21,7 @@
     </head>
     <body>
         <div class="main_content">
-        <h1>Afficher dossier</h1>
+        <h1>Gestion des dossiers médicaux</h1>
         
         <div class="ruban_actions">
             <a href="NewServlet?action=ajouterDossierForm" class="button_link">Créer un dossier</a>

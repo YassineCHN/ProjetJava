@@ -8,6 +8,8 @@ package SERVLET;
 //import ENTITE.Acte;
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
+import ENTITE.JournalActe;
+import ENTITE.LigneJournal;
 
 import ENTITE.Service;
 
@@ -16,6 +18,8 @@ import ENTITE.Z_PATIENT;
 import ENTITE.Z_USER;
 import SESSION.GestionActeLocal;
 import SESSION.GestionDossierHospitalisationLocal;
+import SESSION.GestionJournalActeLocal;
+import SESSION.GestionLigneLocal;
 import SESSION.GestionServiceLocal;
 
 import SESSION.Z_USER_BEANLocal;
@@ -40,6 +44,12 @@ import javax.servlet.http.HttpSession;
 public class NewServlet extends HttpServlet {
 
     @EJB
+    private GestionLigneLocal gestionLigne;
+
+    @EJB
+    private GestionJournalActeLocal gestionJournalActe;
+
+    @EJB
     private GestionActeLocal gestionActe;
 
     @EJB
@@ -50,7 +60,7 @@ public class NewServlet extends HttpServlet {
 
     @EJB
     private Z_USER_BEANLocal z_USER_BEAN;
-    
+   
 
     
 
@@ -82,6 +92,7 @@ public class NewServlet extends HttpServlet {
                 if (user != null) {
                     String user_identifié = user.getLogin();
                     String role_identifié = user.getRole();
+                    Long id_user =  user.getId();
 
                     // Liste des rôles valables
                     List<String> rolesValables = Arrays.asList("ADMIN", "MEDECIN", "PATIENT");
@@ -90,6 +101,8 @@ public class NewServlet extends HttpServlet {
                     if (rolesValables.contains(role_identifié)) {
                         session.setAttribute("utilisateur2", user_identifié);
                         session.setAttribute("role2", role_identifié);
+                        session.setAttribute("id_user", id_user);
+                        
                     }
 
                     // Définir un message de bienvenue
@@ -102,14 +115,6 @@ public class NewServlet extends HttpServlet {
                 }
             }
         }
-        else if (act.equals("logout")) {
-            jspClient = "/landing_page.jsp";
-            request.setAttribute("message", "Vous avez été déconnecté avec succès.");
-            if (session != null) {
-                session.invalidate(); // Invalide la session
-            }
-        
-    }
         else if (act.equals("afficherUtilisateurs")) {
             // Action pour afficher les utilisateurs
             jspClient = "/GestionUtilisateur.jsp";
@@ -163,6 +168,10 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("listeActe", lesActes);
             request.setAttribute("message", "Liste des Actes existants");
         }
+        else if (act.equals("afficherFactures")) {
+            jspClient = "/GestionFacturation.jsp";
+            
+        }
         else if (act.equals("afficherFicheUtilisateur")) {
             jspClient = "/ficheUtilisateur.jsp";
             String test = request.getParameter("id_utilisateur");
@@ -206,6 +215,12 @@ public class NewServlet extends HttpServlet {
           
             request.setAttribute("ficheActe", acte);
        }
+        else if (act.equals("afficherLignes")) {
+            jspClient = "/afficherLignes.jsp";
+            List<LigneJournal> lignes = gestionLigne.trouverToutesLignes();
+            request.setAttribute("lignes", lignes);
+        }
+        
         
         else if (act.equals("supprimerService")) {
             jspClient = "/landing_page.jsp";
@@ -338,7 +353,61 @@ public class NewServlet extends HttpServlet {
                 request.setAttribute("message", message);
             }
         }
-        
+        else if (act.equals("ajouterJournal")){
+            
+//            ci-dessous, c'est l'ID du dossier médical propre à l'ajout d'un journal
+            String id_journal = request.getParameter("id_ajouterJournal");
+            String role_user = (String) session.getAttribute("role2");
+            String user = (String) session.getAttribute("user_identifié");
+            Long id_user = Long.valueOf((Long) session.getAttribute("id_user"));
+            
+            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(id_journal));
+            Z_USER user_2 = z_USER_BEAN.trouverUtilisateurParId(id_user);
+            JournalActe journal = gestionJournalActe.creerJournal(dossier, user_2);
+//            String journalId = String.valueOf(journal.getId());
+//            request.setAttribute("id_journal", journalId);
+            request.setAttribute("journal_object", journal);
+            List<Acte> lesActes = gestionActe.trouverTousLesActes();
+            request.setAttribute("listeActeJournal", lesActes);
+
+            
+            jspClient = "/ficheJournal.jsp";
+        }
+        else if (act.equals("ajouterLignesJournal")){
+            jspClient="/landing_page.jsp";
+            
+             String[] commentaires_acte = request.getParameterValues("commentaire[]"); 
+             String[] date_acte = request.getParameterValues("date[]");
+             String[] quantite_acte = request.getParameterValues("quantite[]");
+             String[] idActe_acte = request.getParameterValues("id_acte[]");
+             String idjournal = (String) request.getParameter("id_journal");
+             if(commentaires_acte.length != date_acte.length || commentaires_acte.length != quantite_acte.length || commentaires_acte.length != idActe_acte.length){
+                 jspClient="/landing_page.jsp";
+                 String message = "ERREUR CHAMPS MANQUANTS";
+                 System.out.println("erreur au niveau des lignes, les lignes ne sont pas toutes pleines");
+             } else {
+                 for(int i = 0; i<commentaires_acte.length;i++) {
+                     String commentaire = commentaires_acte[i];
+                     String date = date_acte[i];
+                     String quantite = quantite_acte[i];
+                     String idActe = idActe_acte[i];
+                     System.out.println(commentaire);
+                     System.out.println(date);
+                     System.out.println(quantite);
+                     System.out.println(idActe);
+                     JournalActe journal = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
+                     Acte acte = gestionActe.trouverActeParId(Long.valueOf(idActe));
+                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                     Date dateCreationActe = sdf.parse(date);
+                     int quantite2 = Integer.parseInt(quantite);
+                     
+                     gestionLigne.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal);
+                 }
+             }
+                 
+             
+             
+        }
         else if (act.equals("creerDossierMedical")) {
    
             jspClient="/landing_page.jsp";
@@ -367,15 +436,6 @@ public class NewServlet extends HttpServlet {
                 String numSecuPatient = request.getParameter("numSecuPatient");
                 
                 
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println(loginPatient);
-                System.out.println(mdpPatient);
-                System.out.println(numSecuPatient);
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
                 
                 
                 
@@ -389,18 +449,6 @@ public class NewServlet extends HttpServlet {
                 
                 patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
                 
-                System.out.println("creer Patient puis creer Dossier");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println(patient.getNumSecuSoc());
-                System.out.println(patient.getId());
-                System.out.println(patient.getLogin());
-                
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
                 
                  gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
              }

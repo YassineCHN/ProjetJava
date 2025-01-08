@@ -1,5 +1,5 @@
 <%@page import="ENTITE.Z_USER"%>
-//
+
 <!DOCTYPE html>
 <%@ include file="navbar.jsp" %>
 <html lang="en">
