@@ -107,12 +107,11 @@ form {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 500px;
 }
-/* Style pour le fieldset */
-
-/*form.formulairebouton{
+/*Style pour que le formulaire sous forme de bouton ne prenne pas le style hérité du formulaire*/
+form.formulairebouton{
   all : unset;
-}*/
-
+}
+/* Style pour le fieldset */
  fieldset {
     border: 1px solid #ccc;
     padding: 20px;

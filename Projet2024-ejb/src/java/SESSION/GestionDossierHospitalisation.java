@@ -49,6 +49,7 @@ public class GestionDossierHospitalisation implements GestionDossierHospitalisat
         dossierHospitalisationFacade.annulerDossierHospitalisation(id);
     }
 
+    @Override
     public void annulerDossierHospitalisation(Long id) {
         dossierHospitalisationFacade.annulerDossierHospitalisation(id);
     }
