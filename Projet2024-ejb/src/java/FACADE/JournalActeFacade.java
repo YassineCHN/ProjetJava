@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
+import java.util.List;
 /**
  *
  * @author charl
@@ -50,6 +51,13 @@ public class JournalActeFacade extends AbstractFacade<JournalActe> implements Jo
             return null;
         }
     }
+
+    @Override
+    public List<JournalActe> trouverTousLesJournaux() {
+        return em.createQuery("SELECT d FROM JournalActe d", JournalActe.class).getResultList();
+    }
+    
+    
     }
     
     

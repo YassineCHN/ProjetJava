@@ -7,6 +7,7 @@ package SESSION;
 import ENTITE.DossierHospitalisation;
 import ENTITE.JournalActe;
 import ENTITE.Z_USER;
+import java.util.List;
 import javax.ejb.Local;
 
 
@@ -22,5 +23,7 @@ public interface GestionJournalActeLocal {
     JournalActe creerJournal(DossierHospitalisation dossier, Z_USER user);
 
     JournalActe trouverJournalParId(Long id);
+
+    List<JournalActe> trouverTousLesJournaux();
     
 }

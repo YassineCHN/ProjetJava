@@ -34,6 +34,8 @@ public interface JournalActeFacadeLocal {
     JournalActe creerJournal(DossierHospitalisation dossier, Z_USER user);
 
     JournalActe trouverJournalParId(Long id);
+
+    List<JournalActe> trouverTousLesJournaux();
     
 
     

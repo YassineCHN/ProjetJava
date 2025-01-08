@@ -108,13 +108,12 @@ form {
     width: 500px;
 }
 /* Style pour le fieldset */
-/*  fieldset {
-/*Style pour que le formulaire sous forme de bouton ne prenne pas le style hérité du formulaire*/
-form.formulairebouton{
-  all : unset;
-} 
 
-Style pour le fieldset fieldset {
+/*form.formulairebouton{
+  all : unset;
+}*/
+
+ fieldset {
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 8px;
@@ -385,9 +384,8 @@ form.lignes_journal{
 .logout {
     position: absolute;
     top: 30px;
-    right: 20px; /* Ajuste la position droite */
-    background: none; /* Supprime le fond autour */
-    padding: 0; /* Supprime tout espacement interne */
-    margin: 0; /* Supprime tout espacement externe */
-    box-shadow: none; /* Supprime les ombres éventuelles */
-}
+    right: 20px; 
+    background: none; 
+    padding: 0; 
+    margin: 0; 
+    box-shadow: none; }

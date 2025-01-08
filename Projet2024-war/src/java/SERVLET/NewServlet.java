@@ -215,12 +215,24 @@ public class NewServlet extends HttpServlet {
           
             request.setAttribute("ficheActe", acte);
        }
+        else if (act.equals(("afficherFicheJournalActe"))){
+            jspClient="/ficheJournal.jsp";
+            String id_journal = request.getParameter("id_journal_1");
+            Long id_journal_bis = Long.valueOf(id_journal);
+            
+            JournalActe journal = gestionJournalActe.trouverJournalParId(id_journal_bis);
+            request.setAttribute("ficheJournal", journal);
+        }
         else if (act.equals("afficherLignes")) {
             jspClient = "/afficherLignes.jsp";
             List<LigneJournal> lignes = gestionLigne.trouverToutesLignes();
             request.setAttribute("lignes", lignes);
         }
-        
+        else if (act.equals("afficherJournaux")) {
+            jspClient = "/GestionJournal.jsp";
+            List<JournalActe> journaux = (List<JournalActe>) gestionJournalActe.trouverTousLesJournaux();
+            request.setAttribute("lesJournaux", journaux);
+        }
         
         else if (act.equals("supprimerService")) {
             jspClient = "/landing_page.jsp";

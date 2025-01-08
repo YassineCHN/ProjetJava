@@ -8,6 +8,7 @@ import ENTITE.DossierHospitalisation;
 import ENTITE.JournalActe;
 import ENTITE.Z_USER;
 import FACADE.JournalActeFacadeLocal;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,4 +36,11 @@ public class GestionJournalActe implements GestionJournalActeLocal {
     public JournalActe trouverJournalParId(Long id) {
         return journalActeFacade.trouverJournalParId(id);
     }
+
+    @Override
+    public List<JournalActe> trouverTousLesJournaux() {
+        return journalActeFacade.trouverTousLesJournaux();
+    }
+    
+    
 }
