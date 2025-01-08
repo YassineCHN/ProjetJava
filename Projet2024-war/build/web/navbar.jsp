@@ -19,6 +19,12 @@
 <!--            On fera en sorte que si l'utilisateur est connect� il y est une petite image pour le renvoyer vers son profil utilisateur -->
             <%  if (utilisateurIdentifie0 != null) {%>
             <p>Bonjour, <strong><%= utilisateurIdentifie0%></strong> !</p>
+            <div class="logout">
+                <form action="NewServlet" method="get" style="display: inline;">
+                    <input type="hidden" name="action" value="logout">
+                    <button type="submit" class="logout-button">Se déconnecter</button>
+                </form>
+            </div>
             <%  } else { %>
             <p>Vous n'etes pas connecte. <a href="z_user_auth.jsp">Connectez-vous ici</a>.</p>
            <%  } %>
