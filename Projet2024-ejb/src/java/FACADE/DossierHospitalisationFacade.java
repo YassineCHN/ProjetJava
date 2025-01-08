@@ -92,5 +92,13 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     public List<DossierHospitalisation> trouverTousLesDossiers() {
         return em.createQuery("SELECT d FROM DossierHospitalisation d", DossierHospitalisation.class).getResultList();
     }
+
+    @Override
+    public void mergeDossier(DossierHospitalisation dossier) {
+        em.merge(dossier);
+    }
+    
+    
+    
     
 }
