@@ -275,6 +275,11 @@ public class NewServlet extends HttpServlet {
             Long value = Long.parseLong(request.getParameter("id_supprimerActe"));
             gestionActe.supprimerActe(value);
         }
+        else if (act.equals("annulerDossier")) {
+            jspClient="/landing_page.jsp";
+            Long value = Long.parseLong(request.getParameter("id_annulerDossier"));
+            gestionDossierHospitalisation.annulerDossierHospitalisation(value);
+        }
         else if (act.equals("creerUtilisateur")) {
                 jspClient="/landing_page.jsp";
 //                Pourquoi pas rediriger vers GestionUtilisateur.jsp ?

@@ -22,19 +22,25 @@
         
     %>
     <form action="NewServlet">
-        
-        <form action="NewServlet">
         <input type="hidden" id="id_supprimerDossier" name="id_supprimerDossier" value="<%=Long.toString(dossier.getId())%>">
         <input type="hidden" name="action" value="supprimerDossier">
         <input type="submit" value="Supprimer le dossier" />
     </form>
     
         
-        <form action="NewServlet">
-            <input type="hidden" id="id_ajouterJournal" name="id_ajouterJournal" value="<%=Long.toString(dossier.getId())%>">
-            <input type="hidden" name="action" value="ajouterJournal">
-            <input type="submit" value="Creer un journal d'actes">
-        </form>
+    <form action="NewServlet">
+        <input type="hidden" id="id_ajouterJournal" name="id_ajouterJournal" value="<%=Long.toString(dossier.getId())%>">
+        <input type="hidden" name="action" value="ajouterJournal">
+        <input type="submit" value="Creer un journal d'actes">
+    </form>
+            
+    <form action="NewServlet">
+        <input type="hidden" id="id_annulerDossier" name="id_annulerDossier" value="<%=Long.toString(dossier.getId())%>">
+        <input type="hidden" name="action" value="annulerDossier">
+        <input type="submit" value="Annuler le Dossier">
+    </form>
+            
+            
     <form action="">
         <fieldset>
             <label for="id_dossier"> ID utilisateur : </label>
