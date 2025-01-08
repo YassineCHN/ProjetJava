@@ -24,6 +24,8 @@ public interface GestionDossierHospitalisationLocal {
     DossierHospitalisation trouverDossierParId(Long id);
 
     void supprimerDossier(Long id);
+    
+    void annulerDossierHospitalisation(Long id) ;
 
     void creerDossier(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart);
 
