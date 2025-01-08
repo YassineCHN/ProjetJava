@@ -8,6 +8,7 @@ import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
+import ENTITE.statutDossier;
 import FACADE.DossierHospitalisationFacadeLocal;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +49,9 @@ public class GestionDossierHospitalisation implements GestionDossierHospitalisat
         dossierHospitalisationFacade.annulerDossierHospitalisation(id);
     }
 
+    public void annulerDossierHospitalisation(Long id) {
+        dossierHospitalisationFacade.annulerDossierHospitalisation(id);
+    }
     @Override
     public void creerDossier(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart) {
         dossierHospitalisationFacade.creerDossierHospitalisation(patient, service ,dateHospitalisation,heureArrivee,heureDepart );

@@ -64,7 +64,8 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     public void annulerDossierHospitalisation(Long id) {
         DossierHospitalisation dossier = em.find(DossierHospitalisation.class, id);
         if (dossier != null) {
-            em.remove(dossier);
+            dossier.setStatutD(statutDossier.Inactif);
+            em.merge(dossier);
         }
     }
 

@@ -5,8 +5,10 @@
         <group>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/DossierHospitalisation.java</file>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/DossierHospitalisationFacade.java</file>
+            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/SESSION/GestionDossierHospitalisationLocal.java</file>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/DossierHospitalisationFacadeLocal.java</file>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/LigneJournalFacade.java</file>
+            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/SESSION/GestionDossierHospitalisation.java</file>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/JournalActe.java</file>
         </group>
     </open-files>
