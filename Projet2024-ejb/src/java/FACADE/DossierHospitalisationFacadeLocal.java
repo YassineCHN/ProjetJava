@@ -43,4 +43,6 @@ public interface DossierHospitalisationFacadeLocal {
     DossierHospitalisation trouverDossierHospitalisationParId(Long id);
 
     List<DossierHospitalisation> trouverTousLesDossiers();
+
+    void mergeDossier(DossierHospitalisation dossier);
 }
