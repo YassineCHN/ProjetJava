@@ -25,8 +25,15 @@ import javax.persistence.Temporal;
 public class JournalActe implements Serializable {
 
     @OneToMany(mappedBy = "id_journal")
-    private List<LigneJournal> ligneJournals;
-
+    public List<LigneJournal> ligneJournals;
+    
+//    Visiblement ça ne permet pas de récupérer les lignes ????
+    public List<LigneJournal> getLigneJournals() {
+        return this.ligneJournals;
+    }
+    
+    
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -173,6 +180,7 @@ public class JournalActe implements Serializable {
     public Z_USER getUtilisateurCreateur() {
         return utilisateurCreateur;
     }
+    
 
     /**
      * Set the value of utilisateurCreateur

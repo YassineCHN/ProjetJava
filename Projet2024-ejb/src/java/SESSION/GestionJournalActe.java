@@ -41,6 +41,11 @@ public class GestionJournalActe implements GestionJournalActeLocal {
     public List<JournalActe> trouverTousLesJournaux() {
         return journalActeFacade.trouverTousLesJournaux();
     }
+
+    @Override
+    public JournalActe trouverJournalParDossier(DossierHospitalisation dossier) {
+        return journalActeFacade.trouverJournalParDossier(dossier);
+    }
     
     
 }

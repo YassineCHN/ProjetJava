@@ -44,6 +44,11 @@ public class GestionLigne implements GestionLigneLocal {
     public void supprimerLigne(long id) {
         ligneJournalFacade.supprimerLigne(id);
     }
+
+    @Override
+    public List<LigneJournal> listerLignesParJournal(Long idJournal) {
+        return ligneJournalFacade.listerLignesParJournal(idJournal);
+    }
     
     
     

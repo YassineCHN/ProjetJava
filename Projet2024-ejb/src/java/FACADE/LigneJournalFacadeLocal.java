@@ -40,5 +40,7 @@ public interface LigneJournalFacadeLocal {
     LigneJournal trouverLigneParId(long id);
 
     List<LigneJournal> trouverToutesLignes();
+
+    List<LigneJournal> listerLignesParJournal(Long idJournal);
     
 }

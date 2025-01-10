@@ -28,7 +28,7 @@ public class DossierHospitalisationBatchBean implements DossierHospitalisationBa
     // "Insert Code > Add Business Method")
     
     
-    @Schedule(hour="*", minute="/30", second="0", persistent=false)
+    @Schedule(hour="*", minute="30", second="0", persistent=false)
 //    pourquoi false  : https://chatgpt.com/share/677efef0-8cbc-8001-a470-ec5c5c8fff77
 //    exécution toutes les 30 minutes à la première seconde de la 30eme minutes
     public void mettreAJourDossiersInactifs() {

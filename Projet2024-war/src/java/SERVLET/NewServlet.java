@@ -380,21 +380,33 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("ajouterJournal")){
             
 //            ci-dessous, c'est l'ID du dossier médical propre à l'ajout d'un journal
-            String id_journal = request.getParameter("id_ajouterJournal");
+            String id_dossier = request.getParameter("id_ajouterJournal");
             String role_user = (String) session.getAttribute("role2");
             String user = (String) session.getAttribute("user_identifié");
             Long id_user = Long.valueOf((Long) session.getAttribute("id_user"));
-            
-            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(id_journal));
             Z_USER user_2 = z_USER_BEAN.trouverUtilisateurParId(id_user);
-            JournalActe journal = gestionJournalActe.creerJournal(dossier, user_2);
-//            String journalId = String.valueOf(journal.getId());
-//            request.setAttribute("id_journal", journalId);
-            request.setAttribute("journal_object", journal);
+            
+            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(id_dossier));
+            JournalActe JournalExistant = gestionJournalActe.trouverJournalParDossier(dossier);
+            
+            if (JournalExistant != null) {
+                // Le journal existe déjà, on ne le recrée pas
+        request.setAttribute("journal_object", JournalExistant);
+        System.out.println("Le journal existe déjà, on ne le recrée pas");
+                // On récupère les lignes du journal
+        List<LigneJournal> lignes = gestionLigne.listerLignesParJournal(JournalExistant.getId());
+        request.setAttribute("lignes_journals", lignes);
+        
+        
+            } else {
+//                journal existe pas déjà, on le crée
+                JournalActe journal = gestionJournalActe.creerJournal(dossier, user_2);
+                request.setAttribute("journal_object", journal);
+                System.out.println("journal existe pas déjà, on le crée");
+                request.setAttribute("lignes_journals", null); 
+            }
             List<Acte> lesActes = gestionActe.trouverTousLesActes();
             request.setAttribute("listeActeJournal", lesActes);
-
-            
             jspClient = "/ficheJournal.jsp";
         }
         else if (act.equals("ajouterLignesJournal")){

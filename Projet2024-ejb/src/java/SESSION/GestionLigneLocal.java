@@ -23,5 +23,7 @@ public interface GestionLigneLocal {
     List<LigneJournal> trouverToutesLignes();
 
     void supprimerLigne(long id);
+
+    List<LigneJournal> listerLignesParJournal(Long idJournal);
     
 }
