@@ -77,6 +77,15 @@ public class LigneJournalFacade extends AbstractFacade<LigneJournal> implements 
     public List<LigneJournal> trouverToutesLignes() {
          return em.createQuery("SELECT a FROM LigneJournal a", LigneJournal.class).getResultList();
     }
+
+    @Override
+    public List<LigneJournal> listerLignesParJournal(Long idJournal) {
+        try {
+            return (List<LigneJournal>) em.createQuery("SELECT a FROM LigneJournal a WHERE a.id_journal.id = :variable", LigneJournal.class).setParameter("variable", idJournal).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
     
     

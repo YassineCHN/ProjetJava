@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 /**
  *
  * @author charl
@@ -56,9 +58,26 @@ public class JournalActeFacade extends AbstractFacade<JournalActe> implements Jo
     public List<JournalActe> trouverTousLesJournaux() {
         return em.createQuery("SELECT d FROM JournalActe d", JournalActe.class).getResultList();
     }
-    
-    
+
+    @Override
+    public JournalActe trouverJournalParDossier(DossierHospitalisation dossier) {
+    if (dossier == null) {
+        return null;
+    }
+    try {
+
+        JournalActe result = em.createQuery("SELECT j FROM JournalActe j WHERE j.Dossier = :dossier", JournalActe.class).setParameter("dossier", dossier).getSingleResult();
+
+        
+        return  result;
+    } catch (NoResultException e) {
+        return null; // aucune entité trouvée pour ce dossier
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null; // gestion basique des autres exceptions
     }
     
+    }
+}
     
 
