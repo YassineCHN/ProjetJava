@@ -89,6 +89,10 @@ public class FactureFacade extends AbstractFacade<Facture> implements FactureFac
 //            return null;
 //        }
 //    }
+
+    @Override
+    public void validerFacturePaiement(Facture facture) {
+    }
     
     
 }

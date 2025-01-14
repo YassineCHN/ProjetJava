@@ -545,6 +545,7 @@ public class NewServlet extends HttpServlet {
 //                on paye la facture
 
                 Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(), ModePaiement.VIREMENT, laFacture);
+                
             }
             else {
                 

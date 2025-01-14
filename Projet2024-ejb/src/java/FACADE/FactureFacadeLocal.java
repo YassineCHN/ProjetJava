@@ -43,6 +43,8 @@ public interface FactureFacadeLocal {
 
 //    Facture trouverFactureParPatient(DossierHospitalisation dossier);
 
+    void validerFacturePaiement(Facture facture);
+
     
     
 }
