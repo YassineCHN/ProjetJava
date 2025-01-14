@@ -38,6 +38,7 @@
             <TD>Date d'arrivée</TD>
             <TD>Date de départ</TD>
             <td>ID du patient</td>
+            <td>Nom du patient</td>
             <td>ID du service</td>
             <td>Nom du service</td>
         </tr>
@@ -60,13 +61,16 @@
                     <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getHeureDepart()%></a>
                 </td>
                 <td Width=15%>
-                    <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLePatient().getLogin()%></a>
+                    <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getLePatient().getIdpers() %>"><%= cp.getLePatient().getIdpers()%></a>
                 </td>
                 <td Width=15%>
-                    <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLeService().getId()%></a>
+                    <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getLePatient().getIdpers() %>"><%= cp.getLePatient().getNomPersonne()%><%=" "%><%=cp.getLePatient().getPrenomPersonne() %></a>
                 </td>
                 <td Width=15%>
-                    <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getLePatient().getId()%>"><%= cp.getLeService().getServiceNom()%></a>
+                    <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getLePatient().getIdpers() %>"><%= cp.getLeService().getId()%></a>
+                </td>
+                <td Width=15%>
+                    <a href="NewServlet?action=afficherFicheService&id_service=<%= cp.getLeService()%>"><%= cp.getLeService().getServiceNom()%></a>
                 </td>
             </tr>
         <% } %>

@@ -15,7 +15,7 @@
     <head>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <% List<Z_PATIENT> list = (List<Z_PATIENT>) request.getAttribute("listeUtilisateurPatients"); %>
+        <% List<Z_PATIENT> list = (List<Z_PATIENT>) request.getAttribute("listePatients"); %>
         <title>Patients</title>
     </head>
     <body>
@@ -29,30 +29,39 @@
         <TABLE border width=50%>
             <tr>
                 <TD>ID</TD>
-                <TD>Login</TD>
-                <TD>Mot de passe</TD>
-                <TD>Role</TD>
+                <TD>Nom</TD>
+                <TD>Prénom</TD>
+                <TD>Adresse</TD>
                 <td>Numéro Sécurité sociale</td>
+                <td>Nom Mutuelle</td>
+                <td>Adresse Mutuelle</td>
             </tr>
             <% for (Z_PATIENT cp : list) { %>
                 <tr>
                     <!-- Dans chaque ligne du tableau, on récupère les informations du patient qu'on encapsule dans une balise <a> -->
                     <!-- Cette balise redirige vers la jsp "fichePatient.jsp" avec dans l'URL l'id du patient -->
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getId() %></a>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers()%>"><%= cp.getIdpers() %></a>
                     </td>
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getLogin()%></a>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers() %>"><%= cp.getNomPersonne() %></a>
                     </td>
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getMdp()%></a>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers() %>"><%= cp.getPrenomPersonne() %></a>
                     </td>
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getRole()%></a>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers() %>"><%= cp.getAdressePersonne() %></a>
                     </td>
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId()%>"><%= cp.getNumSecuSoc()%></a>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers()%>"><%= cp.getNumSecuSoc()%></a>
                     </td>
+                    <td Width=15%>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers() %>"><%= cp.getNomMutuelle() %></a>
+                    </td>
+                    <td Width=15%>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers() %>"><%= cp.getAdresseMutuelle() %></a>
+                    </td>
+                    
                 </tr>
             <% } %>
         </TABLE> 

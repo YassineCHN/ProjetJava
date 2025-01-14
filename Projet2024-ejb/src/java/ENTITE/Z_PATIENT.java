@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @DiscriminatorValue("PATIENT")
-public class Z_PATIENT extends Z_USER{
+public class Z_PATIENT extends Z_PERSONNE{
 
     @OneToMany(mappedBy = "lePatient")
     private List<DossierHospitalisation> dossierHospitalisations;
@@ -69,6 +69,26 @@ public class Z_PATIENT extends Z_USER{
 
     public void setNumSecuSoc(String numSecuSoc) {
         this.numSecuSoc = numSecuSoc;
+    }
+
+        private String nomMutuelle;
+
+    public String getNomMutuelle() {
+        return nomMutuelle;
+    }
+
+    public void setNomMutuelle(String nomMutuelle) {
+        this.nomMutuelle = nomMutuelle;
+    }
+
+        private String adresseMutuelle;
+
+    public String getAdresseMutuelle() {
+        return adresseMutuelle;
+    }
+
+    public void setAdresseMutuelle(String adresseMutuelle) {
+        this.adresseMutuelle = adresseMutuelle;
     }
 
 }

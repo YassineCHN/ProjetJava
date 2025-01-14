@@ -34,6 +34,7 @@
                 <TD>Login</TD>
                 <TD>Mot de passe</TD>
                 <TD>Role</TD>
+                <TD>ID Personne</TD>
             </tr>
             <% for (Z_USER cp : list) { %>
                 <tr>
@@ -50,6 +51,10 @@
                     </td>
                     <td Width=30%>
                         <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= cp.getRole()%></a>
+                    </td>
+                    <td Width=30%>
+                        <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getId() %>"><%= (cp.getPersonne() != null) ? cp.getPersonne().getIdpers() : "Aucune Personne" %>
+    </a>
                     </td>
                 </tr>
             <% } %>

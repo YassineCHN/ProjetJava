@@ -4,9 +4,11 @@
  */
 package SESSION;
 
+import ENTITE.RoleUSER;
 import ENTITE.Service;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNE;
 import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import javax.ejb.Local;
@@ -20,31 +22,44 @@ public interface Z_USER_BEANLocal {
 
 
     Z_USER Z_authentificationUtilisateurAdmin(String login, String mdp);
-//    Object[] Z_authentificationUtilisateur(String login, String mdp);
+
     Z_USER Z_authentificationUtilisateur(String login, String mdp);
 
-//    Z_USER Z_authentificationUtilisateur2(String login, String mdp);
-
     List<Z_USER> trouverTousLesUtilisateurs();
-
-    List<Z_MEDECIN> trouverTousLesUtilisateursMedecins();
-
-    void creerMedecin(String login, String mdp, String specialite);
 
     void creerAdmin(String login, String mdp, String adminStatus);
 
     Z_USER trouverUtilisateurParId(Long id);
 
-    void supprimerUtilisateur(long id);
-
-    List<Z_PATIENT> trouverTousLesUtilisateursPatients();
-
-    void creerPatient(String login, String mdp, String numSecuSoc);
+    void supprimerUtilisateur(Long id);
 
     Z_PATIENT trouverPatientParNumSecu(String numSecu);
+    
+    void creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE pers);
 
-    void creerPersonnel(String login, String mdp, Service service);
+    public void creerPersonne(String nom, String prenom,String adresse);
     
-    List<Z_PERSONNEL> trouverTousLesUtilisateursPersonnel();
+    public void supprimerPersonne(Long id_test) ;
     
+    public void modifierPersonne(Z_PERSONNE pers);
+    
+    public void modifierUtilisateur(Z_USER user);
+
+    public Z_PERSONNE trouverPersonneParId(Long id) ;
+    
+    public Z_USER trouverUtilisateurParPers(Long id);
+    
+    public List<Z_PERSONNE> trouverToutesLesPersonnes();
+    
+    public List<Z_MEDECIN> trouverTousLesMedecins();
+    
+    public void creerMedecin(String nom, String prenom, String adresse, String specialite);
+
+    public List<Z_PATIENT> trouverTousLesPatients() ;
+
+    public void creerPatient(String nom, String prenom,String adresse, String numSecuSoc,String nomMutuelle, String adresseMutuelle);
+
+    public void creerPersonnel(String nom, String prenom, String adresse, Service service) ;
+    
+    public List<Z_PERSONNEL> trouverTousLesPersonnels() ;
 }

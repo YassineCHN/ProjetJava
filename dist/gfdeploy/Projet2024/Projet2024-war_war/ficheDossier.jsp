@@ -64,10 +64,10 @@
             <input type="datetime-local" id="DateDepart_ficheDossier" name="DateDepart_ficheDossier" value="<%=HeureDepart%>" required>
             <br><br>
             <label for="login">ID du patient :</label>
-            <input type="text" id="IdPatient_ficheDossier" name="IdPatient_ficheDossier" value="<%=dossier.getLePatient().getId()%>" required>
+            <input type="text" id="IdPatient_ficheDossier" name="IdPatient_ficheDossier" value="<%=dossier.getLePatient().getIdpers()%>" readonly>
             <br><br>
             <label for="login">ID du service :</label>
-            <input type="text" id="IdService_ficheDossier" name="IdService_ficheDossier" value="<%=dossier.getLeService().getId()%>" required>
+            <input type="text" id="IdService_ficheDossier" name="IdService_ficheDossier" value="<%=dossier.getLeService().getId() %>" readonly>
             <br><br>
             
             

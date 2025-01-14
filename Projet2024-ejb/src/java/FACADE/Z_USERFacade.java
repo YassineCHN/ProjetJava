@@ -4,10 +4,12 @@
  */
 package FACADE;
 
+import ENTITE.RoleUSER;
 import ENTITE.Service;
 import ENTITE.Z_ADMIN;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNE;
 import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import java.util.List;
@@ -59,10 +61,12 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
     }
 
     @Override
-    public void creerUtilisateur(String login, String mdp) {
+    public void creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE personne) {
         Z_USER user = new Z_USER();
         user.setLogin(login);
         user.setMdp(mdp);
+        user.setRole(role);
+        user.setPersonne(personne);
         
         getEntityManager().persist(user);
     }
@@ -74,13 +78,16 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
     }
 
     @Override
-    public void supprimerUtilisateur(long id_test) {
+    public void supprimerUtilisateur(Long id_test) {
         try {
         if (id_test == 0) {
             throw new IllegalArgumentException("ID invalide");
         }
         Z_USER user = em.find(Z_USER.class, id_test);
         if (user != null) {
+            if (user.getPersonne() != null) {
+                user.setPersonne(null);
+            }
             em.remove(user);
         }
     } catch (IllegalArgumentException e) {
@@ -93,9 +100,25 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
     }
 
     @Override
-    public Z_USER trouverUtilisateurParId(long id) {
+    public Z_USER trouverUtilisateurParId(Long id) {
         Z_USER user = null;
         String txt = "SELECT u from Z_USER as u where u.id=:variable";
+        Query req = em.createQuery(txt);
+        req.setParameter("variable",id);
+        List<Z_USER> result = req.getResultList();
+        if (result.size()==0 || result==null) {
+            return null;
+        }
+        else if (result.size()==1){
+            user = result.get(0);
+            return user;
+        }
+        return user;
+    }
+    
+        public Z_USER trouverUtilisateurParPersonne(Long id) {
+        Z_USER user = null;
+        String txt = "SELECT u from Z_USER as u where u.personne.idpers=:variable";
         Query req = em.createQuery(txt);
         req.setParameter("variable",id);
         List<Z_USER> result = req.getResultList();
@@ -114,10 +137,6 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
         return em.createQuery("SELECT s FROM Z_USER s", Z_USER.class).getResultList();
     }
 
-    @Override
-    public List<Z_MEDECIN> trouverTousLesUtilisateursMedecin() {
-        return em.createQuery("SELECT s FROM Z_MEDECIN as s where s.id IS NOT NULL", Z_MEDECIN.class).getResultList();
-    }
 //pas besoin de préciser le rôle
 //    c'est automatique dans la stratégie single_table
 //    le champ propre à médecin/admin sera rempli automatiquement
@@ -132,21 +151,6 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
 //        user.setSpecialite(specialite);
 //        getEntityManager().persist(user);
 //    }
-    @Override
-public void creerMedecin(String login, String mdp, String specialite) {
-    System.out.println("appel de la méthode creerMedecin");
-    Z_MEDECIN user = new Z_MEDECIN();
-    user.setLogin(login);
-    user.setMdp(mdp);
-    user.setSpecialite(specialite);
-
-    try {
-        getEntityManager().persist(user);
-        System.out.println("Utilisateur médecin créé avec succès : " + user.getLogin());
-    } catch (Exception e) {
-        System.err.println("Erreur lors de la création de l'utilisateur médecin : " + e.getMessage());
-    }
-}
 
 
     @Override
@@ -164,62 +168,5 @@ public void creerMedecin(String login, String mdp, String specialite) {
     }
     
     }
-
-    @Override
-    public List<Z_PATIENT> trouverTousLesUtilisateursPatients() {
-        return em.createQuery("SELECT s FROM Z_PATIENT as s where s.id IS NOT NULL", Z_PATIENT.class).getResultList();
-    }
-
-    @Override
-    public void creerPatient(String login, String mdp, String numSecuSoc) {
-          System.out.println("appel de la méthode creerPatient");
-    Z_PATIENT user = new Z_PATIENT();
-        user.setLogin(login);
-        user.setMdp(mdp);
-        user.setNumSecuSoc(numSecuSoc);
-        try {
-        getEntityManager().persist(user);
-        System.out.println("Utilisateur PATIENT créé avec succès : " + user.getLogin());
-    } catch (Exception e) {
-        System.err.println("Erreur lors de la création de l'utilisateur PATIENT : " + e.getMessage());
-    }
-    }
-
-    @Override
-    public Z_PATIENT trouverPatientParNumSecu(String numSecu) {
-        Z_PATIENT user = null;
-        String txt = "SELECT u from Z_PATIENT as u where u.numSecuSoc=:variable";
-        Query req = em.createQuery(txt);
-        req.setParameter("variable",numSecu);
-        List<Z_PATIENT> result = req.getResultList();
-        if (result.size()==0 || result==null) {
-            return null;
-        }
-        else if (result.size()==1){
-            user = result.get(0);
-            return user;
-        }
-        return user;
-    }
-    
-    
-    public void creerPersonnel(String login, String mdp, Service service) {
-          System.out.println("appel de la méthode creerPersonnel");
-    Z_PERSONNEL user = new Z_PERSONNEL();
-        user.setLogin(login);
-        user.setMdp(mdp);
-        user.setService(service);
-        try {
-        getEntityManager().persist(user);
-        System.out.println("Utilisateur PERSONNEL créé avec succès : " + user.getLogin());
-    } catch (Exception e) {
-        System.err.println("Erreur lors de la création de l'utilisateur Personnel : " + e.getMessage());
-    }
-    }
-    
-    public List<Z_PERSONNEL> trouverTousLesUtilisateursPersonnel() {
-        return em.createQuery("SELECT s FROM Z_PERSONNEL as p where p.id IS NOT NULL", Z_PERSONNEL.class).getResultList();
-    }
-    
     
 }

@@ -30,14 +30,11 @@ public class GestionService implements GestionServiceLocal {
     public void CreerService(String nomService, String localisationService) {
        
             serviceFacade.creerService(nomService, localisationService);
-        
-        
-            
+       
     }
-    
-    
-    
-
+    public void modifierService(Service serv){
+        serviceFacade.modifierService(serv);
+    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 

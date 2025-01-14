@@ -39,13 +39,8 @@ public class ServiceFacade extends AbstractFacade<Service> implements ServiceFac
     }
 
     @Override
-    public void modifierService(Long id, String nom, String localisation) {
-        Service service = em.find(Service.class, id);
-        if (service != null) {
-            service.setServiceNom(nom);
-            service.setServiceLocalisation(localisation);
-            em.merge(service);
-        }
+    public void modifierService(Service serv) {
+        getEntityManager().merge(serv);
     }
 
     @Override

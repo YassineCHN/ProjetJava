@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @DiscriminatorValue("MEDECIN")
-public class Z_MEDECIN extends Z_USER {
+public class Z_MEDECIN extends Z_PERSONNE {
 
     @ManyToOne
     private Service service;

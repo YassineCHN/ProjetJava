@@ -4,9 +4,11 @@
  */
 package FACADE;
 
+import ENTITE.RoleUSER;
 import ENTITE.Service;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNE;
 import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import java.util.List;
@@ -35,31 +37,21 @@ public interface Z_USERFacadeLocal {
 
     Z_USER authentification(String login, String mdp);
 
-    void creerUtilisateur(String login, String mdp);
+    void creerUtilisateur(String login, String mdp, RoleUSER role, Z_PERSONNE personne);
 
     void mettreAJourUtilisateur(Z_USER user);
 
-    void supprimerUtilisateur(long id);
+    void supprimerUtilisateur(Long id);
 
-    Z_USER trouverUtilisateurParId(long id);
+    Z_USER trouverUtilisateurParId(Long id);
+    
+    public Z_USER trouverUtilisateurParPersonne(Long id);
 
     List<Z_USER> trouverTousLesUtilisateurs();
 
-    List<Z_MEDECIN> trouverTousLesUtilisateursMedecin();
-
-    void creerMedecin(String login, String mdp, String specialite);
-
     void creerAdmin(String login, String mdp, String adminStatus);
 
-    List<Z_PATIENT> trouverTousLesUtilisateursPatients();
 
-    void creerPatient(String login, String mdp, String numSecuSoc);
-
-    Z_PATIENT trouverPatientParNumSecu(String numSecu);
-    
-    void creerPersonnel(String login, String mdp, Service service);
-    
-    List<Z_PERSONNEL> trouverTousLesUtilisateursPersonnel();
 
     
 }

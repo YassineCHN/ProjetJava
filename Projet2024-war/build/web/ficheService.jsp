@@ -10,17 +10,17 @@
 </head>
 <body>
     <%Service service = (Service) request.getAttribute("ficheService");%>
-    <label for ="id_service"> ID utilisateur : </label>
-            <input type ="text" id="id_service" name="id_service" value="<%=Long.toString(service.getId())%>" disabled required>
+    
     <form action="NewServlet">
         <fieldset>
-            
+            <label for ="id_service"> ID : </label>
+            <input type ="text" id="id_service" name="id_service" value="<%=Long.toString(service.getId())%>" readonly>
             <br><br>
-            <label for="login">Localisation :</label>
-            <input type="text" id="localisation" name="localisation_ficheService" value="<%=service.getServiceLocalisation()%>" required>
+            <label for="localisation">Localisation :</label>
+            <input type="text" id="localisation" name="localisation" value="<%=service.getServiceLocalisation()%>" required>
             <br><br>
-            <label for="password">Nom :</label>
-            <input type="text" id="nomService" name="nomService_ficheService" value="<%=service.getServiceNom()%>" required>
+            <label for="nomService">Nom :</label>
+            <input type="text" id="nomService" name="nomService" value="<%=service.getServiceNom()%>" required>
             
             <input type="hidden" name="action" value="modifierService">
         </fieldset>

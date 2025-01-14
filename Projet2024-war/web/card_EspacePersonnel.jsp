@@ -4,7 +4,7 @@
     <div class="card_gestion">
         <div class="card_titre">
             <p>
-                Mon espace patient
+                <a href="NewServlet?action=afficherInfosPerso">Mon espace personnel</a>
             </p>
         </div>
         <div class="card_image">

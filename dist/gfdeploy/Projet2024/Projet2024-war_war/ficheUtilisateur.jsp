@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="ENTITE.Z_PERSONNE"%>
 <%@page import="ENTITE.Z_USER"%>
 
 <!DOCTYPE html>
@@ -10,32 +12,32 @@
 </head>
 <body>
     <%Z_USER user = (Z_USER) request.getAttribute("utilisateurFicheUtilisateur");%>
+    <jsp:useBean id="listepersonnes" scope="request" class="java.util.List"></jsp:useBean> 
     
     <form action="NewServlet" method="post">
     <fieldset>
         <label for="id_utilisateurFicheUtilisateur">ID utilisateur :</label>
-        <input type="text" id="id_utilisateurFicheUtilisateur" name="id_utilisateurFicheUtilisateur" value="<%=Long.toString(user.getId())%>" disabled required>
+        <input type="text" id="id_utilisateurFicheUtilisateur" name="id_utilisateurFicheUtilisateur" value="<%=Long.toString(user.getId())%>" readonly>
         <br><br>
         <label for="login">Login :</label>
         <input type="text" id="login" name="login_ficheUtilisateur" value="<%=user.getLogin()%>" required>
         <br><br>
         <label for="password">Mot de passe :</label>
-        <input type="text" id="password" name="password_ficheUtilisateur" value="<%=user.getMdp()%>" required>
+        <input type="text" id="password_ficheUtilisateur" name="password_ficheUtilisateur" value="<%=user.getMdp()%>" required>
         <br><br>
         <label for="role">R�le de l'utilisateur :</label>
-        <select id="role" name="role_ficheUtilisateur" required>
-            
-<!--            On utilise l'op�rateur conditinnel/ternaire comme un if else
-            On modifie/active l'attribut "selected" d'un des 3 tags "option"
-            Ca permet de pr�selectionner la valeur de la liste d�roulante.
-            Si l'user change la valeur sur la page, l'attribut selected n'a pas d'impact et ne fige pas la liste
-           
--->
-            <option value="ADMIN" <%= "ADMIN".equals(user.getRole()) ? "selected" : "" %>>ADMIN</option>
-            <option value="MEDECIN" <%= "MEDECIN".equals(user.getRole()) ? "selected" : "" %>>MEDECIN</option>
-            <option value="PATIENT" <%= "PATIENT".equals(user.getRole()) ? "selected" : "" %>>PATIENT</option>
-        </select>
+        <input type="text" id="role_ficheUtilisateur" name="role_ficheUtilisateur" value="<%=user.getRole()%>" readonly>
         <br><br>
+        <%List<Z_PERSONNE> lesPers=listepersonnes;%>
+        <div id="personneField" class="">
+        <label for="UserPersonne">Personne : </label> 
+                <select name="UserPersonne"> 
+                    <option value="">Aucun</option>
+                    <% for (Z_PERSONNE p :lesPers) {%> 
+                    <option value ="<%=p.getIdpers() %>"> <%= p.getIdpers() %> - <%= p.getNomPersonne() %> <%= p.getPrenomPersonne() %></option> 
+                    <% }%> 
+                </select><br><br>
+        </div>
         <input type="hidden" name="action" value="modifierUtilisateur">
     </fieldset>
     <input type="submit" value="Valider" />

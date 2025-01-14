@@ -10,11 +10,14 @@ import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.RoleUSER;
 
 import ENTITE.Service;
 
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNE;
+import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import SESSION.GestionActeLocal;
 import SESSION.GestionDossierHospitalisationLocal;
@@ -91,22 +94,18 @@ public class NewServlet extends HttpServlet {
                 // Vérification si l'authentification renvoie bien un utilisateur
                 if (user != null) {
                     String user_identifié = user.getLogin();
-                    String role_identifié = user.getRole();
+                    RoleUSER role_identifié = user.getRole();
                     Long id_user =  user.getId();
-
-                    // Liste des rôles valables
-                    List<String> rolesValables = Arrays.asList("ADMIN", "MEDECIN", "PATIENT");
-
-                    // Si l'authentification retourne un utilisateur, on vérifie le rôle
-                    if (rolesValables.contains(role_identifié)) {
+                    
+                    if (role_identifié != null) {
                         session.setAttribute("utilisateur2", user_identifié);
-                        session.setAttribute("role2", role_identifié);
+                        session.setAttribute("role2", role_identifié.name());
                         session.setAttribute("id_user", id_user);
-                        
+                        request.setAttribute("message", "Bienvenue, " + role_identifié.name() + "!");
                     }
 
                     // Définir un message de bienvenue
-                    String message = "Bienvenue, " + role_identifié + "!";
+                    String message = "Bienvenue, " + role_identifié.name() + "!";
                     request.setAttribute("message", message);
                 } else {
                     // Si l'authentification échoue
@@ -129,21 +128,32 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("listeUtilisateur", lesUtilisateurs);
             request.setAttribute("message", "Liste des utilisateurs existants");
         }
+        else if (act.equals("afficherPersonnes")) {
+            jspClient = "/GestionPersonne.jsp";
+            List<Z_PERSONNE> lesPersonnes = z_USER_BEAN.trouverToutesLesPersonnes();
+            request.setAttribute("listePersonnes", lesPersonnes);
+            request.setAttribute("message", "Liste des Personnes existants");
+        }
         else if (act.equals("ajouterUtilisateur")) {
-            List <Service> list = gestionService.tousLesServices(); 
-            request.setAttribute("listeservices",list); 
+            List <Z_PERSONNE> list = z_USER_BEAN.trouverToutesLesPersonnes() ; 
+            request.setAttribute("listepersonnes",list); 
             jspClient="/AjouterUtilisateur.jsp"; 
         }
-        else if (act.equals("afficherUtilisateursMedecins")){
+        else if (act.equals("ajouterPersonne")) {
+            List <Service> list = gestionService.tousLesServices(); 
+            request.setAttribute("listeServices",list); 
+            jspClient="/AjouterPersonne.jsp"; 
+        }
+        else if (act.equals("afficherMedecins")){
             jspClient = "/GestionMedecin.jsp";
-            List<Z_MEDECIN> lesUtilisateurs = z_USER_BEAN.trouverTousLesUtilisateursMedecins();
-            request.setAttribute("listeUtilisateurMedecins", lesUtilisateurs);
+            List<Z_MEDECIN> lesMedecins = z_USER_BEAN.trouverTousLesMedecins();
+            request.setAttribute("listeMedecins", lesMedecins);
             request.setAttribute("message", "Liste des médecins existants");
         }
         else if (act.equals("afficherPatients")){
             jspClient = "/GestionPatient.jsp";
-            List<Z_PATIENT> lesUtilisateurs = z_USER_BEAN.trouverTousLesUtilisateursPatients();
-            request.setAttribute("listeUtilisateurPatients", lesUtilisateurs);
+            List<Z_PATIENT> lesPatients = z_USER_BEAN.trouverTousLesPatients();
+            request.setAttribute("listePatients", lesPatients);
             request.setAttribute("message", "Liste des patients existants");
         }
         else if (act.equals("afficherDossiers")){
@@ -188,6 +198,19 @@ public class NewServlet extends HttpServlet {
             Z_USER user = z_USER_BEAN.trouverUtilisateurParId(id_utilisateur);
 
             request.setAttribute("utilisateurFicheUtilisateur", user);
+            List <Z_PERSONNE> list = z_USER_BEAN.trouverToutesLesPersonnes() ; 
+            request.setAttribute("listepersonnes",list);
+        }
+        else if (act.equals("afficherFichePersonne")) {
+            jspClient = "/fichePersonne.jsp";
+            String test = request.getParameter("id_personne");
+
+            Long id_personne = Long.valueOf(test);
+
+            Z_PERSONNE pers = z_USER_BEAN.trouverPersonneParId(id_personne);
+            List<Service> listeServices = gestionService.tousLesServices();
+            request.setAttribute("listeServices", listeServices);
+            request.setAttribute("personneFichePersonne", pers);
         }
         else if (act.equals("afficherFicheService")){
                     jspClient = "/ficheService.jsp";
@@ -257,9 +280,25 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("supprimerUtilisateur")){
             jspClient = "/landing_page.jsp";
-            
-            long value = Long.parseLong(request.getParameter("supprimerUtilisateur"));
-            z_USER_BEAN.supprimerUtilisateur(value);
+            Long value = Long.parseLong(request.getParameter("supprimerUtilisateur"));
+            Z_USER utilisateur = z_USER_BEAN.trouverUtilisateurParId(value);
+            if (utilisateur != null) {
+                z_USER_BEAN.supprimerUtilisateur(value);
+                request.setAttribute("message", "Utilisateur supprimé avec succès.");
+            } else {
+                request.setAttribute("message", "Utilisateur non trouvé.");
+            }
+        }
+       
+        else if (act.equals("supprimerPersonne")){
+            jspClient = "/landing_page.jsp";
+            Long idPersonne = Long.parseLong(request.getParameter("supprimerPersonne"));
+            Z_USER utilisateur = z_USER_BEAN.trouverUtilisateurParPers(idPersonne);
+            if (utilisateur != null) {
+                z_USER_BEAN.supprimerUtilisateur(utilisateur.getId());
+            } 
+            z_USER_BEAN.supprimerPersonne(idPersonne);
+            request.setAttribute("message", "Personne supprimée avec succès.");   
         }
         else if (act.equals("supprimerPatient")){
             jspClient = "/landing_page.jsp";
@@ -282,27 +321,52 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("creerUtilisateur")) {
                 jspClient="/landing_page.jsp";
-//                Pourquoi pas rediriger vers GestionUtilisateur.jsp ?
-//                même problème que pour la suppression d'un service
                 String login = request.getParameter("loginAjouterUser");
                 String mdp = request.getParameter("passwordAjouterUser");
-                String role = request.getParameter("roleAjouterUser");
-                if (role.equals("MEDECIN")) {
-                    String specialite = request.getParameter("specialiteAjouterUser");
-                    z_USER_BEAN.creerMedecin(login, mdp, specialite);
+                String roleparam = request.getParameter("roleAjouterUser");
+                String persparam=request.getParameter("UserAjouterPersonne");
+                RoleUSER role=RoleUSER.valueOf(roleparam.toUpperCase());
+                Z_PERSONNE pers=null;
+                if(persparam!=null&& !persparam.trim().isEmpty()){
+                    Long persId= Long.parseLong(persparam);
+                    pers=z_USER_BEAN.trouverPersonneParId(persId);
+                }
+                if (role != RoleUSER.ADMIN && pers != null) {
+                    String typePersonne = pers.getTYPE(); 
+                    if ((role == RoleUSER.MEDECIN && !"MEDECIN".equals(typePersonne)) ||
+                        (role == RoleUSER.PATIENT && !"PATIENT".equals(typePersonne)) ||
+                        (role == RoleUSER.PERSONNEL && !"PERSONNEL".equals(typePersonne))) 
+                    {
+                        request.setAttribute("erreur", "Le rôle sélectionné ne correspond pas au type de la personne.");
+                        List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverToutesLesPersonnes(); // Charger la liste des personnes
+                        request.setAttribute("listepersonnes", listePersonnes);
+                        request.getRequestDispatcher("AjouterUtilisateur.jsp").forward(request, response);
+                        return;
+                    }
+                }
+                // Si la vérification est réussie, créer l'utilisateur
+                z_USER_BEAN.creerUtilisateur(login, mdp,role,pers);
+        }
+        else if (act.equals("creerPersonne")) {
+                jspClient="/landing_page.jsp";
+                    String nom = request.getParameter("nomPersonne");
+                    String prenom = request.getParameter("prenomPersonne");
+                    String adresse = request.getParameter("adressePersonne");
+                    String typePersonne = request.getParameter("typePersonne");
+                    
+                if (typePersonne.equals("MEDECIN")) {
+                    String specialite = request.getParameter("specialiteMedecin");
+                    z_USER_BEAN.creerMedecin(nom, prenom, adresse, specialite);
                     System.out.println("ON CREE MEDECIN");
                 }
-                if (role.equals("ADMIN")){
-                    String status = request.getParameter("adminStatusAjouterUser");
-                    z_USER_BEAN.creerAdmin(login, mdp, status);
-                    System.out.println("ON CREE ADMIN");
-                }
-                if (role.equals("PATIENT")){
-                    String numSecuSoc = request.getParameter("PatientNumSecuSocAjouterUser");
-                    z_USER_BEAN.creerPatient(login, mdp, numSecuSoc);
+                if (typePersonne.equals("PATIENT")){
+                    String numSecuSoc = request.getParameter("numSecuPatient");
+                    String mutuelle=request.getParameter("nomMutuelle");
+                    String adresseMut=request.getParameter("adresseMutuelle");
+                    z_USER_BEAN.creerPatient(nom, prenom, adresse, numSecuSoc, mutuelle, adresseMut);
                     System.out.println("ON CREE PATIENT");
                 }
-                if (role.equals("PERSONNEL")){
+                if (typePersonne.equals("PERSONNEL")){
                     String serviceparam = request.getParameter("PersonnelServiceAjouterUser");
                     if (serviceparam == null || serviceparam.isEmpty() ) {
                         request.setAttribute("erreur", "Un service doit être sélectionné pour créer un utilisateur de type PERSONNEL.");
@@ -312,32 +376,114 @@ public class NewServlet extends HttpServlet {
                         return; 
                     }
                     else{
-                    long serviceId = Long.parseLong(serviceparam);
+                    Long serviceId = Long.parseLong(serviceparam);
                     Service service = gestionService.trouverServiceParID(serviceId);
                
-                    z_USER_BEAN.creerPersonnel(login, mdp, service);
+                    z_USER_BEAN.creerPersonnel(nom, prenom, adresse, service);
                     System.out.println("Utilisateur PERSONNEL créé avec succès !"); 
                     }
                 }
         }      
         else if (act.equals("creerPatient")){
             jspClient="/landing_page.jsp";
-            String login = request.getParameter("loginPatient");
-            String mdp = request.getParameter("mdpPatient");
+            String nom = request.getParameter("nomPatient");
+            String prenom = request.getParameter("prenomPatient");
+            String adresse = request.getParameter("adressePatient");
             String numSecuPatient = request.getParameter("numSecuPatient");
-            if(login.trim().isEmpty() || mdp.trim().isEmpty()){
+            String nomMut = request.getParameter("nomMutuelle");
+            String adresseMut  = request.getParameter("adresseMutuelle");
+            if(nom.trim().isEmpty() || prenom.trim().isEmpty() || numSecuPatient.trim().isEmpty() ){
                 String message = "Formulaire de création patient erroné";
                 request.setAttribute("message", message);
             } else {
-                z_USER_BEAN.creerPatient(login, mdp, numSecuPatient);
-                String message = "Formulaire de création patient erroné";
+                z_USER_BEAN.creerPatient(nom, prenom, adresse, numSecuPatient, nomMut, adresseMut);
+                String message = "Patient créé";
                 request.setAttribute("message", message);
             }
             
         }
+        else if (act.equals("modifierService")) {
+            jspClient="/landing_page.jsp";
+            String idServiceStr = request.getParameter("id_service");
+            if (idServiceStr != null && !idServiceStr.isEmpty()) {
+        try {
+            Long idService = Long.parseLong(idServiceStr);  
+            String loc = request.getParameter("localisation");
+            String nomService = request.getParameter("nomService");
+
+            Service serv = gestionService.trouverServiceParID(idService);
+            if (serv != null) {
+                serv.setServiceLocalisation(loc);
+                serv.setServiceNom(nomService);
+                gestionService.modifierService(serv);
+            } else {
+                request.setAttribute("message", "Service non trouvé.");
+            }
+        } catch (NumberFormatException e) {
+            request.setAttribute("message", "ID du service invalide.");
+        }
+            } else {
+                request.setAttribute("message", "ID du service manquant.");
+            }
+        }
+
         else if (act.equals("modifierUtilisateur")) {
-            jspClient="/GestionUtilisateur.jsp";
+            jspClient="/landing_page.jsp";
+            Long idUtilisateur= Long.parseLong(request.getParameter("id_utilisateurFicheUtilisateur"));
+            String login = request.getParameter("login_ficheUtilisateur");
+            String mdp = request.getParameter("password_ficheUtilisateur");
+            String role= request.getParameter("role_ficheUtilisateur");
+            String idpersonne=request.getParameter("UserPersonne");
             
+            Z_USER user=z_USER_BEAN.trouverUtilisateurParId(idUtilisateur);
+            Z_PERSONNE pers=null;
+            if(user !=null){
+                if(idpersonne!=null&& !idpersonne.trim().isEmpty()){
+                    Long persId= Long.parseLong(idpersonne);
+                    pers=z_USER_BEAN.trouverPersonneParId(persId);
+                }
+                user.setLogin(login);
+                user.setMdp(mdp);
+                user.setPersonne(pers);
+                z_USER_BEAN.modifierUtilisateur(user);
+                request.setAttribute("message", "Personne modifiée avec succès.");
+            } else {request.setAttribute("message", "Personne non trouvée.");}
+            
+        }
+        else if (act.equals("modifierPersonne")) {
+            jspClient="/landing_page.jsp";
+            
+            Long idPersonne = Long.parseLong(request.getParameter("id_personne"));
+            String nom = request.getParameter("nomPersonne");
+            String prenom = request.getParameter("prenomPersonne");
+            String adresse = request.getParameter("adressePersonne");
+            String typePersonne = request.getParameter("typePersonne");     
+            // Identifiez le type de la personne et mettez à jour les informations spécifiques
+            Z_PERSONNE personne = z_USER_BEAN.trouverPersonneParId(idPersonne);
+            if (personne != null) {
+                personne.setNomPersonne(nom);
+                personne.setPrenomPersonne(prenom);
+                personne.setAdresse(adresse);
+                // En fonction du type de personne, vous pouvez faire des mises à jour supplémentaires
+                if (typePersonne.equals("MEDECIN")) {
+                    String specialite = request.getParameter("specialiteMedecin");
+                    ((Z_MEDECIN) personne).setSpecialite(specialite);
+                } else if (typePersonne.equals("PATIENT")) {
+                    String numSecuSoc = request.getParameter("numSecuPatient");
+                    String mutuelle = request.getParameter("nomMutuelle");
+                    String adresseMutuelle = request.getParameter("adresseMutuelle");
+                    ((Z_PATIENT) personne).setNumSecuSoc(numSecuSoc);
+                    ((Z_PATIENT) personne).setNomMutuelle(mutuelle);
+                    ((Z_PATIENT) personne).setAdresseMutuelle(adresseMutuelle);
+                } else if (typePersonne.equals("PERSONNEL")) {
+                    String serviceparam = request.getParameter("PersonnelServiceAjouterUser");
+                    Service service = gestionService.trouverServiceParID(Long.parseLong(serviceparam));
+                    ((Z_PERSONNEL) personne).setService(service);
+                }// Appelez la méthode pour modifier la personne dans la base de données
+                z_USER_BEAN.modifierPersonne(personne);
+                request.setAttribute("message", "Personne modifiée avec succès.");} else {
+                request.setAttribute("message", "Personne non trouvée.");
+            } 
         }
         else if (act.equals("creerService")) {
             jspClient="/landing_page.jsp";
@@ -356,8 +502,8 @@ public class NewServlet extends HttpServlet {
             }
         else if (act.equals("ajouterDossierForm")){
             jspClient = "/AjouterDossier.jsp";
-            List<Z_PATIENT> lesUtilisateurs = z_USER_BEAN.trouverTousLesUtilisateursPatients();
-            request.setAttribute("listeUtilisateurPatientsAjoutDossier", lesUtilisateurs);
+            List<Z_PATIENT> lesPatients = z_USER_BEAN.trouverTousLesPatients();
+            request.setAttribute("listePatientsAjoutDossier", lesPatients);
             
             List<Service> lesServices = gestionService.tousLesServices();
             request.setAttribute("listeServicesAjoutDossier", lesServices);
@@ -462,25 +608,25 @@ public class NewServlet extends HttpServlet {
             Date dateHospitalisation_test = sdf.parse(dateHospitalisationStr);
             Date heureArrivee_test = sdf.parse(heureArriveeStr);
             Date heureDepart_test = sdf.parse(heureDepartStr);
-             Z_PATIENT patient = null;
-             Long serviceId = Long.valueOf(serviceIdStr);
-             Service service = gestionService.trouverServiceParID(serviceId);
+            Z_PATIENT patient = null;
+            Long serviceId = Long.valueOf(serviceIdStr);
+            Service service = gestionService.trouverServiceParID(serviceId);
              
              if (request.getParameter("newPatientCheckbox") != null) {
-                String loginPatient = request.getParameter("loginPatient");
-                String mdpPatient = request.getParameter("mdpPatient");
+                String nomPatient = request.getParameter("nomPersonne");
+                String prenomPatient = request.getParameter("prenomPersonne");
+                String adressePatient = request.getParameter("adressePersonne");
                 String numSecuPatient = request.getParameter("numSecuPatient");
+                String nomMut = request.getParameter("nomMutuelle");
+                String adresseMut  = request.getParameter("adresseMutuelle");
+                    
                 
-                
-                
-                
-                
-                if (loginPatient.trim().isEmpty() || mdpPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty() ) {
+                if (nomPatient.trim().isEmpty() || prenomPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty() ) {
                     jspClient = "/landing_page.jsp";
                     System.out.println("formulaire incomplet");
                 }
                 else {
-                    z_USER_BEAN.creerPatient(loginPatient, mdpPatient, numSecuPatient);
+                    z_USER_BEAN.creerPatient(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMut, adresseMut);
                 }
                 
                 patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
@@ -495,11 +641,14 @@ public class NewServlet extends HttpServlet {
                 System.out.println("===========================================================================");
                  String patientIdStr = request.getParameter("patientId");
                  Long patientId = Long.valueOf(patientIdStr);
-                 patient = (Z_PATIENT) z_USER_BEAN.trouverUtilisateurParId(patientId);
+                 patient = (Z_PATIENT) z_USER_BEAN.trouverPersonneParId(patientId);
                  gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
              }
 //  
              
+        }
+        else if (act.equals("afficherInfosPerso")){
+            jspClient="/EspacePersonnel.jsp";
         }
 
         

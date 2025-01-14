@@ -6,28 +6,29 @@ package ENTITE;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author charl
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
-@DiscriminatorColumn(name = "ROLE", discriminatorType = DiscriminatorType.STRING)
 public class Z_USER implements Serializable {
 
     @OneToMany(mappedBy = "utilisateurCreateur")
     private List<JournalActe> journalActes;
+    
+    @OneToOne
+    @JoinColumn(name = "idpers")
+    private Z_PERSONNE personne;
 //
 //
 //
@@ -35,19 +36,11 @@ public class Z_USER implements Serializable {
 //Lors des tests, ne pas saisir un ID user faible (1,2 etc...)
 //    car ca rentre en conflit avec la génération auto de l'ID
 //    lorsqu'on crée des users via la facade
-//    
-//    
-//
-//
-//
-//
-//
-//    
+//       
     
-    public String getRole() {
-        // Utilisation d'une expression JPA pour récupérer la valeur de la colonne discriminante
-        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
-    }
+//    public String getRole() {
+//        // Utilisation d'une expression JPA pour récupérer la valeur de la colonne discriminante
+//        return this.getClass().getAnnotation(DiscriminatorValue.class).value();  }
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -127,4 +120,25 @@ public class Z_USER implements Serializable {
         this.mdp = mdp;
     }
 
+    @Enumerated(EnumType.STRING)
+    private RoleUSER role;
+
+    public RoleUSER getRole() {
+        return role;
+    }
+
+    public void setRole(RoleUSER role) {
+        this.role = role;
+    }
+    
+    
+    public Z_PERSONNE getPersonne() {
+        return personne;
+    }
+
+    public void setPersonne(Z_PERSONNE personne) {
+        this.personne = personne;
+    }
+
+    
 }

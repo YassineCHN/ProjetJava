@@ -8,7 +8,7 @@
 <html>
     <head>
         <!--listeServicesAjoutDossier-->
-        <% List<Z_PATIENT> listPatient = (List<Z_PATIENT>) request.getAttribute("listeUtilisateurPatientsAjoutDossier"); %>
+        <% List<Z_PATIENT> listPatient = (List<Z_PATIENT>) request.getAttribute("listePatientsAjoutDossier"); %>
         <% List<Service> listService = (List<Service>) request.getAttribute("listeServicesAjoutDossier"); %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Créer Dossier Médical</title>
@@ -21,12 +21,22 @@
             function togglePatientFields() {
                 var existingPatientField = document.getElementById("existingPatientField");
                 var newPatientField = document.getElementById("newPatientField");
+                var nomField = document.getElementById("nomPersonne");
+                var prenomField = document.getElementById("prenomPersonne");
+                var numSecuField = document.getElementById("numSecuPatient");
+                
                 if (document.getElementById("newPatientCheckbox").checked) {
                     existingPatientField.classList.add("hidden");
                     newPatientField.classList.remove("hidden");
+                    nomField.setAttribute("required", "required");
+                    prenomField.setAttribute("required", "required");
+                    numSecuField.setAttribute("required", "required");
                 } else {
                     existingPatientField.classList.remove("hidden");
                     newPatientField.classList.add("hidden");
+                    nomField.removeAttribute("required");
+                    prenomField.removeAttribute("required");
+                    numSecuField.removeAttribute("required");
                 }
             }
         </script>
@@ -58,10 +68,10 @@
                     
                     <!--                    <input type="text" id="patientId" name="patientId"><br><br>-->
                     <select id="patientId" name="patientId">
-                        <option value="" disabled selected>ID - Login patient</option>
+                        <option value="" disabled selected>ID - Nom patient</option>
                         A l'avenir faudra récupérer le nom patient
                         <%for (Z_PATIENT cp : listPatient) {%>
-                        <option value="<%= cp.getId()%>"><p><%=cp.getId()%> — <%=cp.getLogin()%></p></option>
+                        <option value="<%= cp.getIdpers()%>"><p><%=cp.getIdpers() %> - <%=cp.getNomPersonne() %><%=" "%><%=cp.getPrenomPersonne() %></p></option>
 
                     
 
@@ -70,21 +80,23 @@
                 </div>
 
                 <div id="newPatientField" class="hidden">
-                    <label for="loginPatient">Login :</label>
-                    <input type="text" autocomplete="off"  id="loginPatient" name="loginPatient"><br><br>
+                    <label for="Nom">Nom :</label>
+                    <input type="text" id="nomPersonne" name="nomPersonne" ><br><br>
                     
-                    <!--
-                    Attention au comportement de base du navigateur
-                    Par défaut, l'autocompletion est activé pour le champ password et le champ text qui le précède dans le fieldset
-                    en changeant l'input pour text on désactive ça
-                    sinon, autocomplete="new-password"
+                    <label for="Prenom">Prénom :</label>
+                    <input type="text" id="prenomPersonne" name="prenomPersonne" ><br><br>
                     
-                    -->
-                    <label for="mdpPatient">Mot de passe :</label>
-                    <input type="test" autocomplete="off"  id="mdpPatient" name="mdpPatient"><br><br>
-
+                    <label for="Adresse">Adresse :</label>
+                    <input type="text" id="adressePersonne" name="adressePersonne"><br><br>
+                    
                     <label for="numSecuPatient">Numéro de sécurité sociale :</label>
-                    <input type="text" id="numSecuPatient"  autocomplete="off" name="numSecuPatient"><br><br>
+                    <input type="text" id="numSecuPatient" name="numSecuPatient" ><br><br>
+                    
+                    <label for="NomMutuelle">Mutuelle :</label>
+                    <input type="text" id="nomMutuelle" name="nomMutuelle"><br><br>
+                    
+                    <label for="AdresseMutuelle">Adresse Mutuelle :</label>
+                    <input type="text" id="adresseMutuelle" name="adresseMutuelle"><br><br>
                 </div>
             </fieldset>
 

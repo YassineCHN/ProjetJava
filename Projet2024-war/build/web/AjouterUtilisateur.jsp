@@ -4,6 +4,7 @@
     Author     : charl
 --%>
 
+<%@page import="ENTITE.Z_PERSONNE"%>
 <%@page import="java.util.List"%>
 <%@page import="ENTITE.Service"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -40,7 +41,7 @@
 //            }
 //        }
     </script>
-    <jsp:useBean id="listeservices" scope="request" class="java.util.List"></jsp:useBean>
+    <jsp:useBean id="listepersonnes" scope="request" class="java.util.List"></jsp:useBean>
     </head>
     <body>
         <h1>Hello World!</h1>
@@ -59,30 +60,14 @@
             <option value="PATIENT">PATIENT</option>
             <option value="PERSONNEL">PERSONNEL</option>
         </select><br><br>
-
-        <div id="adminField" class="">
-<!--            hidden si on veut utiliser javascript-->
-            <label for="adminStatusAjouterUser">ADMIN_STATUS :</label>
-            <input type="text" id="adminStatusAjouterUser" name="adminStatusAjouterUser"><br><br>
-        </div>
-
-        <div id="medecinField" class="">
-            <label for="specialiteAjouterUser">SPECIALITE :</label>
-            <input type="text" id="specialiteAjouterUser" name="specialiteAjouterUser"><br><br>
-        </div>
-        <div id="medecinField" class="">
-            <label for="PatientNumSecuSocAjouterUser">Numéro de sécurité sociale :</label>
-            <input type="text" id="PatientNumSecuSocAjouterUser" name="PatientNumSecuSocAjouterUser"><br><br>
-        </div>
-
         
-        <%  List<Service> lesServ=listeservices;%> 
-        <div id="personnelField" class="">
-        <label for="PersonnelServiceAjouterUser">Services : </label> 
-                <select name="PersonnelServiceAjouterUser"> 
+        <%  List<Z_PERSONNE> lesPers=listepersonnes;%> 
+        <div id="personneField" class="">
+        <label for="UserAjouterPersonne">Personne : </label> 
+                <select name="UserAjouterPersonne"> 
                     <option value="">Aucun</option>
-                    <% for (Service s :lesServ) {%> 
-                    <option value ="<%=s.getId()%>"><%=s.getServiceNom()%></option> 
+                    <% for (Z_PERSONNE p :lesPers) {%> 
+                    <option value ="<%=p.getIdpers() %>"> <%= p.getIdpers() %> - <%= p.getNomPersonne() %> <%= p.getPrenomPersonne() %></option> 
                     <% }%> 
                 </select><br><br>
         </div>

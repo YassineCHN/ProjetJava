@@ -32,7 +32,7 @@ public interface ServiceFacadeLocal {
     
         void creerService(String nom, String localisation);
 
-    void modifierService(Long id, String nom, String localisation);
+    void modifierService(Service serv);
 
     void supprimerService(Long id);
 

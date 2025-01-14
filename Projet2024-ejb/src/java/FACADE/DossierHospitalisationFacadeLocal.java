@@ -39,6 +39,8 @@ public interface DossierHospitalisationFacadeLocal {
     void modifierDossierHospitalisation(Long id, Date heureArrivee, Date heureDepart);
 
     void annulerDossierHospitalisation(Long id);
+    
+    void supprimerDossierHospitalisation(Long id);
 
     DossierHospitalisation trouverDossierHospitalisationParId(Long id);
 
