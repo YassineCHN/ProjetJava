@@ -6,6 +6,7 @@ package ENTITE;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -79,6 +80,7 @@ public class Z_USER implements Serializable {
     public String toString() {
         return "ENTITE.Z_USER[ id=" + id + " ]";
     }
+    
     
     private String login;
 

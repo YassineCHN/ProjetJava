@@ -37,7 +37,6 @@
                 <%@ include file="card_GestionService.jsp" %>
                 <%@ include file="card_GestionUtilisateur.jsp" %>
                 <%@ include file="card_GestionPersonne.jsp" %>
-                <%@ include file="card_EspacePersonnel.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
                 <%@ include file="card_GestionFacturation.jsp" %>
                 <%@ include file="card_afficherLignes.jsp" %>
@@ -50,8 +49,12 @@
                 <%@ include file="card_GestionPatient.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
                 <%@ include file="card_EspacePersonnel.jsp" %>
+                <%@ include file="card_EspacePersonnel.jsp" %>
                 <% } else if ("PATIENT".equals(role_utilisateur)) { %>
                 <!-- Cas pour l'utilisateur PATIENT : voir uniquement la carte Espace Patient -->
+                <%@ include file="card_EspacePersonnel.jsp" %>
+                <% } else if ("PERSONNEL".equals(role_utilisateur)) { %>
+                <!-- Cas pour l'utilisateur PERSONNEL -->
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <% } %>
                 <% }%>

@@ -37,7 +37,7 @@ public interface Z_USERFacadeLocal {
 
     Z_USER authentification(String login, String mdp);
 
-    void creerUtilisateur(String login, String mdp, RoleUSER role, Z_PERSONNE personne);
+    boolean creerUtilisateur(String login, String mdp, RoleUSER role, Z_PERSONNE personne);
 
     void mettreAJourUtilisateur(Z_USER user);
 
@@ -48,6 +48,8 @@ public interface Z_USERFacadeLocal {
     public Z_USER trouverUtilisateurParPersonne(Long id);
 
     List<Z_USER> trouverTousLesUtilisateurs();
+    
+    public Z_USER trouverUserParLogin(String login);
 
     void creerAdmin(String login, String mdp, String adminStatus);
 

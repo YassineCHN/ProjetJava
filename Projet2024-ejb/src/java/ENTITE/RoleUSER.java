@@ -9,5 +9,10 @@ package ENTITE;
  * @author ychen
  */
 public enum RoleUSER {
-    ADMIN,MEDECIN,PATIENT,PERSONNEL
+    ADMIN,MEDECIN,PATIENT,PERSONNEL;
+    
+    @Override
+    public String toString() {
+        return this.name(); 
+    }
 }

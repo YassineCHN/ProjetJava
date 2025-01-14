@@ -340,12 +340,28 @@ public class NewServlet extends HttpServlet {
                         request.setAttribute("erreur", "Le rôle sélectionné ne correspond pas au type de la personne.");
                         List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverToutesLesPersonnes(); // Charger la liste des personnes
                         request.setAttribute("listepersonnes", listePersonnes);
-                        request.getRequestDispatcher("AjouterUtilisateur.jsp").forward(request, response);
+                        request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
                         return;
                     }
                 }
-                // Si la vérification est réussie, créer l'utilisateur
-                z_USER_BEAN.creerUtilisateur(login, mdp,role,pers);
+                
+                boolean utilisateurCree = z_USER_BEAN.creerUtilisateur(login, mdp, role, pers);
+                 if (!utilisateurCree) {        // Si l'utilisateur n'a pas été créé, afficher un message d'erreur
+                     request.setAttribute("erreur", "Ce login existe déjà.");
+                     List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverToutesLesPersonnes();
+                     request.setAttribute("listepersonnes", listePersonnes);
+                     request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
+                     return;
+    }
+
+    if (!utilisateurCree) {
+        // Si l'utilisateur n'a pas été créé, afficher un message d'erreur
+        request.setAttribute("erreur", "Ce login existe déjà.");
+        List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverToutesLesPersonnes();
+        request.setAttribute("listepersonnes", listePersonnes);
+        request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
+        return;
+    }
         }
         else if (act.equals("creerPersonne")) {
                 jspClient="/landing_page.jsp";
@@ -485,6 +501,26 @@ public class NewServlet extends HttpServlet {
                 request.setAttribute("message", "Personne non trouvée.");
             } 
         }
+        else if (act.equals("afficherInfosPerso")) {
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            if (utilisateurIdentifie != null) {
+                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                if (user != null) {
+                    Z_PERSONNE personne = user.getPersonne();
+                    request.setAttribute("personne", personne);
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
+                    jspClient = "/EspacePersonnel.jsp";
+                } else {
+                    jspClient = "/login.jsp";
+                    request.setAttribute("message", "Utilisateur introuvable. Veuillez vous reconnecter.");
+                }
+            } else {
+                jspClient = "/login.jsp";
+                request.setAttribute("message", "Veuillez vous connecter pour accéder à votre espace.");
+            }
+        }
+
         else if (act.equals("creerService")) {
             jspClient="/landing_page.jsp";
             String nomService = request.getParameter("nomService");

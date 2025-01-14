@@ -25,11 +25,11 @@
         List<Service> services = (List<Service>) request.getAttribute("listeServices");
         String typePersonne = "";
         if (pers instanceof Z_MEDECIN) {
-            typePersonne = "Médecin";
+            typePersonne = "MEDECIN";
         } else if (pers instanceof Z_PATIENT) {
-            typePersonne = "Patient";
+            typePersonne = "PATIENT";
         } else if (pers instanceof Z_PERSONNEL) {
-            typePersonne = "Personnel";
+            typePersonne = "PERSONNEL";
         }
     %>
 

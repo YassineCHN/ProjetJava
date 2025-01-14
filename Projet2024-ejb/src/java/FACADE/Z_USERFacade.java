@@ -13,6 +13,7 @@ import ENTITE.Z_PERSONNE;
 import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import java.util.List;
+import javax.ejb.ApplicationException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +24,7 @@ import javax.persistence.Query;
  * @author charl
  */
 @Stateless
+@ApplicationException(rollback = false)
 public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacadeLocal {
 
     @PersistenceContext(unitName = "Projet2024-ejbPU")
@@ -61,7 +63,14 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
     }
 
     @Override
-    public void creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE personne) {
+    public boolean creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE personne) {
+        String txt = "SELECT u FROM Z_USER u WHERE u.login = :login";
+        Query req = em.createQuery(txt);
+        req.setParameter("login", login);
+        List<Z_USER> result = req.getResultList();
+        if (result != null && !result.isEmpty()) {
+            return false;
+        }
         Z_USER user = new Z_USER();
         user.setLogin(login);
         user.setMdp(mdp);
@@ -69,6 +78,7 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
         user.setPersonne(personne);
         
         getEntityManager().persist(user);
+        return true;
     }
     
 
@@ -151,8 +161,24 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
 //        user.setSpecialite(specialite);
 //        getEntityManager().persist(user);
 //    }
+    
+    public Z_USER trouverUserParLogin(String login) {
+    Z_USER user = null;
+        String txt = "SELECT u from Z_USER as u where u.login=:variable";
+        Query req = em.createQuery(txt);
+        req.setParameter("variable",login);
+        List<Z_USER> result = req.getResultList();
+        if (result.size()==0 || result==null) {
+            return null;
+        }
+        else if (result.size()==1){
+            user = result.get(0);
+            return user;
+        }
+        return user;
+    }
 
-
+    
     @Override
     public void creerAdmin(String login, String mdp, String adminStatus) {
         System.out.println("appel de la méthode creerAdmin");

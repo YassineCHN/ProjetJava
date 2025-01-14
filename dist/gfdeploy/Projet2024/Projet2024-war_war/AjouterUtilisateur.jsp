@@ -44,7 +44,13 @@
     <jsp:useBean id="listepersonnes" scope="request" class="java.util.List"></jsp:useBean>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Ajouter un utilisateur</h1>
+        <% if (request.getAttribute("erreur") != null) { %>
+        <div class="alert alert-danger">
+            <%= request.getAttribute("erreur") %>
+        </div>
+        <% } %>
+        
         <form action="NewServlet" method="post">
         <label for="loginAjouterUser">Login :</label>
         <input type="text" id="loginAjouterUser" name="loginAjouterUser" required><br><br>

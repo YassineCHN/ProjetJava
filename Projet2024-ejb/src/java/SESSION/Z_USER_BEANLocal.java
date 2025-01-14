@@ -26,6 +26,8 @@ public interface Z_USER_BEANLocal {
     Z_USER Z_authentificationUtilisateur(String login, String mdp);
 
     List<Z_USER> trouverTousLesUtilisateurs();
+    
+    public Z_USER trouverUserParLogin(String login);
 
     void creerAdmin(String login, String mdp, String adminStatus);
 
@@ -35,7 +37,7 @@ public interface Z_USER_BEANLocal {
 
     Z_PATIENT trouverPatientParNumSecu(String numSecu);
     
-    void creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE pers);
+    boolean creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE pers);
 
     public void creerPersonne(String nom, String prenom,String adresse);
     
