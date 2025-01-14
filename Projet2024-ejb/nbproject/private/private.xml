@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/Z_PERSONNEFacade.java</file>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/SESSION/Z_USER_BEANLocal.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/Z_PATIENT.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/Z_USERFacade.java</file>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/SESSION/Z_USER_BEAN.java</file>
             <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/Z_PERSONNE.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/conf/persistence.xml</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/Z_USER.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/Z_PERSONNEFacadeLocal.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/FACADE/Z_USERFacadeLocal.java</file>
-            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/Z_MEDECIN.java</file>
+            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/Z_PERSONNEL.java</file>
+            <file>file:/C:/Users/ychen/OneDrive/Documents/GitHub/ProjetJava/Projet2024-ejb/src/java/ENTITE/Z_ADMIN.java</file>
         </group>
     </open-files>
 </project-private>
