@@ -57,6 +57,12 @@
             <br>
             <br>
             
+             <div class="cards_page_content">
+            <%@ include file="card_GestionPatient.jsp" %>
+            <%@ include file="card_GestionMedecin.jsp" %>
+            <%@ include file="card_GestionPersonnel.jsp" %>
+
+            </div>
     <hr>
         </div>
     </body>

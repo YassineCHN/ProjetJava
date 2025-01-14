@@ -178,6 +178,6 @@ public void creerMedecin(String nom, String prenom, String adresse, String speci
     }
     
     public List<Z_PERSONNEL> trouverTousLesPersonnels() {
-        return em.createQuery("SELECT s FROM Z_PERSONNEL as p where p.id IS NOT NULL", Z_PERSONNEL.class).getResultList();
+        return em.createQuery("SELECT p FROM Z_PERSONNEL as p where p.idpers IS NOT NULL", Z_PERSONNEL.class).getResultList();
     }
 }

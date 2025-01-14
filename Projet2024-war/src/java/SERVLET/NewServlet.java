@@ -156,6 +156,12 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("listePatients", lesPatients);
             request.setAttribute("message", "Liste des patients existants");
         }
+        else if (act.equals("afficherPersonnels")){
+            jspClient = "/GestionPersonnel.jsp";
+            List<Z_PERSONNEL> lesPersonnels = z_USER_BEAN.trouverTousLesPersonnels();
+            request.setAttribute("listePersonnels", lesPersonnels);
+            request.setAttribute("message", "Liste des membres du personnels existants");
+        }
         else if (act.equals("afficherDossiers")){
             jspClient = "/GestionDossier.jsp";
             List<DossierHospitalisation> lesDossiers =  gestionDossierHospitalisation.afficherDossier();

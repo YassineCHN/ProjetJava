@@ -31,9 +31,7 @@
                 <% if (utilisateurIdentifie0 != null) { %>
                 <!-- Cas pour l'utilisateur ADMIN : voir toutes les cartes de gestion -->
                 <% if ("ADMIN".equals(role_utilisateur)) { %>
-                <%@ include file="card_GestionPatient.jsp" %>
                 <%@ include file="card_GestionActe.jsp" %>
-                <%@ include file="card_GestionMedecin.jsp" %>
                 <%@ include file="card_GestionService.jsp" %>
                 <%@ include file="card_GestionUtilisateur.jsp" %>
                 <%@ include file="card_GestionPersonne.jsp" %>
