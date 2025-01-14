@@ -7,8 +7,10 @@ package SESSION;
 import ENTITE.Acte;
 import java.util.List;
 import ENTITE.DossierHospitalisation;
+import ENTITE.Facture;
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_USER;
 import java.util.Date;
 import javax.ejb.Local;
 
@@ -28,6 +30,10 @@ public interface GestionDossierHospitalisationLocal {
     void annulerDossierHospitalisation(Long id) ;
 
     void creerDossier(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart);
+
+    DossierHospitalisation trouverDossierParPatient(Z_USER user);
+
+    
 
     
 

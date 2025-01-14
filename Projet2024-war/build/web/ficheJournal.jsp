@@ -15,16 +15,7 @@
     
     // Pour formatter les dates des lignes existantes
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    System.out.println(lignes.size());
-                System.out.println(lignes.size());
-                System.out.println(lignes.size());
-                System.out.println(lignes.size());
-                System.out.println(lignes.size());
-                System.out.println(lignes.size());
-                System.out.println(lignes.size());
-                System.out.println(lignes.size());
-                System.out.println(lignes.size());
-                System.out.println(lignes.size());
+ 
 %>
 
 <!DOCTYPE html>
@@ -69,6 +60,15 @@
 </head>
 <body>
     <h1>Détails du journal</h1>
+    
+    
+    <form action="NewServlet">
+        <input type="hidden" id="id_creerFacture" name="id_supprimerDossier" value="<%=Long.toString(journal.getId())%>">
+        <input type="hidden" name="action" value="creerFacture">
+        <!-- Attention à quel id on prend... -->
+        <input type="hidden" name="id_dossierCreerFacture" value="<%= (journal != null) ? journal.getDossier().getId(): "" %>">
+        <input type="submit" value="Creer la facture" />
+    </form>
 
     <form action="NewServlet" method="post" name="entete_journal">
         <fieldset>
@@ -93,6 +93,11 @@
             <input type="text" id="utilisateur_ficheJournal" name="utilisateur_ficheJournal"
                    value="<%= (journal != null && journal.getUtilisateurCreateur() != null)
                                 ? journal.getUtilisateurCreateur().getId() : "" %>" readonly>
+            <br><br>
+            <label for="statut_ficheJournal">Statut journal</label>
+            <input type="text" id="statut_ficheJournal" name="statut_ficheJournal"
+                   value="<%= (journal != null && journal.getStatut()!= null)
+                                ? journal.getStatut() : "" %>" readonly>
             <br><br>
         </fieldset>
     </form>

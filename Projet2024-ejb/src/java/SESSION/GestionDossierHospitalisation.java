@@ -6,8 +6,10 @@ package SESSION;
 
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
+import ENTITE.Facture;
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_USER;
 import ENTITE.statutDossier;
 import FACADE.DossierHospitalisationFacadeLocal;
 import java.util.Date;
@@ -58,6 +60,12 @@ public class GestionDossierHospitalisation implements GestionDossierHospitalisat
         dossierHospitalisationFacade.creerDossierHospitalisation(patient, service ,dateHospitalisation,heureArrivee,heureDepart );
     }
 
+    @Override
+    public DossierHospitalisation trouverDossierParPatient(Z_USER user) {
+        return dossierHospitalisationFacade.trouverDossierParPatient(user);
+    }
+
+   
     
     
 }

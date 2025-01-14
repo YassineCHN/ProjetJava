@@ -8,8 +8,11 @@ package SERVLET;
 //import ENTITE.Acte;
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
+import ENTITE.Facture;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.ModePaiement;
+import ENTITE.Paiement;
 
 import ENTITE.Service;
 
@@ -18,8 +21,10 @@ import ENTITE.Z_PATIENT;
 import ENTITE.Z_USER;
 import SESSION.GestionActeLocal;
 import SESSION.GestionDossierHospitalisationLocal;
+import SESSION.GestionFactureLocal;
 import SESSION.GestionJournalActeLocal;
 import SESSION.GestionLigneLocal;
+import SESSION.GestionPaiementLocal;
 import SESSION.GestionServiceLocal;
 
 import SESSION.Z_USER_BEANLocal;
@@ -42,6 +47,12 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "NewServlet", urlPatterns = {"/NewServlet"})
 public class NewServlet extends HttpServlet {
+
+    @EJB
+    private GestionPaiementLocal gestionPaiement;
+
+    @EJB
+    private GestionFactureLocal gestionFacture;
 
     @EJB
     private GestionLigneLocal gestionLigne;
@@ -175,10 +186,6 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("listeActe", lesActes);
             request.setAttribute("message", "Liste des Actes existants");
         }
-        else if (act.equals("afficherFactures")) {
-            jspClient = "/GestionFacturation.jsp";
-            
-        }
         else if (act.equals("afficherFicheUtilisateur")) {
             jspClient = "/ficheUtilisateur.jsp";
             String test = request.getParameter("id_utilisateur");
@@ -239,6 +246,29 @@ public class NewServlet extends HttpServlet {
             jspClient = "/GestionJournal.jsp";
             List<JournalActe> journaux = (List<JournalActe>) gestionJournalActe.trouverTousLesJournaux();
             request.setAttribute("lesJournaux", journaux);
+        }
+        else if (act.equals("afficherFactures")) {
+            jspClient = "/GestionFacture.jsp";
+            List<Facture> factures = (List<Facture>) gestionFacture.trouverToutesFactures();
+            request.setAttribute("listeFacture", factures);
+        }
+        else if (act.equals("afficherEspacePatient")){
+            jspClient="/landing_page.jsp";
+            Long test = (Long) session.getAttribute("id_user");
+            Z_USER user = z_USER_BEAN.trouverUtilisateurParId(test);
+            
+            if(user!= null){
+                jspClient="/EspacePatient.jsp";
+                DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParPatient(user);
+                Facture facture = gestionFacture.trouverFactureParDossier(dossier);
+                request.setAttribute("patient", user);
+                request.setAttribute("dossier", dossier);
+                request.setAttribute("facture", facture);
+            }
+            else {
+                jspClient="/landing_page.jsp";
+            }
+            
         }
         
         else if (act.equals("supprimerService")) {
@@ -388,6 +418,11 @@ public class NewServlet extends HttpServlet {
             
             DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(id_dossier));
             JournalActe JournalExistant = gestionJournalActe.trouverJournalParDossier(dossier);
+            System.out.println("======================");
+            System.out.println("Journal existant ?");
+            System.out.println(JournalExistant.getId());
+            System.out.println("======================");
+            
             
             if (JournalExistant != null) {
                 // Le journal existe déjà, on ne le recrée pas
@@ -500,6 +535,61 @@ public class NewServlet extends HttpServlet {
              }
 //  
              
+        }
+        else if (act.equals("payerFacture")){
+            jspClient="/landing_page.jsp";
+            String id_facture = request.getParameter("id_payerFacture");
+            Facture laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
+            
+            if(laFacture != null){
+//                on paye la facture
+
+                Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(), ModePaiement.VIREMENT, laFacture);
+            }
+            else {
+                
+            }
+        }
+        
+        
+        
+        
+        
+        
+        else if (act.equals("creerFacture")) { 
+            
+            jspClient = "/ficheFacture.jsp";
+            String idDossier = request.getParameter("id_dossierCreerFacture");
+            Long idJournal = Long.valueOf(request.getParameter("id_supprimerDossier"));
+
+            
+            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(idDossier));
+            
+            Facture factureExistant = gestionFacture.trouverFactureParDossier(dossier);
+            
+//            La facture existe déjà, on la recrée pas
+            if(factureExistant != null){
+                
+                Facture factureCreee = factureExistant;
+                request.setAttribute("facture", factureCreee);
+            }
+//            La facture n'existe pas, on la crée
+            else {
+                Facture factureCreee = gestionFacture.creerFacturePourJournal(idJournal);
+
+                request.setAttribute("facture", factureCreee);
+                if (factureCreee != null) {
+                    request.setAttribute("message", "Facture créée avec succès ! Montant = " + factureCreee.getFactureMontant());
+
+                } else {
+                    request.setAttribute("message", "Impossible de créer la facture (journal invalide ou non VALIDE).");
+                }
+            }
+            
+            
+            
+            
+            
         }
 
         

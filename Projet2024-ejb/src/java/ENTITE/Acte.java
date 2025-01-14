@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Acte implements Serializable {
 
+    
+    
     @OneToMany(mappedBy = "id_acte")
     private List<LigneJournal> ligneJournals;
 

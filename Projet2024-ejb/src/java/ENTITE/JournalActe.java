@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -23,6 +24,9 @@ import javax.persistence.Temporal;
  */
 @Entity
 public class JournalActe implements Serializable {
+
+    @OneToOne(mappedBy = "leJournal")
+    private Facture facture;
 
     @OneToMany(mappedBy = "id_journal")
     public List<LigneJournal> ligneJournals;

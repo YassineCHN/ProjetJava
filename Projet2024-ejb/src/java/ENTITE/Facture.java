@@ -21,6 +21,9 @@ import javax.persistence.Temporal;
 @Entity
 public class Facture implements Serializable {
 
+    @OneToOne(mappedBy = "laFacture")
+    private Paiement paiement;
+
     
 
     private static final long serialVersionUID = 1L;
@@ -104,5 +107,15 @@ public class Facture implements Serializable {
     }
 
     
-    
+    @OneToOne
+        private JournalActe leJournal;
+
+    public JournalActe getLeJournal() {
+        return leJournal;
+    }
+
+    public void setLeJournal(JournalActe leJournal) {
+        this.leJournal = leJournal;
+    }
+
 }

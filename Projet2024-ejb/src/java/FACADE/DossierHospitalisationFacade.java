@@ -4,11 +4,12 @@
  */
 package FACADE;
 
-import ENTITE.Acte;
+
 import ENTITE.DossierHospitalisation;
 
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_USER;
 import ENTITE.statutDossier;
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,6 +97,15 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     @Override
     public void mergeDossier(DossierHospitalisation dossier) {
         em.merge(dossier);
+    }
+
+    @Override
+    public DossierHospitalisation trouverDossierParPatient(Z_USER user) {
+        try {
+            return em.createQuery("SELECT s FROM DossierHospitalisation s WHERE s.lePatient = :variable", DossierHospitalisation.class).setParameter("variable", user).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     

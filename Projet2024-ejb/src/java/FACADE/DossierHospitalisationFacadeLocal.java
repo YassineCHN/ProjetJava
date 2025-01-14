@@ -9,6 +9,7 @@ import ENTITE.DossierHospitalisation;
 
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_USER;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -45,4 +46,6 @@ public interface DossierHospitalisationFacadeLocal {
     List<DossierHospitalisation> trouverTousLesDossiers();
 
     void mergeDossier(DossierHospitalisation dossier);
+
+    DossierHospitalisation trouverDossierParPatient(Z_USER id);
 }
