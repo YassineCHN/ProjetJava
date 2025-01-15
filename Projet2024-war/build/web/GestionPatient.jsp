@@ -65,7 +65,7 @@
                 </tr>
             <% } %>
         </TABLE> 
-    <td Width=25%><A HREF="landing_page.jsp" class="button_link"> Retour
+        <td Width=25%><A HREF="NewServlet?action=afficherPersonnes" class="button_link"> Retour
             Menu</A></td>
             <br>
             <br>
