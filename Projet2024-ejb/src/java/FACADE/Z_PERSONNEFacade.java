@@ -85,6 +85,19 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
         return pers;
     }
 
+    public List<Z_PERSONNE> trouverPersonnesSansUtilisateur() {
+        String txt = "SELECT p FROM Z_PERSONNE p WHERE NOT EXISTS (SELECT u FROM Z_USER u WHERE u.personne.idpers = p.idpers)";
+        return em.createQuery(txt, Z_PERSONNE.class).getResultList();
+    }
+    
+    public boolean personneHasUser(Long idPersonne) {
+        String txt = "SELECT COUNT(u) FROM Z_USER u WHERE u.personne.idpers = :idPersonne";
+        Query query = em.createQuery(txt);
+        query.setParameter("idPersonne", idPersonne);
+
+        Long count = (Long) query.getSingleResult();
+        return count > 0; // Retourne true si au moins un utilisateur est associé
+    }
     
     public List<Z_PERSONNE> trouverToutesLesPersonnes() {
         return em.createQuery("SELECT s FROM Z_PERSONNE s", Z_PERSONNE.class).getResultList();

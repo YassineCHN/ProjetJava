@@ -135,7 +135,7 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("message", "Liste des Personnes existants");
         }
         else if (act.equals("ajouterUtilisateur")) {
-            List <Z_PERSONNE> list = z_USER_BEAN.trouverToutesLesPersonnes() ; 
+            List <Z_PERSONNE> list = z_USER_BEAN.trouverPersonnesSansUtilisateur(); 
             request.setAttribute("listepersonnes",list); 
             jspClient="/AjouterUtilisateur.jsp"; 
         }
@@ -336,6 +336,15 @@ public class NewServlet extends HttpServlet {
                 if(persparam!=null&& !persparam.trim().isEmpty()){
                     Long persId= Long.parseLong(persparam);
                     pers=z_USER_BEAN.trouverPersonneParId(persId);
+                    
+                    // Validation pour vérifier si la personne a déjà un utilisateur
+                    if (pers != null && z_USER_BEAN.personneHasUser(persId)) {
+                        request.setAttribute("erreur", "Cette personne a déjà un utilisateur associé.");
+                        List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverPersonnesSansUtilisateur();
+                        request.setAttribute("listepersonnes", listePersonnes);
+                        request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
+                        return;
+                    }
                 }
                 if (role != RoleUSER.ADMIN && pers != null) {
                     String typePersonne = pers.getTYPE(); 

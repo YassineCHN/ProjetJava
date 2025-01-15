@@ -73,7 +73,7 @@
                 <select name="UserAjouterPersonne"> 
                     <option value="">Aucun</option>
                     <% for (Z_PERSONNE p :lesPers) {%> 
-                    <option value ="<%=p.getIdpers() %>"> <%= p.getIdpers() %> - <%= p.getNomPersonne() %> <%= p.getPrenomPersonne() %></option> 
+                    <option value ="<%=p.getIdpers() %>"> <%= p.getIdpers() %> - <%= p.getNomPersonne() %> <%= p.getPrenomPersonne() %> (<%= p.getTYPE()%>)</option> 
                     <% }%> 
                 </select><br><br>
         </div>

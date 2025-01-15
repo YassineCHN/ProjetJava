@@ -91,6 +91,14 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
         return z_PERSONNEFacade.trouverToutesLesPersonnes();
     }
     
+    public List<Z_PERSONNE> trouverPersonnesSansUtilisateur() {
+        return z_PERSONNEFacade.trouverPersonnesSansUtilisateur();
+    }
+    
+    public boolean personneHasUser(Long idPersonne) {
+        return z_PERSONNEFacade.personneHasUser(idPersonne);
+    }
+    
     public List<Z_MEDECIN> trouverTousLesMedecins() {
         return z_PERSONNEFacade.trouverTousLesMedecins();
     }
