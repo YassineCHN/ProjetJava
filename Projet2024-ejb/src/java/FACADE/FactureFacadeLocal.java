@@ -4,7 +4,10 @@
  */
 package FACADE;
 
+import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
+import ENTITE.JournalActe;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -28,5 +31,15 @@ public interface FactureFacadeLocal {
     List<Facture> findRange(int[] range);
 
     int count();
-    
+     Facture creerFacturePourJournal(Date factureDateEmissions, Double montant, boolean statutFacture, DossierHospitalisation leDossier,JournalActe journal);
+
+    List<Facture> trouverToutesFactures();
+
+    Facture trouverFactureParDossier(DossierHospitalisation dossier);
+
+    Facture trouverFactureParID(Long id);
+
+//    Facture trouverFactureParPatient(DossierHospitalisation dossier);
+
+    void validerFacturePaiement(Facture facture);
 }

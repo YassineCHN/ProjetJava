@@ -4,11 +4,12 @@
  */
 package FACADE;
 
-import ENTITE.Acte;
+
 import ENTITE.DossierHospitalisation;
 
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_USER;
 import ENTITE.statutDossier;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,24 +69,6 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
             em.merge(dossier);
         }
     }
-    
-    public void supprimerDossierHospitalisation(Long id){
-        DossierHospitalisation dossier = em.find(DossierHospitalisation.class, id);
-        if (dossier != null) {
-            // Si un service est rattaché au dossier, on le détache (set à null)
-            if (dossier.getLeService() != null) {
-                dossier.setLeService(null);
-            }
-            // Si un patient est rattaché au dossier, on le détache (set à null)
-            if (dossier.getLePatient() != null) {
-                dossier.setLePatient(null);
-            }
-        em.remove(dossier);
-        } else {
-            // Si le dossier n'est pas trouvé 
-            throw new RuntimeException("Dossier d'hospitalisation introuvable avec l'ID: " + id);
-        }
-    }
 
     @Override
     public DossierHospitalisation trouverDossierHospitalisationParId(Long id) {
@@ -114,6 +97,25 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     @Override
     public void mergeDossier(DossierHospitalisation dossier) {
         em.merge(dossier);
+    }
+
+    @Override
+    public DossierHospitalisation trouverDossierParPatient(Z_USER user) {
+        try {
+            return em.createQuery("SELECT s FROM DossierHospitalisation s WHERE s.lePatient = :variable", DossierHospitalisation.class).setParameter("variable", user).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void supprimerDossierHospitalisation(Long id) {
+        try {
+            DossierHospitalisation result = em.createQuery("SELECT s FROM DossierHospitalisation s WHERE s.id = :variable", DossierHospitalisation.class).setParameter("variable", id).getSingleResult();
+            em.remove(result);
+        } catch (Exception e) {
+            
+        }
     }
     
     
