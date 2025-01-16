@@ -1,8 +1,9 @@
-<%-- 
-    Document   : AjouterActe
+
+   
+<!--Document   : AjouterActe
     Created on : 01 janv. 2025, 23:18:00
-    Author     : votrenom
---%>
+    Author     : votrenom-->
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="navbar.jsp" %>

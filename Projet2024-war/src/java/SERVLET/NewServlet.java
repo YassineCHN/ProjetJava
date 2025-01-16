@@ -8,8 +8,11 @@ package SERVLET;
 //import ENTITE.Acte;
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
+import ENTITE.Facture;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.ModePaiement;
+import ENTITE.Paiement;
 import ENTITE.RoleUSER;
 
 import ENTITE.Service;
@@ -21,8 +24,10 @@ import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import SESSION.GestionActeLocal;
 import SESSION.GestionDossierHospitalisationLocal;
+import SESSION.GestionFactureLocal;
 import SESSION.GestionJournalActeLocal;
 import SESSION.GestionLigneLocal;
+import SESSION.GestionPaiementLocal;
 import SESSION.GestionServiceLocal;
 
 import SESSION.Z_USER_BEANLocal;
@@ -47,6 +52,12 @@ import javax.servlet.http.HttpSession;
 public class NewServlet extends HttpServlet {
 
     @EJB
+    private GestionPaiementLocal gestionPaiement;
+
+    @EJB
+    private GestionFactureLocal gestionFacture;
+
+    @EJB
     private GestionLigneLocal gestionLigne;
 
     @EJB
@@ -64,7 +75,7 @@ public class NewServlet extends HttpServlet {
     @EJB
     private Z_USER_BEANLocal z_USER_BEAN;
    
-
+    
     
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -193,6 +204,8 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("afficherFactures")) {
             jspClient = "/GestionFacturation.jsp";
+            List<Facture> factures = (List<Facture>) gestionFacture.trouverToutesFactures();
+            request.setAttribute("listeFacture", factures);
             
         }
         else if (act.equals("afficherFicheUtilisateur")) {
@@ -702,8 +715,63 @@ public class NewServlet extends HttpServlet {
             jspClient="/EspacePersonnel.jsp";
         }
 
-        
-        
+        else if (act.equals("payerFacture")){
+            jspClient="/landing_page.jsp";
+            String id_facture = request.getParameter("id_payerFacture");
+            Facture laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
+            
+            if(laFacture != null){
+//                on paye la facture
+
+                Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(), ModePaiement.VIREMENT, laFacture);
+                
+            }
+            else {
+                
+            }
+        }
+        else if (act.equals("creerFacture")) { 
+            
+            jspClient = "/ficheFacture.jsp";
+            String idDossier = request.getParameter("id_dossierCreerFacture");
+            Long idJournal = Long.valueOf(request.getParameter("id_supprimerDossier"));
+
+            System.out.println("ID DU JOURNAL");
+            System.out.println(idJournal);
+            System.out.println("ID DU JOURNAL");
+            System.out.println("ID DU DOSSIER");
+            System.out.println(idDossier);
+            System.out.println("ID DU DOSSIER");
+            
+            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(idDossier));
+            
+            Facture factureExistant = gestionFacture.trouverFactureParDossier(dossier);
+            
+//            La facture existe déjà, on la recrée pas
+            if(factureExistant != null){
+                
+                Facture factureCreee = factureExistant;
+                request.setAttribute("facture", factureCreee);
+            }
+//            La facture n'existe pas, on la crée
+            else {
+                Facture factureCreee = gestionFacture.creerFacturePourJournal(idJournal);
+
+                request.setAttribute("facture", factureCreee);
+                if (factureCreee != null) {
+                    request.setAttribute("message", "Facture créée avec succès ! Montant = " + factureCreee.getFactureMontant());
+
+                } else {
+                    request.setAttribute("message", "Impossible de créer la facture (journal invalide ou non VALIDE).");
+                }
+            }
+            
+            
+            
+            
+            
+        }
+
         
         
         
