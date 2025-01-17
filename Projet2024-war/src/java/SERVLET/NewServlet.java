@@ -22,6 +22,7 @@ import ENTITE.Z_PATIENT;
 import ENTITE.Z_PERSONNE;
 import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
+import ENTITE.statutJournal;
 import SESSION.GestionActeLocal;
 import SESSION.GestionDossierHospitalisationLocal;
 import SESSION.GestionFactureLocal;
@@ -208,6 +209,12 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("listeFacture", factures);
             
         }
+        else if (act.equals("afficherFicheFacture")){
+            jspClient ="/ficheFacture.jsp";
+            String id_facture = (String) request.getParameter("id_Facture");
+            Facture facture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
+            request.setAttribute("facture", facture);
+        }
         else if (act.equals("afficherFicheUtilisateur")) {
             jspClient = "/ficheUtilisateur.jsp";
             String test = request.getParameter("id_utilisateur");
@@ -270,7 +277,13 @@ public class NewServlet extends HttpServlet {
             Long id_journal_bis = Long.valueOf(id_journal);
             
             JournalActe journal = gestionJournalActe.trouverJournalParId(id_journal_bis);
-            request.setAttribute("ficheJournal", journal);
+            request.setAttribute("journal_object", journal);
+            
+            List<Acte> lesActes = gestionActe.trouverTousLesActes();
+            request.setAttribute("listeActeJournal", lesActes);
+            
+            List<LigneJournal> lignes = gestionLigne.listerLignesParJournal(journal.getId());
+        request.setAttribute("lignes_journals", lignes);
         }
         else if (act.equals("afficherLignes")) {
             jspClient = "/afficherLignes.jsp";
@@ -621,16 +634,20 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("ajouterLignesJournal")){
             jspClient="/landing_page.jsp";
-            
+//            on récupère dans chaque variable plusieurs strings
+             
              String[] commentaires_acte = request.getParameterValues("commentaire[]"); 
              String[] date_acte = request.getParameterValues("date[]");
              String[] quantite_acte = request.getParameterValues("quantite[]");
              String[] idActe_acte = request.getParameterValues("id_acte[]");
              String idjournal = (String) request.getParameter("id_journal");
-             if(commentaires_acte.length != date_acte.length || commentaires_acte.length != quantite_acte.length || commentaires_acte.length != idActe_acte.length){
+             JournalActe journal2 = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
+//             il faut que toutes les lignes soient saisies, c'est à dire que le nombre de champs remplis par type de champ soit égale
+             if(commentaires_acte.length != date_acte.length || commentaires_acte.length != quantite_acte.length || commentaires_acte.length != idActe_acte.length || journal2.getStatut() == statutJournal.Validé){
                  jspClient="/landing_page.jsp";
-                 String message = "ERREUR CHAMPS MANQUANTS";
+                 String message = "ERREUR CHAMPS MANQUANTS OU LE JOURNAL N'EST PLUS MODIFIABLE";
                  System.out.println("erreur au niveau des lignes, les lignes ne sont pas toutes pleines");
+                 System.out.println("Sinon c'est que le journal est déjà validé et que donc l'ajout de ligne est interdit");
              } else {
                  for(int i = 0; i<commentaires_acte.length;i++) {
                      String commentaire = commentaires_acte[i];
@@ -720,11 +737,13 @@ public class NewServlet extends HttpServlet {
             String id_facture = request.getParameter("id_payerFacture");
             Facture laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
             
-            if(laFacture != null){
+            
+            
+            if(laFacture != null && laFacture.isFacturePayee()==false){
 //                on paye la facture
 
                 Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(), ModePaiement.VIREMENT, laFacture);
-                
+                gestionFacture.validerFacturePaiement(laFacture);
             }
             else {
                 

@@ -40,19 +40,19 @@
                     <!-- Dans chaque ligne du tableau, on récupère les informations du patient qu'on encapsule dans une balise <a> -->
                     <!-- Cette balise redirige vers la jsp "fichePatient.jsp" avec dans l'URL l'id du patient -->
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getId() %></a>
+                        <a href="NewServlet?action=afficherFicheFacture&id_Facture=<%= cp.getId() %>"><%= cp.getId() %></a>
                     </td>
                     <td Width=15%>
-                        <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getFactureDateEmissions()%></a>
+                        <a href="NewServlet?action=afficherFicheFacture&id_Facture=<%= cp.getId() %>"><%= cp.getFactureDateEmissions()%></a>
                     </td>
                     <td Width=30%>
-                        <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getFactureMontant()%></a>
+                        <a href="NewServlet?action=afficherFicheFacture&id_Facture=<%= cp.getId() %>"><%= cp.getFactureMontant()%></a>
                     </td>
                     <td Width=30%>
-                        <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getLeDossier().getId()%></a>
+                        <a href="NewServlet?action=afficherFicheFacture&id_Facture=<%= cp.getId() %>"><%= cp.getLeDossier().getId()%></a>
                     </td>
                     <td Width=30%>
-                        <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getLeJournal().getId()%></a>
+                        <a href="NewServlet?action=afficherFicheFacture&id_Facture=<%= cp.getId() %>"><%= cp.getLeJournal().getId()%></a>
                     </td>
                 </tr>
             <% } %>

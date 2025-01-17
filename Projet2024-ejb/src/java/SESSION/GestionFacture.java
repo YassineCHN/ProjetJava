@@ -106,6 +106,11 @@ public class GestionFacture implements GestionFactureLocal {
         return factureFacade.trouverFactureParID(id);
     }
 
+    @Override
+    public void validerFacturePaiement(Facture facture) {
+        factureFacade.validerFacturePaiement(facture);
+    }
+
     
     
 }

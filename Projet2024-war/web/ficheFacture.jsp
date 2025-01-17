@@ -7,6 +7,13 @@
     // Récupération de la facture depuis la requête
     Facture facture = (Facture) request.getAttribute("facture");
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String statutFacture;
+    if (facture.isFacturePayee()==true){
+        statutFacture ="Payée";
+    }
+    else {
+        statutFacture = "Impayée";
+    }
 %>
 
 <!DOCTYPE html>
@@ -64,6 +71,12 @@
                                 : "" %>"
                        disabled>
                 <br><br>
+                <!-- Statut facture -->
+                <label for="facture_patient">Statut de la facture :</label>
+                <input type="text" id="facture_patient" name="facture_patient"
+                       value="<%=statutFacture%>"
+                       disabled>
+                <br><br>
                 
                 <!-- Action cachée pour indiquer la modification de la facture -->
                 <input type="hidden" name="action" value="modifierFacture">
@@ -80,7 +93,9 @@
         <form action="NewServlet" method="post">
             <input type="hidden" name="id_payerFacture" value="<%= facture.getId() %>">
             <input type="hidden" name="action" value="payerFacture">
-            <input type="submit" value="Payer la facture (virement)">
+            <input type="submit" value="Payer la facture (virement)"
+                   <%= (facture != null && facture.isFacturePayee() == true ) ? "disabled" : ""%>>
+            <p><%= (facture != null && facture.isFacturePayee() == true ) ? "La facture est payée, repayer n'est plus possible" : ""%></p>
         </form>
         
     <%

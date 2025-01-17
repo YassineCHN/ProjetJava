@@ -90,5 +90,14 @@ public class FactureFacade extends AbstractFacade<Facture> implements FactureFac
 
     @Override
     public void validerFacturePaiement(Facture facture) {
+        if(facture!= null) {
+            facture.setFacturePayee(true);
+            em.merge(facture);
+        }
+        else {
+            System.out.println("FactureFacade.java");
+            System.out.println("modification de l'attribut FacturePayee a échoué");
+            System.out.println("l'input facture est null");
+        }
     }
 }

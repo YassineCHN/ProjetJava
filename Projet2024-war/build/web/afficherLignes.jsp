@@ -26,11 +26,13 @@
         <tbody>
             <% for (LigneJournal e : lignes22) { %>
             <tr>
-                <td><%= e.getCommentaire() %></td>
-                <td><%= e.getDate_acte() %></td>
-                <td><%= e.getId() %></td>
-                <td><%= e.getId_acte().getActeNom() %></td>
-                <td><%= e.getId_journal().getId() %></td>
+                
+                
+                <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getCommentaire() %></a></td>
+                <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getDate_acte() %></a></td>
+                <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getId() %></a></td>
+                <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getId_acte().getActeNom() %></a></td>
+                <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getId_journal().getId()%></a></td>
             </tr>
             <% } %>
         </tbody>

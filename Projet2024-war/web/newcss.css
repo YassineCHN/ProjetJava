@@ -20,7 +20,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     
     
 }
-
+*:disabled {
+    cursor: not-allowed
+}
 a:hover{
     color: #1160b7;
 }

@@ -23,5 +23,7 @@ public interface GestionFactureLocal {
     Facture trouverFactureParDossier(DossierHospitalisation dossier);
 
     Facture trouverFactureParID(Long id);
+
+    void validerFacturePaiement(Facture facture);
     
 }

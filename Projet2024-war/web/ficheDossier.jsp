@@ -31,7 +31,7 @@
     <form action="NewServlet">
         <input type="hidden" id="id_ajouterJournal" name="id_ajouterJournal" value="<%=Long.toString(dossier.getId())%>">
         <input type="hidden" name="action" value="ajouterJournal">
-        <input type="submit" value="Creer un journal d'actes">
+        <input type="submit" value="Accéder au journal d'actes">
     </form>
             
     <form action="NewServlet">
