@@ -321,17 +321,20 @@ public class NewServlet extends HttpServlet {
         
         else if (act.equals("supprimerService")) {
             jspClient = "/landing_page.jsp";
-//            Là vous vous demander pk ça redirige vers landing_page
-//            plûtot que gestionService
-//            en fait, il y a une erreur quand l'user appuie sur supprimer'
-//            null exception
-//            On dirait que l'user est encore sur la page au moement de la suppression
-//            mais la page demande les infos du service
-//            Bref il faudrait que l'user soit redirigé avant suppression ou inversement
-            Long value = Long.valueOf(request.getParameter("supprimerService"));
-            gestionService.SupprimerService(value);
-            
-
+            Long idService = Long.valueOf(request.getParameter("supprimerService"));
+            Service serv=gestionService.trouverServiceParID(idService);
+            if(serv != null){
+                if(serv.getLesPersonnels().isEmpty()){
+                    if(serv.getDossierHospitalisations().isEmpty()){
+                       gestionService.SupprimerService(idService);
+                   request.setAttribute("message", "Service supprimé avec succès.");
+                   } else {
+                        request.setAttribute("message", "Impossible de supprimer le service car des dossiers y sont encore liés");
+                    }
+                } else {
+                    request.setAttribute("message", "Impossible de supprimer le service car des membres du personnels y sont encore liés");
+                }   
+            }
         }
         else if (act.equals("supprimerUtilisateur")){
             jspClient = "/landing_page.jsp";
@@ -354,10 +357,6 @@ public class NewServlet extends HttpServlet {
             } 
             z_USER_BEAN.supprimerPersonne(idPersonne);
             request.setAttribute("message", "Personne supprimée avec succès.");   
-        }
-        else if (act.equals("supprimerPatient")){
-            jspClient = "/landing_page.jsp";
-// C'est en fait le même cas que la suppression d'un utilisateur normal
         }
         else if (act.equals("supprimerDossier")) {
             jspClient="/landing_page.jsp";
@@ -823,10 +822,6 @@ public class NewServlet extends HttpServlet {
                 }
             }
         }
-//        else if (act.equals("afficherInfosPerso")){
-//            jspClient="/EspacePersonnel.jsp";
-//        }
-
 
         else if (act.equals("payerFacture")){
             jspClient="/landing_page.jsp";
