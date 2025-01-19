@@ -90,13 +90,29 @@
             <input type="hidden" name="action" value="supprimerFacture">
             <input type="submit" value="Supprimer Facture">
         </form>
-        <form action="NewServlet" method="post">
-            <input type="hidden" name="id_payerFacture" value="<%= facture.getId() %>">
-            <input type="hidden" name="action" value="payerFacture">
-            <input type="submit" value="Payer la facture (virement)"
-                   <%= (facture != null && facture.isFacturePayee() == true ) ? "disabled" : ""%>>
-            <p><%= (facture != null && facture.isFacturePayee() == true ) ? "La facture est payée, repayer n'est plus possible" : ""%></p>
-        </form>
+            <form action="NewServlet" method="post">
+                <input type="hidden" name="id_payerFacture" value="<%= facture.getId()%>">
+                <input type="hidden" name="action" value="payerFacture">
+
+                <label for="mode_paiement">Mode de paiement :</label>
+                <select id="mode_paiement" name="mode_paiement" 
+                        <%= (facture != null && facture.isFacturePayee()) ? "disabled" : ""%> required>
+                    <option value="Virement">Virement</option>
+                    <option value="Carte Bancaire">Carte Bancaire</option>
+                    <option value="Chèque">Chèque</option>
+                    <option value="Espèces">Espèces</option>
+                </select>
+
+                <input type="submit" value="Payer la facture"
+                       <%= (facture != null && facture.isFacturePayee()) ? "disabled" : ""%>>
+
+                <p>
+                    <%= (facture != null && facture.isFacturePayee())
+                ? "La facture est payée, repayer n'est plus possible"
+                : ""%>
+                </p>
+            </form>
+
         
     <%
         } else {

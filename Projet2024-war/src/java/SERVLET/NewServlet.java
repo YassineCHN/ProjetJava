@@ -636,6 +636,7 @@ public class NewServlet extends HttpServlet {
             jspClient="/landing_page.jsp";
 //            on récupère dans chaque variable plusieurs strings
              
+             String[] id_ligne = request.getParameterValues("idligne[]"); 
              String[] commentaires_acte = request.getParameterValues("commentaire[]"); 
              String[] date_acte = request.getParameterValues("date[]");
              String[] quantite_acte = request.getParameterValues("quantite[]");
@@ -643,6 +644,7 @@ public class NewServlet extends HttpServlet {
              String idjournal = (String) request.getParameter("id_journal");
              JournalActe journal2 = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
 //             il faut que toutes les lignes soient saisies, c'est à dire que le nombre de champs remplis par type de champ soit égale
+
              if(commentaires_acte.length != date_acte.length || commentaires_acte.length != quantite_acte.length || commentaires_acte.length != idActe_acte.length || journal2.getStatut() == statutJournal.Validé){
                  jspClient="/landing_page.jsp";
                  String message = "ERREUR CHAMPS MANQUANTS OU LE JOURNAL N'EST PLUS MODIFIABLE";
@@ -650,87 +652,128 @@ public class NewServlet extends HttpServlet {
                  System.out.println("Sinon c'est que le journal est déjà validé et que donc l'ajout de ligne est interdit");
              } else {
                  for(int i = 0; i<commentaires_acte.length;i++) {
+                     
+                     
+                     
                      String commentaire = commentaires_acte[i];
-                     String date = date_acte[i];
-                     String quantite = quantite_acte[i];
-                     String idActe = idActe_acte[i];
                      System.out.println(commentaire);
+                     String date = date_acte[i];
                      System.out.println(date);
+                     String quantite = quantite_acte[i];
                      System.out.println(quantite);
+                     String idActe = idActe_acte[i];
                      System.out.println(idActe);
-                     JournalActe journal = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
-                     Acte acte = gestionActe.trouverActeParId(Long.valueOf(idActe));
+//                     String id_ligne2 = id_ligne[i];
+                    
+                     
+                     String idLigneStr = (id_ligne != null && i < id_ligne.length) ? id_ligne[i] : null;
+                      System.out.println(idLigneStr);
+                     
+                     
+                     
+                     
+                     
                      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                      Date dateCreationActe = sdf.parse(date);
                      int quantite2 = Integer.parseInt(quantite);
                      
-                     gestionLigne.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal);
+                     JournalActe journal = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
+                     Acte acte = gestionActe.trouverActeParId(Long.valueOf(idActe));
+                     LigneJournal existingLigne = gestionLigne.trouverLigneParId(Long.valueOf(idLigneStr));
+                     
+//                     Si la ligne existe déjà, on la modifie
+//                       sinon on la crée
+                        System.out.println("ligne existante ????");
+                        
+                     if (existingLigne != null){
+                         System.out.println("ligne existante, on modifie");
+//                         mettre à jour la ligne eixstante
+                        existingLigne.setCommentaire(commentaire);
+                        existingLigne.setDate_acte(dateCreationActe);
+                        existingLigne.setQuantité_Acte(quantite2);
+                        existingLigne.setId_acte(acte);
+
+                        // Méthode "update" ou "edit"
+                        gestionLigne.mettreAJourLigne(existingLigne);
+                     } else {
+                         System.out.println("ligne INEXISTANTE, on CREE");
+                         gestionLigne.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal);
+                     }
+                     
                  }
              }
-                 
-             
-             
         }
+        
+        
+        
+        
+        
         else if (act.equals("creerDossierMedical")) {
-   
-            jspClient="/landing_page.jsp";
-            
+
+            jspClient = "/landing_page.jsp";
+
             String dateHospitalisationStr = request.getParameter("dateHospitalisation");
             String heureArriveeStr = request.getParameter("heureArrivee");
             String heureDepartStr = request.getParameter("heureDepart");
-            String serviceIdStr = request.getParameter("serviceId"); 
-            
-            
+            String serviceIdStr = request.getParameter("serviceId");
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-//             Date dateHospitalisation = null;
-//             Date heureArrivee = null;
-//             Date heureDepart = null;
-             
-            Date dateHospitalisation_test = sdf.parse(dateHospitalisationStr);
-            Date heureArrivee_test = sdf.parse(heureArriveeStr);
-            Date heureDepart_test = sdf.parse(heureDepartStr);
+            Date dateHospitalisation_test = null;
+            Date heureArrivee_test = null;
+            Date heureDepart_test = null;
+
+            if (dateHospitalisationStr != null && !dateHospitalisationStr.trim().isEmpty()) {
+                dateHospitalisation_test = sdf.parse(dateHospitalisationStr);
+            }
+            if (heureArriveeStr != null && !heureArriveeStr.trim().isEmpty()) {
+                heureArrivee_test = sdf.parse(heureArriveeStr);
+            }
+            if (heureDepartStr != null && !heureDepartStr.trim().isEmpty()) {
+                heureDepart_test = sdf.parse(heureDepartStr);
+            }
+
             Z_PATIENT patient = null;
             Long serviceId = Long.valueOf(serviceIdStr);
             Service service = gestionService.trouverServiceParID(serviceId);
-             
-             if (request.getParameter("newPatientCheckbox") != null) {
-                String nomPatient = request.getParameter("nomPersonne");
-                String prenomPatient = request.getParameter("prenomPersonne");
-                String adressePatient = request.getParameter("adressePersonne");
-                String numSecuPatient = request.getParameter("numSecuPatient");
-                String nomMut = request.getParameter("nomMutuelle");
-                String adresseMut  = request.getParameter("adresseMutuelle");
-                    
-                
-                if (nomPatient.trim().isEmpty() || prenomPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty() ) {
-                    jspClient = "/landing_page.jsp";
-                    System.out.println("formulaire incomplet");
+
+            if (dateHospitalisation_test == null) {
+                jspClient = "/landing_page.jsp";
+                request.setAttribute("message", "Date d'hospitalisation obligatoire !");
+            } 
+            else {
+
+                if (request.getParameter("newPatientCheckbox") != null) {
+                    String nomPatient = request.getParameter("nomPersonne");
+                    String prenomPatient = request.getParameter("prenomPersonne");
+                    String adressePatient = request.getParameter("adressePersonne");
+                    String numSecuPatient = request.getParameter("numSecuPatient");
+                    String nomMut = request.getParameter("nomMutuelle");
+                    String adresseMut = request.getParameter("adresseMutuelle");
+
+                    if (nomPatient.trim().isEmpty() || prenomPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty()) {
+                        jspClient = "/landing_page.jsp";
+                        System.out.println("formulaire incomplet");
+                    } else {
+                        z_USER_BEAN.creerPatient(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMut, adresseMut);
+                    }
+
+                    patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
+
+                    gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
+                } else {
+                    System.out.println("Chercher patient puis créer dossier");
+
+                    String patientIdStr = request.getParameter("patientId");
+                    Long patientId = Long.valueOf(patientIdStr);
+                    patient = (Z_PATIENT) z_USER_BEAN.trouverPersonneParId(patientId);
+                    gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
                 }
-                else {
-                    z_USER_BEAN.creerPatient(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMut, adresseMut);
-                }
-                
-                patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
-                
-                
-                 gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
-             }
-             else {
-                 System.out.println("Chercher patient puis créer dossier");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                 String patientIdStr = request.getParameter("patientId");
-                 Long patientId = Long.valueOf(patientIdStr);
-                 patient = (Z_PATIENT) z_USER_BEAN.trouverPersonneParId(patientId);
-                 gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
-             }
 //  
-             
+            }
         }
-        else if (act.equals("afficherInfosPerso")){
-            jspClient="/EspacePersonnel.jsp";
-        }
+//        else if (act.equals("afficherInfosPerso")){
+//            jspClient="/EspacePersonnel.jsp";
+//        }
 
         else if (act.equals("payerFacture")){
             jspClient="/landing_page.jsp";
@@ -754,14 +797,9 @@ public class NewServlet extends HttpServlet {
             jspClient = "/ficheFacture.jsp";
             String idDossier = request.getParameter("id_dossierCreerFacture");
             Long idJournal = Long.valueOf(request.getParameter("id_supprimerDossier"));
-
-            System.out.println("ID DU JOURNAL");
             System.out.println(idJournal);
-            System.out.println("ID DU JOURNAL");
-            System.out.println("ID DU DOSSIER");
             System.out.println(idDossier);
-            System.out.println("ID DU DOSSIER");
-            
+
             DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(idDossier));
             
             Facture factureExistant = gestionFacture.trouverFactureParDossier(dossier);
@@ -771,18 +809,22 @@ public class NewServlet extends HttpServlet {
                 
                 Facture factureCreee = factureExistant;
                 request.setAttribute("facture", factureCreee);
+                System.out.println("FACTURE EXISTE DEJA");
             }
 //            La facture n'existe pas, on la crée
             else {
                 Facture factureCreee = gestionFacture.creerFacturePourJournal(idJournal);
-
-                request.setAttribute("facture", factureCreee);
+                System.out.println("CREER FACTURE");
+                
                 if (factureCreee != null) {
                     request.setAttribute("message", "Facture créée avec succès ! Montant = " + factureCreee.getFactureMontant());
+                    request.setAttribute("facture", factureCreee);
 
                 } else {
                     request.setAttribute("message", "Impossible de créer la facture (journal invalide ou non VALIDE).");
+                    jspClient = "/landing_page";
                 }
+                
             }
             
             

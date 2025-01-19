@@ -25,5 +25,9 @@ public interface GestionLigneLocal {
     void supprimerLigne(long id);
 
     List<LigneJournal> listerLignesParJournal(Long idJournal);
+
+    LigneJournal trouverLigneParId(Long id);
+
+    void mettreAJourLigne(LigneJournal ligne);
     
 }

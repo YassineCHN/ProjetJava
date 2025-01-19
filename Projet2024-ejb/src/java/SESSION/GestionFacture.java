@@ -41,54 +41,45 @@ public class GestionFacture implements GestionFactureLocal {
     @Override
     public Facture creerFacturePourJournal(Long idJournal) {
         JournalActe journal = gestionJournalActe.trouverJournalParId(idJournal);
-         System.out.println("dans GestionFacture.java en entré");
-        System.out.println(idJournal);
-        System.out.println("dans GestionFacture.java en entré");
-        
-        System.out.println("==========================================");
-        System.out.println("JOURNAL TROUVE ????? : ID DOSSIER");
-        System.out.println(journal.getId());        
-        System.out.println("==========================================");
-//        System.out.println("==========================================");
-//        System.out.println("JOURNAL TROUVE ????? : ID DOSSIER");
-//        System.out.println(journal.getId());        
-//        System.out.println("==========================================");
+
         if (journal == null) {
-         return null; 
+            return null;
         }
+//        Attention
+//      il faudra veiller à ce qu'un journal ait toujours un statut != null
+//      ET QUE SI LE STATUT DE LA FACTURE != Validé
+//        alors user est redirigé vers landing_page + message erreur
         if (!journal.getStatut().equals(statutJournal.Validé)) {
-        //creer que si Journal valide
-        System.out.println("==========================================");
-        System.out.println("JOURNAL STATUS ????? : STATUS");
-        System.out.println(journal.getStatut());        
-        System.out.println("==========================================");
-        return null; 
-    }
-        
-         double total = 0.0;
-    // Récupérer les lignes
-    List<LigneJournal> lignes = journal.getLigneJournals();
-    for (LigneJournal ligne : lignes) {
-        // Prix unitaire de l'acte * quantité
+            //creer que si Journal valide
+            System.out.println("==========================================");
+            System.out.println("JOURNAL STATUS ????? : STATUS");
+            System.out.println(journal.getStatut());
+            System.out.println("==========================================");
+            return null;
+        }
+
+        double total = 0.0;
+        // Récupérer les lignes
+        List<LigneJournal> lignes = journal.getLigneJournals();
+        for (LigneJournal ligne : lignes) {
+            // Prix unitaire de l'acte * quantité
 //        double prixUnitaire =  gestionActe.trouverActeParId(ligne.getId_acte().getId()).getActePrix();
-        double prixUnitaire = ligne.getId_acte().getActePrix();
-        int quantite = ligne.getQuantité_Acte();
-        total += prixUnitaire * quantite;
-    }
-//        System.out.println("==========================================");
-//        System.out.println("JOURNAL montant total ????? : monntant");
-//        System.out.println(total);        
-//        System.out.println("==========================================");
-        Facture laFacture = factureFacade.creerFacturePourJournal(new Date(), total, false,  journal.getDossier(), journal);
-//                System.out.println("==========================================");
-//        System.out.println("FACTURE CREE ???? ????? : id facture");
-//        System.out.println(laFacture.getId());        
-//        System.out.println("==========================================");
+            double prixUnitaire = ligne.getId_acte().getActePrix();
+            int quantite = ligne.getQuantité_Acte();
+            total += prixUnitaire * quantite;
+        }
+        System.out.println("==========================================");
+        System.out.println("JOURNAL montant total ????? : monntant");
+        System.out.println(total);        
+        System.out.println("==========================================");
+        Facture laFacture = factureFacade.creerFacturePourJournal(new Date(), total, false, journal.getDossier(), journal);
+                System.out.println("==========================================");
+        System.out.println("FACTURE CREE ???? ????? : id facture");
+        System.out.println(laFacture.getId());        
+        System.out.println("==========================================");
 
         return laFacture;
-        
-        
-    
+
     }
 
     @Override

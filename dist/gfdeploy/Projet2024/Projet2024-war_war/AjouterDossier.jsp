@@ -51,10 +51,10 @@
                 <input type="datetime-local" id="dateHospitalisation" name="dateHospitalisation" required><br><br>
                 
                 <label for="heureArrivee">Heure d'arrivée :</label>
-                <input type="datetime-local" id="heureArrivee" name="heureArrivee" required><br><br>
+                <input type="datetime-local" id="heureArrivee" name="heureArrivee" ><br><br>
 
                 <label for="heureDepart">Heure de départ :</label>
-                <input type="datetime-local" id="heureDepart" name="heureDepart" required><br><br>
+                <input type="datetime-local" id="heureDepart" name="heureDepart" ><br><br>
             </fieldset>
 
             <fieldset>

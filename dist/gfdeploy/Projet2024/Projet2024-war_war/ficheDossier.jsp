@@ -58,10 +58,10 @@
             <input type="datetime-local" id="DateHospitalisation_ficheDossier" name="DateHospitalisation_ficheDossier" value="<%=dateHospitalisation%>" required>
             <br><br>
             <label for="login">Date d'arriv�e :</label>
-            <input type="datetime-local" id="DateArrivee_ficheDossier" name="DateArrivee_ficheDossier" value="<%=HeureArrivee%>" required>
+            <input type="datetime-local" id="DateArrivee_ficheDossier" name="DateArrivee_ficheDossier" value="<%=HeureArrivee%>" >
             <br><br>
             <label for="login">Date de d�part :</label>
-            <input type="datetime-local" id="DateDepart_ficheDossier" name="DateDepart_ficheDossier" value="<%=HeureDepart%>" required>
+            <input type="datetime-local" id="DateDepart_ficheDossier" name="DateDepart_ficheDossier" value="<%=HeureDepart%>" >
             <br><br>
             <label for="login">ID du patient :</label>
             <input type="text" id="IdPatient_ficheDossier" name="IdPatient_ficheDossier" value="<%=dossier.getLePatient().getIdpers()%>" readonly>
