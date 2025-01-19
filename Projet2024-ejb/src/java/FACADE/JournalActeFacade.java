@@ -7,6 +7,7 @@ package FACADE;
 import ENTITE.DossierHospitalisation;
 import ENTITE.JournalActe;
 import ENTITE.Z_USER;
+import ENTITE.statutJournal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,6 +39,7 @@ public class JournalActeFacade extends AbstractFacade<JournalActe> implements Jo
         JournalActe journal = new JournalActe();
         journal.setDateCreation(new Date());
         journal.setDossier(dossier);
+        journal.setStatut(statutJournal.Brouillon);
         journal.setUtilisateurCreateur(user);
         em.persist(journal);
         
@@ -78,6 +80,15 @@ public class JournalActeFacade extends AbstractFacade<JournalActe> implements Jo
     }
     
     }
+
+    @Override
+    public void validerJournal(JournalActe journal) {
+        journal.setStatut(statutJournal.Validé);
+        em.merge(journal);
+    }
+    
+    
+    
 }
     
 

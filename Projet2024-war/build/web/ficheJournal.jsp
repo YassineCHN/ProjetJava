@@ -44,6 +44,7 @@
                 newLine.className = 'line-container';
                 newLine.innerHTML = `
                     <hr>
+                    <input type="hidden" name="idligne[]" placeholder="ID" value="999999999" required  >
                     <input type="text" name="commentaire[]" placeholder="Commentaire" required>
                     <input type="date" name="date[]" required>
                     <input type="number" name="quantite[]" placeholder="Quantité" required>
@@ -64,11 +65,19 @@
 
 
         <form action="NewServlet">
-            <input type="hidden" id="id_creerFacture" name="id_supprimerDossier" value="<%=Long.toString(journal.getId())%>">
+            <!--ID du journal -->
+            <input type="hidden" id="id_journalcreerFacture" name="id_journalcreerFacture" value="<%=Long.toString(journal.getId())%>">
             <input type="hidden" name="action" value="creerFacture">
             <!-- Attention à quel id on prend... -->
+            <!--ID du journal -->
             <input type="hidden" name="id_dossierCreerFacture" value="<%= (journal != null) ? journal.getDossier().getId() : ""%>">
             <input type="submit" value="Accéder à la facture" />
+        </form>
+        <form action="NewServlet">
+            <!--ID du journal -->
+            <input type="hidden" id="id_journalValidation" name="id_journalValidation" value="<%=Long.toString(journal.getId())%>">
+            <input type="hidden" name="action" value="validerJournal">
+            <input type="submit" value="Valider le journal" />
         </form>
 
         <form action="NewServlet" method="post" name="entete_journal">
@@ -135,6 +144,9 @@
             %>
             <div class="line-container">
                 <hr>
+                <input type="hidden" name="idligne[]" placeholder="ID" 
+                        value="<%= (ligne.getId()!= null) ? ligne.getId(): ""%>"
+                       <%= isDisabled ? "disabled" : ""%>required >
                 <input type="text" name="commentaire[]" placeholder="Commentaire"
                        value="<%= (ligne.getCommentaire() != null) ? ligne.getCommentaire() : ""%>"
                        <%= isDisabled ? "disabled" : ""%> required>
@@ -167,6 +179,12 @@
             %>
             <div class="line-container">
                 <hr>
+
+                <!--a
+                l'id sera récupéré par la servlet. Si il est null alors erreur NullPointer
+//              Le problème c'est que je sais pas gérer ça au niveau de la servlet (if (Long) idligne[i] == null then ...)
+                Une solution c'est de renseigner un ID très grand qui ne sera jamais renseigné dans la BD-->
+                <input type="hidden" name="idligne[]" placeholder="ID" value="999999999" required>
                 <input type="text" name="commentaire[]" placeholder="Commentaire" required>
                 <input type="date" name="date[]" required>
                 <input type="number" name="quantite[]" placeholder="Quantité" required>

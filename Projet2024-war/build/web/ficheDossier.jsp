@@ -55,7 +55,7 @@
         <form action="NewServlet" method="post"class="formulairebouton">
             <input type="hidden" id="id_ajouterJournal" name="id_ajouterJournal" value="<%=Long.toString(dossier.getId())%>">
             <input type="hidden" name="action" value="ajouterJournal">
-            <button type="submit">Accéder au journal d'actes</button>
+            <button type="submit">Accï¿½der au journal d'actes</button>
         </form>
         <%}%>
     </div>

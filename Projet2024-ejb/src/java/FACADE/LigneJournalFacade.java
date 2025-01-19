@@ -86,6 +86,11 @@ public class LigneJournalFacade extends AbstractFacade<LigneJournal> implements 
             return null;
         }
     }
+
+    @Override
+    public void mettreAJourLigne(LigneJournal ligne) {
+        em.merge(ligne);
+    }
     
     
     

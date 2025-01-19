@@ -38,6 +38,8 @@ public interface JournalActeFacadeLocal {
     List<JournalActe> trouverTousLesJournaux();
 
     JournalActe trouverJournalParDossier(DossierHospitalisation dossier);
+
+    void validerJournal(JournalActe journal);
     
 
     

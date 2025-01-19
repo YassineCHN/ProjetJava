@@ -49,6 +49,16 @@ public class GestionLigne implements GestionLigneLocal {
     public List<LigneJournal> listerLignesParJournal(Long idJournal) {
         return ligneJournalFacade.listerLignesParJournal(idJournal);
     }
+
+    @Override
+    public LigneJournal trouverLigneParId(Long id) {
+        return ligneJournalFacade.trouverLigneParId(id);
+    }
+
+    @Override
+    public void mettreAJourLigne(LigneJournal ligne) {
+        ligneJournalFacade.mettreAJourLigne(ligne);
+    }
     
     
     
