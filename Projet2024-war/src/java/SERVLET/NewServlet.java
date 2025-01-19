@@ -703,6 +703,19 @@ public class NewServlet extends HttpServlet {
                  }
              }
         }
+        else if (act.equals("validerJournal")){
+            jspClient = "/landing_page.jsp";
+            String id_journal = request.getParameter("id_journalValidation");
+           JournalActe journal = gestionJournalActe.trouverJournalParId(Long.parseLong(id_journal));
+           if (journal == null){
+               jspClient="/landing_page.jsp";
+               request.setAttribute("message", "le journal sélectionné pour validation n'existe pas");
+           } else {
+               gestionJournalActe.validerJournal(journal);
+               request.setAttribute("message", "journal validé");
+           }
+            
+        }
         
         
         
@@ -796,7 +809,7 @@ public class NewServlet extends HttpServlet {
             
             jspClient = "/ficheFacture.jsp";
             String idDossier = request.getParameter("id_dossierCreerFacture");
-            Long idJournal = Long.valueOf(request.getParameter("id_supprimerDossier"));
+            Long idJournal = Long.valueOf(request.getParameter("id_journalcreerFacture"));
             System.out.println(idJournal);
             System.out.println(idDossier);
 
@@ -817,12 +830,15 @@ public class NewServlet extends HttpServlet {
                 System.out.println("CREER FACTURE");
                 
                 if (factureCreee != null) {
+                    System.out.println("facturecreee NEST PAS NUL");
                     request.setAttribute("message", "Facture créée avec succès ! Montant = " + factureCreee.getFactureMontant());
                     request.setAttribute("facture", factureCreee);
+                    jspClient = "/ficheFacture.jsp";
 
                 } else {
+                    System.out.println("FACTURE CREE EST NULL");
                     request.setAttribute("message", "Impossible de créer la facture (journal invalide ou non VALIDE).");
-                    jspClient = "/landing_page";
+                    jspClient = "/landing_page.jsp";
                 }
                 
             }

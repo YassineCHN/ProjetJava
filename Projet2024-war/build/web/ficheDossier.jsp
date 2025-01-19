@@ -14,12 +14,20 @@
 </head>
 <body>
     <%DossierHospitalisation dossier = (DossierHospitalisation) request.getAttribute("ficheDossier");%>
-    <% //   
+    <%    
 //         Pour correctement afficher les dates dans les input de type "date" il faut les formater
-        Date test1 = dossier.getDateHospitalisation(); SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); String dateHospitalisation = sdf1.format(test1);
-        Date test2 = dossier.getHeureArrivee(); SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); String HeureArrivee = sdf2.format(test2);
-       Date test3 = dossier.getHeureDepart(); SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); String HeureDepart = sdf3.format(test3);
-        
+        Date test1 = dossier.getDateHospitalisation();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        String dateHospitalisation = (test1 != null) ? sdf1.format(test1) : "";
+
+        Date test2 = dossier.getHeureArrivee();
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        String heureArrivee = (test2 != null) ? sdf2.format(test2) : "";
+
+        Date test3 = dossier.getHeureDepart();
+        SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        String heureDepart = (test3 != null) ? sdf3.format(test3) : "";
+
     %>
     <form action="NewServlet">
         <input type="hidden" id="id_supprimerDossier" name="id_supprimerDossier" value="<%=Long.toString(dossier.getId())%>">
@@ -58,10 +66,10 @@
             <input type="datetime-local" id="DateHospitalisation_ficheDossier" name="DateHospitalisation_ficheDossier" value="<%=dateHospitalisation%>" required>
             <br><br>
             <label for="login">Date d'arriv�e :</label>
-            <input type="datetime-local" id="DateArrivee_ficheDossier" name="DateArrivee_ficheDossier" value="<%=HeureArrivee%>" >
+            <input type="datetime-local" id="DateArrivee_ficheDossier" name="DateArrivee_ficheDossier" value="<%=heureArrivee%>" >
             <br><br>
             <label for="login">Date de d�part :</label>
-            <input type="datetime-local" id="DateDepart_ficheDossier" name="DateDepart_ficheDossier" value="<%=HeureDepart%>" >
+            <input type="datetime-local" id="DateDepart_ficheDossier" name="DateDepart_ficheDossier" value="<%=heureDepart%>" >
             <br><br>
             <label for="login">ID du patient :</label>
             <input type="text" id="IdPatient_ficheDossier" name="IdPatient_ficheDossier" value="<%=dossier.getLePatient().getIdpers()%>" readonly>

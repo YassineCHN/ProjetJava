@@ -80,6 +80,15 @@ public class JournalActeFacade extends AbstractFacade<JournalActe> implements Jo
     }
     
     }
+
+    @Override
+    public void validerJournal(JournalActe journal) {
+        journal.setStatut(statutJournal.Validé);
+        em.merge(journal);
+    }
+    
+    
+    
 }
     
 

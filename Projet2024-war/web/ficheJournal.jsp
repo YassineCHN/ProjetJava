@@ -65,11 +65,19 @@
 
 
         <form action="NewServlet">
-            <input type="hidden" id="id_creerFacture" name="id_supprimerDossier" value="<%=Long.toString(journal.getId())%>">
+            <!--ID du journal -->
+            <input type="hidden" id="id_journalcreerFacture" name="id_journalcreerFacture" value="<%=Long.toString(journal.getId())%>">
             <input type="hidden" name="action" value="creerFacture">
             <!-- Attention à quel id on prend... -->
+            <!--ID du journal -->
             <input type="hidden" name="id_dossierCreerFacture" value="<%= (journal != null) ? journal.getDossier().getId() : ""%>">
             <input type="submit" value="Accéder à la facture" />
+        </form>
+        <form action="NewServlet">
+            <!--ID du journal -->
+            <input type="hidden" id="id_journalValidation" name="id_journalValidation" value="<%=Long.toString(journal.getId())%>">
+            <input type="hidden" name="action" value="validerJournal">
+            <input type="submit" value="Valider le journal" />
         </form>
 
         <form action="NewServlet" method="post" name="entete_journal">

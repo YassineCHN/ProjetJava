@@ -46,6 +46,11 @@ public class GestionJournalActe implements GestionJournalActeLocal {
     public JournalActe trouverJournalParDossier(DossierHospitalisation dossier) {
         return journalActeFacade.trouverJournalParDossier(dossier);
     }
+
+    @Override
+    public void validerJournal(JournalActe journal) {
+        journalActeFacade.validerJournal(journal);
+    }
     
     
 }
