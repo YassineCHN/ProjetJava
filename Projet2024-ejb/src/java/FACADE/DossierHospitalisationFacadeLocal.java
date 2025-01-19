@@ -37,7 +37,6 @@ public interface DossierHospitalisationFacadeLocal {
 
     void creerDossierHospitalisation(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart);
 
-    void modifierDossierHospitalisation(Long id, Date heureArrivee, Date heureDepart);
 
     void annulerDossierHospitalisation(Long id);
 
@@ -45,9 +44,13 @@ public interface DossierHospitalisationFacadeLocal {
 
     List<DossierHospitalisation> trouverTousLesDossiers();
 
-    void mergeDossier(DossierHospitalisation dossier);
+    void modifierDossier(DossierHospitalisation dossier);
 
     DossierHospitalisation trouverDossierParPatient(Z_USER id);
+    
+    List<DossierHospitalisation> trouverTousLesDossiersUnPatient(Z_PATIENT patient);
+     
+    List<DossierHospitalisation> trouverTousLesDossiersUnService(Service service);
 
     void supprimerDossierHospitalisation(Long id);
 }

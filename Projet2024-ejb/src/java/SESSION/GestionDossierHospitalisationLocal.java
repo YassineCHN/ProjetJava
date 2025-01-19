@@ -28,6 +28,12 @@ public interface GestionDossierHospitalisationLocal {
     void annulerDossierHospitalisation(Long id) ;
 
     void creerDossier(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart);
+    
+    public List<DossierHospitalisation> trouverTousLesDossiersUnPatient(Z_PATIENT patient);
+    
+    public List<DossierHospitalisation> trouverTousLesDossiersUnService(Service service);
+    
+    public void modifierDossier(DossierHospitalisation dossier) ;
 
     
 

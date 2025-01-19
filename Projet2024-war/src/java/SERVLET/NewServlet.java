@@ -24,6 +24,7 @@ import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import ENTITE.statutJournal;
 import SESSION.GestionActeLocal;
+import SESSION.GestionDossierHospitalisation;
 import SESSION.GestionDossierHospitalisationLocal;
 import SESSION.GestionFactureLocal;
 import SESSION.GestionJournalActeLocal;
@@ -176,19 +177,34 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("afficherDossiers")){
             jspClient = "/GestionDossier.jsp";
-            List<DossierHospitalisation> lesDossiers =  gestionDossierHospitalisation.afficherDossier();
-            request.setAttribute("listeDossiers", lesDossiers);
-            request.setAttribute("message", "Liste des dossiers existants");
-//            if (lesDossiers.size() == 0) {
-//                System.out.println("LA FACADE A RETOURNE AUCUN DOSSIERS (0)");
-//                System.out.println(lesDossiers.get(0).getId());
-//            }
-//            else {
-//                 System.out.println("LA FACADE A RETOURNE UN TRUC (0)");
-//                 System.out.println(lesDossiers.size());
-//                 
-//                
-//            }
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            if (utilisateurIdentifie != null) {
+                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                if(user!=null){
+                    Z_PERSONNE personne = user.getPersonne();
+                    request.setAttribute("personne", personne);
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
+                    List<DossierHospitalisation> lesDossiers=null;
+                    if(role==RoleUSER.MEDECIN || role==RoleUSER.ADMIN){
+                        lesDossiers =  gestionDossierHospitalisation.afficherDossier();
+                    } else if (role==RoleUSER.PATIENT){
+                        Z_PATIENT patient=(Z_PATIENT) personne;
+                        lesDossiers = gestionDossierHospitalisation.trouverTousLesDossiersUnPatient(patient);
+                    } else if (role==RoleUSER.PERSONNEL){
+                        Z_PERSONNEL pers=(Z_PERSONNEL) personne;
+                        Service serv=pers.getService();
+                        lesDossiers=gestionDossierHospitalisation.trouverTousLesDossiersUnService(serv);
+                        // trouver tous les dossiers du même service que le membre du personnel (créer methode)
+                    }
+                    else {
+                        jspClient="/landing_page.jsp";
+                        request.setAttribute("message","l'utilisateur connecté ne possède pas un rôle connu");
+                    }
+                request.setAttribute("listeDossiers", lesDossiers);
+                request.setAttribute("message", "Liste des dossiers existants");
+                }
+            }
         }
         else if(act.equals("afficherServices")) {
             // Action pour afficher les services, comme utilisateur
@@ -251,14 +267,21 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("afficherFicheDossier")){
             jspClient = "/ficheDossier.jsp";
-            
             String test = request.getParameter("id_dossier");
-
             Long id_dossier = Long.valueOf(test);
-            
             DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(id_dossier);
-          
             request.setAttribute("ficheDossier", dossier);
+            
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            if (utilisateurIdentifie != null) {
+                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                if (user != null) {
+                    Z_PERSONNE personne = user.getPersonne();
+                    request.setAttribute("personne", personne);
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
+                }
+            }
         }
         else if (act.equals("afficherFicheActe")){
            jspClient = "/ficheActe.jsp";
@@ -542,6 +565,31 @@ public class NewServlet extends HttpServlet {
                 request.setAttribute("message", "Personne non trouvée.");
             } 
         }
+        else if (act.equals("modifierDossier")){
+            jspClient="/landing_page.jsp";
+            Long idDossier= Long.parseLong(request.getParameter("id_dossierFiche"));
+            String statutDossier = request.getParameter("StatutDossier");
+            String dateHospitalisationStr = request.getParameter("DateHospitalisation_ficheDossier");
+            String dateArriveeStr = request.getParameter("DateArrivee_ficheDossier");
+            String dateDepartStr = request.getParameter("DateDepart_ficheDossier");
+            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(idDossier);
+            if (dossier != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                if (dateHospitalisationStr != null && !dateHospitalisationStr.isEmpty()) {
+                    dossier.setDateHospitalisation(sdf.parse(dateHospitalisationStr));
+                }
+                if (dateArriveeStr != null && !dateArriveeStr.isEmpty()) {
+                    dossier.setHeureArrivee(sdf.parse(dateArriveeStr));
+                }
+                if (dateDepartStr != null && !dateDepartStr.isEmpty()) {
+                    dossier.setHeureDepart(sdf.parse(dateDepartStr));
+                }
+                gestionDossierHospitalisation.modifierDossier(dossier);
+                request.setAttribute("message", "Dossier modifié avec succès.");
+            } else {
+                request.setAttribute("message", "Dossier introuvable.");
+            }
+        }
         else if (act.equals("afficherInfosPerso")) {
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
             if (utilisateurIdentifie != null) {
@@ -561,7 +609,6 @@ public class NewServlet extends HttpServlet {
                 request.setAttribute("message", "Veuillez vous connecter pour accéder à votre espace.");
             }
         }
-
         else if (act.equals("creerService")) {
             jspClient="/landing_page.jsp";
             String nomService = request.getParameter("nomService");
@@ -679,58 +726,54 @@ public class NewServlet extends HttpServlet {
             String heureArriveeStr = request.getParameter("heureArrivee");
             String heureDepartStr = request.getParameter("heureDepart");
             String serviceIdStr = request.getParameter("serviceId"); 
-            
-            
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-//             Date dateHospitalisation = null;
-//             Date heureArrivee = null;
-//             Date heureDepart = null;
              
-            Date dateHospitalisation_test = sdf.parse(dateHospitalisationStr);
-            Date heureArrivee_test = sdf.parse(heureArriveeStr);
-            Date heureDepart_test = sdf.parse(heureDepartStr);
+            Date dateHospitalisation_test = null;
+            Date heureArrivee_test = null;
+            Date heureDepart_test = null;
+            if (dateHospitalisationStr != null && !dateHospitalisationStr.trim().isEmpty()) {
+                dateHospitalisation_test = sdf.parse(dateHospitalisationStr);
+            }
+            if (heureArriveeStr != null && !heureArriveeStr.trim().isEmpty()) {
+                heureArrivee_test = sdf.parse(heureArriveeStr);
+            }
+            if (heureDepartStr != null && !heureDepartStr.trim().isEmpty()) {
+                heureDepart_test = sdf.parse(heureDepartStr);
+            }
+            
             Z_PATIENT patient = null;
             Long serviceId = Long.valueOf(serviceIdStr);
             Service service = gestionService.trouverServiceParID(serviceId);
-             
-             if (request.getParameter("newPatientCheckbox") != null) {
-                String nomPatient = request.getParameter("nomPersonne");
-                String prenomPatient = request.getParameter("prenomPersonne");
-                String adressePatient = request.getParameter("adressePersonne");
-                String numSecuPatient = request.getParameter("numSecuPatient");
-                String nomMut = request.getParameter("nomMutuelle");
-                String adresseMut  = request.getParameter("adresseMutuelle");
-                    
-                
-                if (nomPatient.trim().isEmpty() || prenomPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty() ) {
-                    jspClient = "/landing_page.jsp";
-                    System.out.println("formulaire incomplet");
+            
+            if (dateHospitalisation_test == null) {
+                jspClient = "/landing_page.jsp";
+                request.setAttribute("message", "Date d'hospitalisation obligatoire !");
+            } else {
+                if (request.getParameter("newPatientCheckbox") != null) {
+                    String nomPatient = request.getParameter("nomPersonne");
+                    String prenomPatient = request.getParameter("prenomPersonne");
+                    String adressePatient = request.getParameter("adressePersonne");
+                    String numSecuPatient = request.getParameter("numSecuPatient");
+                    String nomMut = request.getParameter("nomMutuelle");
+                    String adresseMut = request.getParameter("adresseMutuelle");
+                    if (nomPatient.trim().isEmpty() || prenomPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty()) {
+                        jspClient = "/landing_page.jsp";
+                        System.out.println("formulaire incomplet");
+                    } else {
+                        z_USER_BEAN.creerPatient(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMut, adresseMut);
+                    }
+                    patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
+                    gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
+                } else {
+                    System.out.println("Chercher patient puis créer dossier");
+                    String patientIdStr = request.getParameter("patientId");
+                    Long patientId = Long.valueOf(patientIdStr);
+                    patient = (Z_PATIENT) z_USER_BEAN.trouverPersonneParId(patientId);
+                    gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
                 }
-                else {
-                    z_USER_BEAN.creerPatient(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMut, adresseMut);
-                }
-                
-                patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
-                
-                
-                 gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
-             }
-             else {
-                 System.out.println("Chercher patient puis créer dossier");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                System.out.println("===========================================================================");
-                 String patientIdStr = request.getParameter("patientId");
-                 Long patientId = Long.valueOf(patientIdStr);
-                 patient = (Z_PATIENT) z_USER_BEAN.trouverPersonneParId(patientId);
-                 gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
-             }
-//  
-             
+            }
         }
-        else if (act.equals("afficherInfosPerso")){
-            jspClient="/EspacePersonnel.jsp";
-        }
+
 
         else if (act.equals("payerFacture")){
             jspClient="/landing_page.jsp";

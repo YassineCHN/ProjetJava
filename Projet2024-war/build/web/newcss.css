@@ -110,6 +110,9 @@ form {
 /*Style pour que le formulaire sous forme de bouton ne prenne pas le style hérité du formulaire*/
 form.formulairebouton{
   all : unset;
+  display: inline-block; 
+  margin: 0; 
+  padding: 0; 
 }
 /* Style pour le fieldset */
  fieldset {
@@ -222,6 +225,14 @@ input[type="reset"]:hover {
     cursor: pointer;
     margin-right: 10px;
     background-color: #555;
+}
+/* Conteneur pour aligner les boutons horizontalement */
+.button-container {
+    display: flex;
+    justify-content: center; /* Centre les boutons horizontalement */
+    align-items: center; /* Aligne les boutons verticalement */
+    gap: 15px; /* Espace entre les boutons */
+    margin: 20px 0; /* Marges autour du conteneur */
 }
 /* Style pour les tableaux */
 table {

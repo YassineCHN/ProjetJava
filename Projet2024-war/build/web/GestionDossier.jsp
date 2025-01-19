@@ -37,10 +37,9 @@
             <TD>Date d'hospitalisation</TD>
             <TD>Date d'arrivée</TD>
             <TD>Date de départ</TD>
-            <td>ID du patient</td>
-            <td>Nom du patient</td>
-            <td>ID du service</td>
-            <td>Nom du service</td>
+            <td>Patient</td>
+            <td>Service</td>
+            <td>Acte(s)</td>
         </tr>
         <% if (list != null || !list.isEmpty()) { %>
         <% for (DossierHospitalisation cp : list) { %>
@@ -61,23 +60,18 @@
                     <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getHeureDepart()%></a>
                 </td>
                 <td Width=15%>
-                    <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getLePatient().getIdpers() %>"><%= cp.getLePatient().getIdpers()%></a>
+                    <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getLePatient().getIdpers() %>"><%= cp.getLePatient().getIdpers()%>-<%= cp.getLePatient().getNomPersonne()%><%=" "%><%=cp.getLePatient().getPrenomPersonne() %> </a>
                 </td>
                 <td Width=15%>
-                    <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getLePatient().getIdpers() %>"><%= cp.getLePatient().getNomPersonne()%><%=" "%><%=cp.getLePatient().getPrenomPersonne() %></a>
+                    <a href="NewServlet?action=afficherFicheService&id_service=<%= cp.getLeService()%>"><%= cp.getLeService().getId()%>-<%= cp.getLeService().getServiceNom()%></a>
                 </td>
-                <td Width=15%>
-                    <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getLePatient().getIdpers() %>"><%= cp.getLeService().getId()%></a>
-                </td>
-                <td Width=15%>
-                    <a href="NewServlet?action=afficherFicheService&id_service=<%= cp.getLeService()%>"><%= cp.getLeService().getServiceNom()%></a>
-                </td>
+                
             </tr>
+            <% } %>
+    </TABLE>
+    <% } else { %>
+        </TABLE>
         <% } %>
-    </TABLE>
-<% } else { %>
-    </TABLE>
-<% } %>
 
     <td Width=25%><A HREF="landing_page.jsp" class="button_link"> Retour
             Menu</A></td>

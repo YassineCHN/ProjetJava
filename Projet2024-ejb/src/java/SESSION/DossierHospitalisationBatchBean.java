@@ -42,7 +42,7 @@ public class DossierHospitalisationBatchBean implements DossierHospitalisationBa
             if (conditionPourDevenirInactif(dossier)) {
 //                if true alors en dessous, if false alors rien
                 dossier.setStatutD(statutDossier.Inactif);
-                dossierHospitalisationFacade.mergeDossier(dossier);
+                dossierHospitalisationFacade.modifierDossier(dossier);
             }
         }
     }

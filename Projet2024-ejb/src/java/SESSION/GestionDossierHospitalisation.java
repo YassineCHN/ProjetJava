@@ -58,6 +58,17 @@ public class GestionDossierHospitalisation implements GestionDossierHospitalisat
         dossierHospitalisationFacade.creerDossierHospitalisation(patient, service ,dateHospitalisation,heureArrivee,heureDepart );
     }
 
+    public List<DossierHospitalisation> trouverTousLesDossiersUnPatient(Z_PATIENT patient){
+        return dossierHospitalisationFacade.trouverTousLesDossiersUnPatient(patient);
+    }
+    
+    public List<DossierHospitalisation> trouverTousLesDossiersUnService(Service service){
+      return dossierHospitalisationFacade.trouverTousLesDossiersUnService(service);
+    }
+    
+    public void modifierDossier(DossierHospitalisation dossier) {
+        dossierHospitalisationFacade.modifierDossier(dossier);
+    }
     
     
 }

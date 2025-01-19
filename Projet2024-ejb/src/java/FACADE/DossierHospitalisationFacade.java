@@ -52,16 +52,6 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     }
 
     @Override
-    public void modifierDossierHospitalisation(Long id, Date heureArrivee, Date heureDepart) {
-        DossierHospitalisation dossier = em.find(DossierHospitalisation.class, id);
-        if (dossier != null) {
-            dossier.setHeureArrivee(heureArrivee);
-            dossier.setHeureDepart(heureDepart);
-            em.merge(dossier);
-        }
-    }
-
-    @Override
     public void annulerDossierHospitalisation(Long id) {
         DossierHospitalisation dossier = em.find(DossierHospitalisation.class, id);
         if (dossier != null) {
@@ -95,8 +85,8 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     }
 
     @Override
-    public void mergeDossier(DossierHospitalisation dossier) {
-        em.merge(dossier);
+    public void modifierDossier(DossierHospitalisation dossier) {
+        getEntityManager().merge(dossier);
     }
 
     @Override
@@ -106,6 +96,24 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    @Override    
+    public List<DossierHospitalisation> trouverTousLesDossiersUnPatient(Z_PATIENT patient){
+        String txt = "SELECT d FROM DossierHospitalisation d WHERE d.lePatient=:patient";
+        Query req= em.createQuery(txt);
+        req.setParameter("patient", patient);
+        List<DossierHospitalisation> dossiers = req.getResultList();
+        return dossiers;
+    }
+    
+    @Override
+    public List<DossierHospitalisation> trouverTousLesDossiersUnService(Service service){
+        String txt = "SELECT d FROM DossierHospitalisation d WHERE d.leService=:service";
+        Query req= em.createQuery(txt);
+        req.setParameter("service", service);
+        List<DossierHospitalisation> dossiers = req.getResultList();
+        return dossiers;
     }
 
     @Override

@@ -49,11 +49,13 @@
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <% } else if ("PATIENT".equals(role_utilisateur)) { %>
-                <!-- Cas pour l'utilisateur PATIENT : voir uniquement la carte Espace Patient -->
+                <!-- Cas pour l'utilisateur PATIENT :  -->
                 <%@ include file="card_EspacePersonnel.jsp" %>
+                <%@ include file="card_GestionDossier.jsp" %>
                 <% } else if ("PERSONNEL".equals(role_utilisateur)) { %>
                 <!-- Cas pour l'utilisateur PERSONNEL -->
                 <%@ include file="card_EspacePersonnel.jsp" %>
+                <%@ include file="card_GestionDossier.jsp" %>
                 <% } %>
                 <% }%>
             </div>
