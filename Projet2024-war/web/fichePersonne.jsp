@@ -65,6 +65,16 @@
                 <input type="text" id="specialiteMedecin" name="specialiteMedecin" 
                        value="<%= ((Z_MEDECIN) pers).getSpecialite()%>" required>
                 <br><br>
+                
+                <label for="serviceMedecin">Service :</label>
+                <select name="serviceMedecin" id="serviceMedecin" required>
+                    <option value="">Sélectionnez un service</option>
+                    <% for (Service s : services) {%>
+                    <option value="<%= s.getId()%>" <%= ((Z_MEDECIN) pers).getService() != null && ((Z_MEDECIN) pers).getService().getId() == s.getId() ? "selected" : ""%>>
+                        <%= s.getServiceNom()%>
+                    </option>
+                    <% } %>
+                </select>
             <% } else if (pers instanceof Z_PATIENT) { %>
                 <label for="numSecuPatient">Numéro de sécurité sociale :</label>
                 <input type="text" id="numSecuPatient" name="numSecuPatient" 

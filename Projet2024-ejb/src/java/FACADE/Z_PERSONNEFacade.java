@@ -121,13 +121,14 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
 //        pers.setSpecialite(specialite);
 //        getEntityManager().persist(pers);
 //    }
-public void creerMedecin(String nom, String prenom, String adresse, String specialite) {
+public void creerMedecin(String nom, String prenom, String adresse, String specialite,Service service) {
     System.out.println("appel de la méthode creerMedecin");
     Z_MEDECIN pers = new Z_MEDECIN();
         pers.setNomPersonne(nom);
         pers.setPrenomPersonne(prenom);
         pers.setAdresse(adresse);
         pers.setSpecialite(specialite);
+        pers.setService(service);
 
     try {
         getEntityManager().persist(pers);

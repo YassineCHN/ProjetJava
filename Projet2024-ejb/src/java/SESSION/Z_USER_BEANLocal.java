@@ -59,7 +59,7 @@ public interface Z_USER_BEANLocal {
     
     public List<Z_MEDECIN> trouverTousLesMedecins();
     
-    public void creerMedecin(String nom, String prenom, String adresse, String specialite);
+    public void creerMedecin(String nom, String prenom, String adresse, String specialite, Service service);
 
     public List<Z_PATIENT> trouverTousLesPatients() ;
 

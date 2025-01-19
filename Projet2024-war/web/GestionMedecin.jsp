@@ -29,6 +29,8 @@
                 <TD>Prenom</TD>
                 <TD>Adresse</TD>
                 <td>Specialite</td>
+                <TD>Nom Service</TD>
+                <TD>Localisation Service</TD>
             </tr>
             <% for (Z_MEDECIN cp : list) { %>
                 <tr>
@@ -48,6 +50,12 @@
                     </td>
                     <td Width=15%>
                         <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers()%>"><%= cp.getSpecialite()%></a>
+                    </td>
+                    <td Width=15%>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers()%>"><%= cp.getService().getId()%>-<%= cp.getService().getServiceNom() %></a>
+                    </td>
+                    <td Width=15%>
+                        <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getIdpers()%>"><%= cp.getService().getServiceLocalisation()%></a>
                     </td>
                 </tr>
             <% } %>

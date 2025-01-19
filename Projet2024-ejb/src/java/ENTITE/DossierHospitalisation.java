@@ -68,7 +68,7 @@ public class DossierHospitalisation implements Serializable {
         return "ENTITE.DossierHospitalisation[ id=" + id + " ]";
     }
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateHospitalisation;
 
     public Date getDateHospitalisation() {

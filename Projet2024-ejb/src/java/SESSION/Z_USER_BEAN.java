@@ -107,8 +107,8 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
         z_PERSONNEFacade.creerPersonne(nom, prenom, adresse);
     }
     
-    public void creerMedecin(String nom, String prenom,String adresse, String specialite) {
-        z_PERSONNEFacade.creerMedecin(nom, prenom, adresse, specialite);
+    public void creerMedecin(String nom, String prenom,String adresse, String specialite, Service service) {
+        z_PERSONNEFacade.creerMedecin(nom, prenom, adresse, specialite,service);
     }
     
     public Z_USER trouverUserParLogin(String login){
