@@ -19,6 +19,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Ajouter personne</title>
         <jsp:useBean id="listeServices" scope="request" class="java.util.List"></jsp:useBean>
+        <%
+            List<Service> lesServ = listeServices;
+        %>
     </head>
    <body>
         <h1>Ajouter une nouvelle personne </h1>
@@ -53,23 +56,30 @@
             <label for="AdresseMutuelle">Adresse Mutuelle :</label>
             <input type="text" id="adresseMutuelle" name="adresseMutuelle"><br><br>
         </div>    
+            
         <div id="medecinFields" style="display:none;">
             <label for="specialiteMedecin">Spécialité :</label>
-            <input type="text" id="specialiteMedecin" name="specialiteMedecin" required><br><br>
-        </div>
-
-        <div id="personnelFields" style="display:none;">
-        <%  List<Service> lesServ=listeServices;%> 
-        <div id="personnelField" class="">
-        <label for="PersonnelServiceAjouterPersonne">Services : </label> 
-                <select name="PersonnelServiceAjouterUser"> 
+            <input type="text" id="specialiteMedecin" name="specialiteMedecin" required>
+            
+            <label for="MedecinServiceAjouterPersonne">Services : </label> 
+                <select name="MedecinServiceAjouterPersonne"> 
                     <option value="">Aucun</option>
                     <% for (Service s :lesServ) {%> 
                     <option value ="<%=s.getId()%>"><%=s.getServiceNom()%></option> 
                     <% }%> 
                 </select><br><br>
         </div>
+
+        <div id="personnelFields" style="display:none;"> 
+        <label for="PersonnelServiceAjouterPersonne">Services : </label> 
+                <select name="PersonnelServiceAjouterPersonne"> 
+                    <option value="">Aucun</option>
+                    <% for (Service s :lesServ) {%> 
+                    <option value ="<%=s.getId()%>"><%=s.getServiceNom()%></option> 
+                    <% }%> 
+                </select><br><br>
         </div>
+ 
             
         
 

@@ -29,7 +29,7 @@
         <fieldset>
             <legend>Informations personnelles</legend>
             
-            <input type="hidden" id="id_personne" name="id_personne" value="<%= personne.getIdpers() %>">
+            <input type="hidden" id="id_personne" name="id_personne" value="<%= personne.getIdpers()%>">
             
             <!-- Nom -->
             <label for="nom">Nom :</label>
@@ -46,7 +46,7 @@
             <input type="text" id="adressePersonne" name="adressePersonne" value="<%= personne.getAdressePersonne() %>" required>
             <br><br>
             
-            <input type="hidden" id="adressePersonne" name="typePersonne" value="<%= personne.getTYPE()%>">
+            <input type="hidden" id="typePersonne" name="typePersonne" value="<%= personne.getTYPE()%>">
             
             
             
@@ -65,12 +65,19 @@
                 <input type="text" id="adresseMutuelle" name="adresseMutuelle" value="<%= ((Z_PATIENT)personne).getAdresseMutuelle() %>">
                 <br><br>
             <% } else if (role == RoleUSER.PERSONNEL) { %>
-                <label for="service">Service :</label>
-                <input type="text" id="PersonnelServiceAjouterUser" value="<%= ((Z_PERSONNEL)personne).getService().getServiceNom()%>" readonly>
+                <label for="servicePersonnel">Service :</label>
+                <input type="text" id="servicePersonnel" value="<%= ((Z_PERSONNEL)personne).getService().getServiceNom()%>" readonly>
+                <input type="hidden" name="servicePersonnel" value="<%= ((Z_PERSONNEL)personne).getService().getId() %>">
                 <br><br>
             <% } else if (role == RoleUSER.MEDECIN) { %>
                 <label for="specialite">Spécialité :</label>
-                <input type="text" id="specialiteMedecin" value="<%= ((Z_MEDECIN)personne).getSpecialite()%>" readonly>
+                <input type="text" id="specialiteMedecin" name="specialiteMedecin" value="<%= ((Z_MEDECIN)personne).getSpecialite()%>" readonly>
+                <br><br>
+                
+                <label for="serviceMedecin">Service :</label>
+                <input type="text" id="serviceMedecin" value="<%= ((Z_MEDECIN)personne).getService().getServiceNom() %>" readonly>
+                <input type="hidden" name="serviceMedecin" value="<%= ((Z_MEDECIN)personne).getService().getId() %>">
+
                 <br><br>
             <% } else { %>
                 <p>Rôle non reconnu. Veuillez contacter l'administrateur.</p>

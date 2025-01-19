@@ -186,7 +186,7 @@ public class NewServlet extends HttpServlet {
                     RoleUSER role = user.getRole();
                     request.setAttribute("role", role);
                     List<DossierHospitalisation> lesDossiers=null;
-                    if(role==RoleUSER.MEDECIN || role==RoleUSER.ADMIN){
+                    if(role==RoleUSER.ADMIN){
                         lesDossiers =  gestionDossierHospitalisation.afficherDossier();
                     } else if (role==RoleUSER.PATIENT){
                         Z_PATIENT patient=(Z_PATIENT) personne;
@@ -195,7 +195,12 @@ public class NewServlet extends HttpServlet {
                         Z_PERSONNEL pers=(Z_PERSONNEL) personne;
                         Service serv=pers.getService();
                         lesDossiers=gestionDossierHospitalisation.trouverTousLesDossiersUnService(serv);
-                        // trouver tous les dossiers du même service que le membre du personnel (créer methode)
+                        // trouver tous les dossiers du même service que la personne connecté
+                    } else if (role==RoleUSER.MEDECIN){
+                        Z_MEDECIN med=(Z_MEDECIN) personne;
+                        Service serv=med.getService();
+                        lesDossiers=gestionDossierHospitalisation.trouverTousLesDossiersUnService(serv);
+                        // trouver tous les dossiers du même service que la personne connecté
                     }
                     else {
                         jspClient="/landing_page.jsp";
@@ -324,7 +329,7 @@ public class NewServlet extends HttpServlet {
             Long idService = Long.valueOf(request.getParameter("supprimerService"));
             Service serv=gestionService.trouverServiceParID(idService);
             if(serv != null){
-                if(serv.getLesPersonnels().isEmpty()){
+                if(serv.getLesPersonnels().isEmpty()&& serv.getLesMedecins().isEmpty()){
                     if(serv.getDossierHospitalisations().isEmpty()){
                        gestionService.SupprimerService(idService);
                    request.setAttribute("message", "Service supprimé avec succès.");
@@ -332,7 +337,7 @@ public class NewServlet extends HttpServlet {
                         request.setAttribute("message", "Impossible de supprimer le service car des dossiers y sont encore liés");
                     }
                 } else {
-                    request.setAttribute("message", "Impossible de supprimer le service car des membres du personnels y sont encore liés");
+                    request.setAttribute("message", "Impossible de supprimer le service car des membres du personnel ou médecins y sont encore liés");
                 }   
             }
         }
@@ -435,8 +440,19 @@ public class NewServlet extends HttpServlet {
                     
                 if (typePersonne.equals("MEDECIN")) {
                     String specialite = request.getParameter("specialiteMedecin");
-                    z_USER_BEAN.creerMedecin(nom, prenom, adresse, specialite);
-                    System.out.println("ON CREE MEDECIN");
+                    String serviceparam = request.getParameter("MedecinServiceAjouterPersonne");
+                    if (serviceparam == null || serviceparam.isEmpty() ) {
+                        request.setAttribute("erreur", "Un service doit être sélectionné pour créer un utilisateur de type PERSONNEL.");
+                        List<Service> listeServices = gestionService.tousLesServices();
+                        request.setAttribute("listeServices", listeServices);
+                        request.getRequestDispatcher("AjouterUtilisateur.jsp").forward(request, response);
+                        return; 
+                    }else{
+                        Long serviceId = Long.parseLong(serviceparam);
+                        Service service = gestionService.trouverServiceParID(serviceId);
+                        z_USER_BEAN.creerMedecin(nom, prenom, adresse, specialite,service);
+                        System.out.println("Utilisateur MEDECIN créé avec succès !");
+                     }
                 }
                 if (typePersonne.equals("PATIENT")){
                     String numSecuSoc = request.getParameter("numSecuPatient");
@@ -446,7 +462,7 @@ public class NewServlet extends HttpServlet {
                     System.out.println("ON CREE PATIENT");
                 }
                 if (typePersonne.equals("PERSONNEL")){
-                    String serviceparam = request.getParameter("PersonnelServiceAjouterUser");
+                    String serviceparam = request.getParameter("PersonnelServiceAjouterPersonne");
                     if (serviceparam == null || serviceparam.isEmpty() ) {
                         request.setAttribute("erreur", "Un service doit être sélectionné pour créer un utilisateur de type PERSONNEL.");
                         List<Service> listeServices = gestionService.tousLesServices();
@@ -531,7 +547,6 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("modifierPersonne")) {
             jspClient="/landing_page.jsp";
-            
             Long idPersonne = Long.parseLong(request.getParameter("id_personne"));
             String nom = request.getParameter("nomPersonne");
             String prenom = request.getParameter("prenomPersonne");
@@ -547,6 +562,9 @@ public class NewServlet extends HttpServlet {
                 if (typePersonne.equals("MEDECIN")) {
                     String specialite = request.getParameter("specialiteMedecin");
                     ((Z_MEDECIN) personne).setSpecialite(specialite);
+                    String serviceparamM = request.getParameter("serviceMedecin");
+                    Service service = gestionService.trouverServiceParID(Long.parseLong(serviceparamM));
+                    ((Z_MEDECIN) personne).setService(service);
                 } else if (typePersonne.equals("PATIENT")) {
                     String numSecuSoc = request.getParameter("numSecuPatient");
                     String mutuelle = request.getParameter("nomMutuelle");
@@ -555,8 +573,8 @@ public class NewServlet extends HttpServlet {
                     ((Z_PATIENT) personne).setNomMutuelle(mutuelle);
                     ((Z_PATIENT) personne).setAdresseMutuelle(adresseMutuelle);
                 } else if (typePersonne.equals("PERSONNEL")) {
-                    String serviceparam = request.getParameter("PersonnelServiceAjouterUser");
-                    Service service = gestionService.trouverServiceParID(Long.parseLong(serviceparam));
+                    String serviceparamP = request.getParameter("servicePersonnel");
+                    Service service = gestionService.trouverServiceParID(Long.parseLong(serviceparamP));
                     ((Z_PERSONNEL) personne).setService(service);
                 }// Appelez la méthode pour modifier la personne dans la base de données
                 z_USER_BEAN.modifierPersonne(personne);
@@ -585,6 +603,7 @@ public class NewServlet extends HttpServlet {
                 }
                 gestionDossierHospitalisation.modifierDossier(dossier);
                 request.setAttribute("message", "Dossier modifié avec succès.");
+                System.out.println("Modification réussie : " + dossier.getId());
             } else {
                 request.setAttribute("message", "Dossier introuvable.");
             }
@@ -772,8 +791,6 @@ public class NewServlet extends HttpServlet {
             jspClient = "/landing_page.jsp";
 
             String dateHospitalisationStr = request.getParameter("dateHospitalisation");
-            String heureArriveeStr = request.getParameter("heureArrivee");
-            String heureDepartStr = request.getParameter("heureDepart");
             String serviceIdStr = request.getParameter("serviceId"); 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
              
@@ -783,12 +800,7 @@ public class NewServlet extends HttpServlet {
             if (dateHospitalisationStr != null && !dateHospitalisationStr.trim().isEmpty()) {
                 dateHospitalisation_test = sdf.parse(dateHospitalisationStr);
             }
-            if (heureArriveeStr != null && !heureArriveeStr.trim().isEmpty()) {
-                heureArrivee_test = sdf.parse(heureArriveeStr);
-            }
-            if (heureDepartStr != null && !heureDepartStr.trim().isEmpty()) {
-                heureDepart_test = sdf.parse(heureDepartStr);
-            }
+
             
             Z_PATIENT patient = null;
             Long serviceId = Long.valueOf(serviceIdStr);

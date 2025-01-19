@@ -23,6 +23,14 @@ public class Z_MEDECIN extends Z_PERSONNE {
     @ManyToOne
     private Service service;
 
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+
 //    private static final long serialVersionUID = 1L;
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
