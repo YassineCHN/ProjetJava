@@ -33,6 +33,7 @@ import SESSION.GestionPaiementLocal;
 import SESSION.GestionServiceLocal;
 
 import SESSION.Z_USER_BEANLocal;
+import SESSION.envoieMailLocal;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,7 +42,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,6 +61,16 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "NewServlet", urlPatterns = {"/NewServlet"})
 public class NewServlet extends HttpServlet {
+    
+    
+//    J'abandonne
+    @Resource(name = "mail/mySession")
+    private Session mailMonMailSession;
+
+    @EJB
+    private envoieMailLocal envoieMail;
+
+    
 
     @EJB
     private GestionPaiementLocal gestionPaiement;
@@ -97,7 +116,12 @@ public class NewServlet extends HttpServlet {
             jspClient = "/landing_page.jsp";
             String login = request.getParameter("loginHeritage");
             String password = request.getParameter("passwordHeritage");
-
+            
+            
+                
+            
+            
+            
             if (login.trim().isEmpty() || password.trim().isEmpty()) {
                 // Vérification des champs vides pour le login et le mot de passe
                 String message = "L'un des items du formulaire est vide, reessayez!";
@@ -828,21 +852,33 @@ public class NewServlet extends HttpServlet {
 //        }
 
 
-        else if (act.equals("payerFacture")){
-            jspClient="/landing_page.jsp";
+        else if (act.equals("payerFacture")) {
+            jspClient = "/landing_page.jsp";
             String id_facture = request.getParameter("id_payerFacture");
+            String mode_paiement = request.getParameter("mode_paiement");
             Facture laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
-            
-            
-            
-            if(laFacture != null && laFacture.isFacturePayee()==false){
-//                on paye la facture
 
-                Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(), ModePaiement.VIREMENT, laFacture);
-                gestionFacture.validerFacturePaiement(laFacture);
-            }
-            else {
-                
+            if (laFacture != null && !laFacture.isFacturePayee()) {
+                try {
+                    // Conversion de la chaîne en Enum 
+                    ModePaiement mode = ModePaiement.valueOf(mode_paiement.trim().toUpperCase());
+
+                    // Si la conversion réussit, on peut enregistrer le paiement
+                    Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(),mode, laFacture);
+                    // Puis valider la facture
+                    gestionFacture.validerFacturePaiement(laFacture);
+
+                    request.setAttribute("message", "La facture a été payée avec succès en mode : " + mode);
+
+                } catch (IllegalArgumentException e) {
+                    // Si mode_paiement n'existe pas dans l'énum ModePaiement
+                    request.setAttribute("message", "Le mode de paiement '" + mode_paiement + "' est invalide.");
+                    System.out.println("Mode de paiement invalide : " + mode_paiement);
+                    
+                    jspClient = "/landing_page.jsp";
+                }
+            } else {
+                request.setAttribute("message", "Facture introuvable ou déjà payée.");
             }
         }
         else if (act.equals("creerFacture")) { 
@@ -870,10 +906,12 @@ public class NewServlet extends HttpServlet {
                 System.out.println("CREER FACTURE");
                 
                 if (factureCreee != null) {
-                    System.out.println("facturecreee NEST PAS NUL");
+                    System.out.println("la facture est bien cree, != null");
+                    System.out.println(factureCreee);
                     request.setAttribute("message", "Facture créée avec succès ! Montant = " + factureCreee.getFactureMontant());
                     request.setAttribute("facture", factureCreee);
                     jspClient = "/ficheFacture.jsp";
+                    
 
                 } else {
                     System.out.println("FACTURE CREE EST NULL");
@@ -922,6 +960,10 @@ public class NewServlet extends HttpServlet {
             Logger.getLogger(NewServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    
+
+    
 }
 
 
