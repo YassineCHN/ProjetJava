@@ -22,9 +22,6 @@
         <div class="main_content">
         <h1>Afficher Patients</h1>
         
-        <div class="ruban_actions">
-            <a href="AjouterPatient.jsp" class="button_link">Ajouter un Patient</a>
-        </div>
     
         <TABLE border width=50%>
             <tr>

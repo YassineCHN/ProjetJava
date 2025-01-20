@@ -676,11 +676,11 @@ public class NewServlet extends HttpServlet {
                     request.setAttribute("role", role);
                     jspClient = "/EspacePersonnel.jsp";
                 } else {
-                    jspClient = "/login.jsp";
+                    jspClient = "/z_user_auth.jsp";
                     request.setAttribute("message", "Utilisateur introuvable. Veuillez vous reconnecter.");
                 }
             } else {
-                jspClient = "/login.jsp";
+                jspClient = "/z_user_auth.jsp";
                 request.setAttribute("message", "Veuillez vous connecter pour accéder à votre espace.");
             }
         }
