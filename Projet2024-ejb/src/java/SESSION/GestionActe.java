@@ -45,4 +45,9 @@ public class GestionActe implements GestionActeLocal {
         acteFacade.creerActe(nom, description, prix);
     }
     
+    @Override
+    public void modifierActe(Acte acte) {
+        acteFacade.modifierActe(acte);
+    }
+    
 }

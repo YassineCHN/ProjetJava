@@ -23,4 +23,6 @@ public interface GestionActeLocal {
 
     void creerActe(String nom, String description, double prix);
     
+    void modifierActe(Acte acte);
+    
 }
