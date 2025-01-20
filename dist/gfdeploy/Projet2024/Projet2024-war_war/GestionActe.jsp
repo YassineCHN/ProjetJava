@@ -32,6 +32,8 @@
                 <TD>Acte</TD>
                 <TD>Description</TD>
                 <TD>Prix</TD>
+                <TD>Remboursement de la sécurité sociale</TD>
+                <TD>remboursement de la mutuelle</TD>
             </tr>
             <% for (Acte cp : list) { %>
                 <tr>
@@ -48,6 +50,12 @@
                     </td>
                     <td Width=30%>
                         <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getActePrix()%></a>
+                    </td>
+                    <td Width=30%>
+                        <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getCoefficient_SecuriteSociale()%></a>
+                    </td>
+                    <td Width=30%>
+                        <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getCoefficient_Mutuelle()%></a>
                     </td>
                 </tr>
             <% } %>
