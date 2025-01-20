@@ -7,12 +7,14 @@ package FACADE;
 import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
 import ENTITE.JournalActe;
+import ENTITE.Z_PATIENT;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -100,4 +102,22 @@ public class FactureFacade extends AbstractFacade<Facture> implements FactureFac
             System.out.println("l'input facture est null");
         }
     }
+
+    @Override
+    public List<Facture> trouverFacturesPatient(Z_PATIENT patient) {
+//        
+        List<Facture> factures = null;
+
+        if (patient==null ){
+            return factures;
+        } else {
+            factures = em.createQuery("SELECT j FROM Facture j WHERE j.leDossier.lePatient = :patient", Facture.class).setParameter("patient", patient).getResultList();
+        return factures;
+        }
+
+         
+      
+    }
+    
+    
 }

@@ -251,7 +251,29 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("afficherFactures")) {
             jspClient = "/GestionFacturation.jsp";
-            List<Facture> factures = (List<Facture>) gestionFacture.trouverToutesFactures();
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            List<Facture> factures = null;
+            if (utilisateurIdentifie != null) {
+                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                if(user!=null){
+                    Z_PERSONNE personne = user.getPersonne();
+                    request.setAttribute("personne", personne);
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
+                    
+                    
+                    if (role==RoleUSER.PATIENT) {
+                        Z_PATIENT patient=(Z_PATIENT) personne;
+                        factures = gestionFacture.trouverFacturesPatient(patient);
+                    }
+                    else {
+                        factures = gestionFacture.trouverToutesFactures();
+                    }
+                } else {
+                    jspClient = "/landing_page.jsp";
+                    request.setAttribute("message", "erreur dans l'affichage des factures");
+                }
+            }
             request.setAttribute("listeFacture", factures);
             
         }
@@ -653,14 +675,32 @@ public class NewServlet extends HttpServlet {
             String nomActe=request.getParameter("acte_nom");
             String descriptionActe=request.getParameter("acte_description");
             String prixActe=request.getParameter("acte_prix");
+            String coefSecu = request.getParameter("coefSecu");
+            String coefMutuelle = request.getParameter("coefMutuelle");
+            System.out.println(nomActe);
+            System.out.println(descriptionActe);
+            System.out.println(prixActe);
+            System.out.println(coefSecu);
+            System.out.println(coefMutuelle);
+            System.out.println("CI DESSOUS LES COEF APREM TRIM");
+            System.out.println(coefSecu.trim());
+            System.out.println(coefMutuelle.trim());
+            
             Acte acte=gestionActe.trouverActeParId(idActe);
             if(acte!=null){
-                acte.setActeNom(nomActe);
+                if(nomActe.trim().isEmpty() || descriptionActe.trim().isEmpty() || prixActe.trim().isEmpty() || coefSecu.trim().isEmpty() || coefMutuelle.trim().isEmpty()){    request.setAttribute("message", "ERREUR dans le formulaire de modification, l'un des champs est vide");
+                
+                }
+                else{
+                    acte.setActeNom(nomActe);
                 acte.setActeDescription(descriptionActe);
                 acte.setActePrix(Double.parseDouble(prixActe));
+                acte.setCoefficient_SecuriteSociale(Double.parseDouble(coefSecu));
+                acte.setCoefficient_Mutuelle(Double.parseDouble(coefMutuelle));
                 gestionActe.modifierActe(acte);
                 request.setAttribute("message", "Acte modifié avec succès.");
                 System.out.println("Modification réussie : " + acte.getId());
+                }
             }else {
                 request.setAttribute("message", "Acte introuvable.");
             }
@@ -712,12 +752,16 @@ public class NewServlet extends HttpServlet {
             String acteNom = request.getParameter("acteNom");
             String acteDescription = request.getParameter("acteDescription");
             String actePrix = request.getParameter("actePrix");
-            if(acteNom.trim().isEmpty() || acteDescription.trim().isEmpty() || actePrix.trim().isEmpty()){
+            String coefSecu = request.getParameter("coefSecu");
+            String coefMutuelle = request.getParameter("coefMutuelle");
+            if(acteNom.trim().isEmpty() || acteDescription.trim().isEmpty() || actePrix.trim().isEmpty() || coefSecu.trim().isEmpty() || coefMutuelle.trim().isEmpty()){
                 String message = "Formulaire de création patient erroné";
                 request.setAttribute("message", message);
             } else {
                 double prix = Double.parseDouble(actePrix);
-                gestionActe.creerActe(acteNom,acteDescription, prix);
+                double coefSecu1 = Double.parseDouble(coefSecu);
+                double coefMutuelle2 = Double.parseDouble(coefMutuelle);
+                gestionActe.creerActe(acteNom,acteDescription, prix, coefSecu1, coefMutuelle2);
                 String message = "Acte créé";
                 request.setAttribute("message", message);
             }
@@ -728,7 +772,7 @@ public class NewServlet extends HttpServlet {
             String id_dossier = request.getParameter("id_ajouterJournal");
             String role_user = (String) session.getAttribute("role2");
             String user = (String) session.getAttribute("user_identifié");
-            Long id_user = Long.valueOf((Long) session.getAttribute("id_user"));
+            Long id_user = Long.parseLong((String) session.getAttribute("id_user"));
             Z_USER user_2 = z_USER_BEAN.trouverUtilisateurParId(id_user);
             
             DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(id_dossier));
@@ -895,9 +939,16 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("payerFacture")) {
             jspClient = "/landing_page.jsp";
             String id_facture = request.getParameter("id_payerFacture");
+            System.out.println("ID de la facture");
+            System.out.println(id_facture);
+            
             String mode_paiement = request.getParameter("mode_paiement");
+            System.out.println("MODE DE PAIEMENT");
+            System.out.println(mode_paiement);
             Facture laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
-
+            System.out.println("on recup une facture ??????");
+            System.out.println("oui " + laFacture.getFactureMontant());
+            
             if (laFacture != null && !laFacture.isFacturePayee()) {
                 try {
                     // Conversion de la chaîne en Enum 

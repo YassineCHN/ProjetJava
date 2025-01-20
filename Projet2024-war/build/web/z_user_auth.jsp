@@ -14,12 +14,11 @@
         <title>JSP Page</title>
         <%
             String message_affichage = (String) request.getAttribute("message");
-            
         %>
     </head>
     <body>
-        <h1>AUTHENTIFICATION HERITAGE!</h1>
-        <h1><%=message_affichage%>!</h1>
+        <h1>Authentification utilisateur</h1>
+        <h1><%=(message_affichage==null) ? "" : message_affichage %></h1>
         <form action="NewServlet" method="post">
         <fieldset>
         <label for="loginHeritage">Login :</label>

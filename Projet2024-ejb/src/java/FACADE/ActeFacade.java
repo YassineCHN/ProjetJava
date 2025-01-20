@@ -30,11 +30,13 @@ public class ActeFacade extends AbstractFacade<Acte> implements ActeFacadeLocal 
     }
     
     @Override
-    public void creerActe(String nom, String description, double prix) {
+    public void creerActe(String nom, String description, double prix, double coefSecu, double coefMutuelle) {
         Acte acte = new Acte();
         acte.setActeNom(nom);
         acte.setActeDescription(description);
         acte.setActePrix(prix);
+        acte.setCoefficient_SecuriteSociale(coefSecu);
+        acte.setCoefficient_Mutuelle(coefMutuelle);
         em.persist(acte);
     }
 

@@ -21,7 +21,7 @@
             <h1>
                 
                 Projet 2024 - Cas hospitalisation. <br>
-                <%=message_affichage%>
+                <%=(message_affichage==null) ? "" : message_affichage %>
 
             </h1>
             <hr>

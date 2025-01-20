@@ -20,38 +20,9 @@
         <% List<Facture> list = (List<Facture>) request.getAttribute("listeFacture"); %>
         <!-- Les factures affichées -->
        
-        <%List<Facture> facturesAffichees = new java.util.ArrayList<Facture>(); 
-        System.out.println("le user");
-                
-
-        
-        %>
         
         
-        <%
-            
-            if("PATIENT".equals(role_utilisateur)) {
-            for (Facture facture : list) {
-//                if (user.getPersonne().equals(facture.getLeDossier().getLePatient())) {
-//                        facturesAffichees.add(facture);
-//                        System.out.println("une facture ajoutée à l'affichage");
-//                    }
-//                    else{
-//                     System.out.println("une facture PAS AJOUTEE à l'affichage");
-//            } 
-                System.out.println("le patient");
-                System.out.println(facture.getLeDossier().getLePatient());
-                System.out.println("===========================================================");
-                System.out.println("le user");
-                
-                System.out.println(user.getId());
-                System.out.println(user.getPersonne());
-                }
-            }
-            else {
-            facturesAffichees = list;
-            }
-        %>
+        
         
         
         <title>Actes</title>
@@ -71,8 +42,9 @@
                 <TD>Montant total</TD>
                 <TD>ID dossier</TD>
                 <TD>ID journal</TD>
+                <TD>Statut de la facture</TD>
             </tr>
-            <% for (Facture cp : facturesAffichees) { %>
+            <% for (Facture cp : list) { %>
                 <tr>
                     <!-- Dans chaque ligne du tableau, on récupère les informations du patient qu'on encapsule dans une balise <a> -->
                     <!-- Cette balise redirige vers la jsp "fichePatient.jsp" avec dans l'URL l'id du patient -->
@@ -90,6 +62,9 @@
                     </td>
                     <td Width=30%>
                         <a href="NewServlet?action=afficherFicheFacture&id_Facture=<%= cp.getId() %>"><%= cp.getLeJournal().getId()%></a>
+                    </td>
+     //                <td Width=30%>
+                        <a href="NewServlet?action=afficherFicheFacture&id_Facture=<%= cp.getId() %>"><%= (cp.isFacturePayee()) ? "Payée" : "Impayée"%></a>
                     </td>
                 </tr>
             <% } %>

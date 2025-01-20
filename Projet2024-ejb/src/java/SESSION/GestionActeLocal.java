@@ -21,7 +21,7 @@ public interface GestionActeLocal {
 
     void supprimerActe(Long id);
 
-    void creerActe(String nom, String description, double prix);
+    void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle);
     
     void modifierActe(Acte acte);
     

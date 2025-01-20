@@ -6,6 +6,7 @@ package SESSION;
 
 import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
+import ENTITE.Z_PATIENT;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -25,5 +26,7 @@ public interface GestionFactureLocal {
     Facture trouverFactureParID(Long id);
 
     void validerFacturePaiement(Facture facture);
+
+    List<Facture> trouverFacturesPatient(Z_PATIENT patient);
     
 }

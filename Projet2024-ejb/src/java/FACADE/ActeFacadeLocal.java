@@ -29,7 +29,7 @@ public interface ActeFacadeLocal {
 
     int count();
 
-    void creerActe(String nom, String description, double prix);
+    void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle);
 
     void modifierActe(Acte acte);
 

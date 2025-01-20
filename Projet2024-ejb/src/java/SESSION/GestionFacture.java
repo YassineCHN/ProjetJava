@@ -8,6 +8,7 @@ import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.Z_PATIENT;
 import ENTITE.statutJournal;
 import FACADE.FactureFacadeLocal;
 import FACADE.LigneJournalFacadeLocal;
@@ -75,7 +76,21 @@ public class GestionFacture implements GestionFactureLocal {
         for (LigneJournal ligne : lignes) {
             double prixUnitaire = ligne.getId_acte().getActePrix();
             int quantite = ligne.getQuantité_Acte();
-            total += prixUnitaire * quantite;
+            double coefSecu = ligne.getId_acte().getCoefficient_SecuriteSociale();
+            double coefMutuelle = ligne.getId_acte().getCoefficient_Mutuelle();
+            System.out.println("============================");
+            System.out.println("ITERATION N");
+            System.out.println("le prix unitaire : ");
+            System.out.println(prixUnitaire);
+            System.out.println("la quantité ");
+            System.out.println(quantite);
+            System.out.println("le coeff de la secu");
+            System.out.println(coefSecu);
+            System.out.println("le coef de la mutuelle");
+            System.out.println(coefMutuelle);
+            
+            total += prixUnitaire * quantite*coefSecu*coefMutuelle;
+            
             System.out.println("Total par itération");
             System.out.println(total);
         }
@@ -111,6 +126,12 @@ public class GestionFacture implements GestionFactureLocal {
     @Override
     public void validerFacturePaiement(Facture facture) {
         factureFacade.validerFacturePaiement(facture);
+    }
+
+    @Override
+    public List<Facture> trouverFacturesPatient(Z_PATIENT patient) {
+       return factureFacade.trouverFacturesPatient(patient);
+        
     }
 
 }

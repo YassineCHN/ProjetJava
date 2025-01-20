@@ -41,8 +41,8 @@ public class GestionActe implements GestionActeLocal {
     }
 
     @Override
-    public void creerActe(String nom, String description, double prix) {
-        acteFacade.creerActe(nom, description, prix);
+    public void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle) {
+        acteFacade.creerActe(nom, description, prix, coefSecu,  coefMutuelle);
     }
     
     @Override

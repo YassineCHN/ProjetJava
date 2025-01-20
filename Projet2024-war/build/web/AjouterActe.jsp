@@ -23,8 +23,17 @@
             <input type="text" id="acteDescription" name="acteDescription" required><br><br>
 
             <label for="actePrix">Prix de l'acte :</label>
-            <input type="number" step="0.01" id="actePrix" name="actePrix" required><br><br>
-
+            <input type="number" step="1" id="actePrix" name="actePrix" required><br><br>
+            
+            
+        <label for="coefSecu">Coefficient de la sécurité sociale :</label>
+        <input type="number" step="0.01" max="1" min="0.00 id="coefSecu" name="coefSecu"  required>
+       
+        <label for="coefMutuelle">Coefficient de la mutuelle :</label>
+        <input type="number" step="0.01" max="1" min="0.00" id="coefMutuelle" name="coefMutuelle"  required>
+        
+        <br>
+        <br>
             <input type="hidden" name="action" value="creerActe">
             <input type="submit" value="Créer">
         </form>

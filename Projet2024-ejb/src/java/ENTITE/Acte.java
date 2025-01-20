@@ -101,5 +101,25 @@ public class Acte implements Serializable {
 //    public void setLeDossier(DossierHospitalisation leDossier) {
 //        this.leDossier = leDossier;
 //    }
+        private double coefficient_SecuriteSociale;
+
+    public double getCoefficient_SecuriteSociale() {
+        return coefficient_SecuriteSociale;
+    }
+
+    public void setCoefficient_SecuriteSociale(double coefficient_SecuriteSociale) {
+        this.coefficient_SecuriteSociale = coefficient_SecuriteSociale;
+    }
+
+    private double coefficient_Mutuelle;
+
+    public double getCoefficient_Mutuelle() {
+        return coefficient_Mutuelle;
+    }
+
+    public void setCoefficient_Mutuelle(double coefficient_Mutuelle) {
+        this.coefficient_Mutuelle = coefficient_Mutuelle;
+    }
+
     
 }

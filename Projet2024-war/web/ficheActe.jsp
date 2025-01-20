@@ -27,7 +27,13 @@
         <br><br>
         
         <label for="acte_prix">Prix de l'Acte :</label>
-        <input type="number" step="0.01" id="acte_prix" name="acte_prix" value="<%= acte.getActePrix() %>" required>
+        <input type="number" step="1" id="acte_prix" name="acte_prix" value="<%= acte.getActePrix() %>" required>
+        <br><br>
+        <label for="coefSecu">Coefficient de la sécurité sociale :</label>
+        <input type="number" step="0.01" max="1" min="0.00" id= "coefSecu" name="coefSecu" value="<%= acte.getCoefficient_SecuriteSociale()%>" required>
+        <br><br>
+        <label for="coefMutuelle">Coefficient de la mutuelle :</label>
+        <input type="number" step="0.01" max="1" min="0.00" id="coefMutuelle" name="coefMutuelle" value="<%= acte.getCoefficient_Mutuelle()%>" required>
         <br><br>
         
         <input type="hidden" name="action" value="modifierActe">

@@ -7,6 +7,7 @@ package FACADE;
 import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
 import ENTITE.JournalActe;
+import ENTITE.Z_PATIENT;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -42,4 +43,6 @@ public interface FactureFacadeLocal {
 //    Facture trouverFactureParPatient(DossierHospitalisation dossier);
 
     void validerFacturePaiement(Facture facture);
+
+    List<Facture> trouverFacturesPatient(Z_PATIENT patient);
 }
