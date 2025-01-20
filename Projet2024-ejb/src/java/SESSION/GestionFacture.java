@@ -89,7 +89,9 @@ public class GestionFacture implements GestionFactureLocal {
             System.out.println("le coef de la mutuelle");
             System.out.println(coefMutuelle);
             
-            total += prixUnitaire * quantite*coefSecu*coefMutuelle;
+//            La secu et la mutuelle prenne en charge une part du total
+//          Que ce passe t il si les coeffs sont nuls ? edge case
+            total += (prixUnitaire * quantite)*(1-coefSecu-coefMutuelle) ;
             
             System.out.println("Total par itération");
             System.out.println(total);
