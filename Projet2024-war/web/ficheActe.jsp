@@ -15,7 +15,7 @@
         <legend>Fiche Acte</legend>
         
         <label for="id_acte">ID Acte :</label>
-        <input type="text" id="id_acte" name="id_acte" value="<%= Long.toString(acte.getId()) %>" disabled required>
+        <input type="text" id="id_acte" name="id_acte" value="<%= Long.toString(acte.getId()) %>" readonly>
         <br><br>
         
         <label for="acte_nom">Nom de l'Acte :</label>

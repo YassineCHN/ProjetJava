@@ -5,6 +5,9 @@
 --%>
 
    
+<%@page import="ENTITE.Acte"%>
+<%@page import="ENTITE.LigneJournal"%>
+<%@page import="ENTITE.JournalActe"%>
 <%@page import="ENTITE.DossierHospitalisation"%>
 <%@page import="ENTITE.Z_MEDECIN"%>
 <%@page import="java.util.List"%>
@@ -65,7 +68,29 @@
                 <td Width=15%>
                     <a href="NewServlet?action=afficherFicheService&id_service=<%= cp.getLeService()%>"><%= cp.getLeService().getId()%>-<%= cp.getLeService().getServiceNom()%></a>
                 </td>
-                
+                <td Width=25%>
+                    <%
+                        List<JournalActe> journalActes = cp.getJournalActes();
+                        if (journalActes != null && !journalActes.isEmpty()) {
+                            StringBuilder actes = new StringBuilder();
+                            for (JournalActe journal : journalActes) {
+                                List<LigneJournal> lignes = journal.getLigneJournals();
+                                for (LigneJournal ligne : lignes) {
+                                    Acte acte = ligne.getId_acte();
+                                    if (acte != null) {
+                                        actes.append(acte.getActeNom()).append(", "); // Affiche le nom de l'acte
+                                    }
+                                }
+                            }
+                            if (actes.length() > 0) {
+                                actes.setLength(actes.length() - 2); // Enlève la dernière virgule et l'espace
+                            }
+                            out.print(actes.toString());
+                        } else {
+                            out.print("Aucun acte");
+                        }
+                    %>
+                </td>
             </tr>
             <% } %>
     </TABLE>

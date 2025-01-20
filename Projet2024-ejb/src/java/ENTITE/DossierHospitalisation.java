@@ -145,5 +145,13 @@ public class DossierHospitalisation implements Serializable {
 //        this.lesActes = lesActes;
 //    }
 
+    public List<JournalActe> getJournalActes() {
+        return journalActes;
+    }
+
+    public void setJournalActes(List<JournalActe> journalActes) {
+        this.journalActes = journalActes;
+    }
+
 }
 

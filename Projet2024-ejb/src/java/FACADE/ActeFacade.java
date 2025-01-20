@@ -39,14 +39,8 @@ public class ActeFacade extends AbstractFacade<Acte> implements ActeFacadeLocal 
     }
 
     @Override
-    public void modifierActe(Long id, String nom, String description, double prix) {
-        Acte acte = em.find(Acte.class, id);
-        if (acte != null) {
-            acte.setActeNom(nom);
-            acte.setActeDescription(description);
-            acte.setActePrix(prix);
-            em.merge(acte);
-        }
+    public void modifierActe(Acte acte) {
+        getEntityManager().merge(acte);
     }
 
     @Override

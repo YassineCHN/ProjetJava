@@ -6,6 +6,7 @@ package FACADE;
 
 
 import ENTITE.DossierHospitalisation;
+import ENTITE.JournalActe;
 
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
@@ -118,11 +119,18 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
 
     @Override
     public void supprimerDossierHospitalisation(Long id) {
-        try {
-            DossierHospitalisation result = em.createQuery("SELECT s FROM DossierHospitalisation s WHERE s.id = :variable", DossierHospitalisation.class).setParameter("variable", id).getSingleResult();
-            em.remove(result);
-        } catch (Exception e) {
+        DossierHospitalisation dossier=trouverDossierHospitalisationParId(id) ;
+        if(dossier!=null) {
+            dossier.setLePatient(null);
+            dossier.setLeService(null);
+            List<JournalActe> list=dossier.getJournalActes();
+            for (JournalActe ja : list)
+                ja.setDossier(null);
             
+            em.remove(dossier);
+            System.out.println("Le dossier avec l'ID " + id + " a été supprimée.");
+        } else {
+            System.err.println("Aucun dossier trouvé avec l'ID " + id);
         }
     }
     

@@ -389,13 +389,27 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("supprimerDossier")) {
             jspClient="/landing_page.jsp";
-            Long value = Long.parseLong(request.getParameter("id_supprimerDossier"));
-            gestionDossierHospitalisation.supprimerDossier(value);
+            Long idDossier = Long.parseLong(request.getParameter("id_supprimerDossier"));
+            DossierHospitalisation dossier=gestionDossierHospitalisation.trouverDossierParId(idDossier);
+            if (dossier!=null){
+               gestionDossierHospitalisation.supprimerDossier(idDossier);
+               request.setAttribute("message", "Dossier supprimé avec succès.");
+            } else {
+                request.setAttribute("message", "Dossier non trouvé.");
+            }
+            
         }
         else if (act.equals("supprimerActe")){
             jspClient="/landing_page.jsp";
             Long value = Long.parseLong(request.getParameter("id_supprimerActe"));
-            gestionActe.supprimerActe(value);
+            Acte acte= gestionActe.trouverActeParId(value);
+            if(acte!=null){
+               gestionActe.supprimerActe(value);
+               request.setAttribute("message", "Acte supprimé avec succès."); 
+            }else {
+                request.setAttribute("message", "Acte non trouvé.");
+            }
+            
         }
         else if (act.equals("annulerDossier")) {
             jspClient="/landing_page.jsp";
@@ -631,6 +645,24 @@ public class NewServlet extends HttpServlet {
             } else {
                 request.setAttribute("message", "Dossier introuvable.");
             }
+        } 
+        else if (act.equals("modifierActe")){
+            jspClient="/landing_page.jsp";
+            Long idActe=Long.parseLong(request.getParameter("id_acte"));
+            String nomActe=request.getParameter("acte_nom");
+            String descriptionActe=request.getParameter("acte_description");
+            String prixActe=request.getParameter("acte_prix");
+            Acte acte=gestionActe.trouverActeParId(idActe);
+            if(acte!=null){
+                acte.setActeNom(nomActe);
+                acte.setActeDescription(descriptionActe);
+                acte.setActePrix(Double.parseDouble(prixActe));
+                gestionActe.modifierActe(acte);
+                request.setAttribute("message", "Acte modifié avec succès.");
+                System.out.println("Modification réussie : " + acte.getId());
+            }else {
+                request.setAttribute("message", "Acte introuvable.");
+            }
         }
         else if (act.equals("afficherInfosPerso")) {
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
@@ -684,7 +716,7 @@ public class NewServlet extends HttpServlet {
                 request.setAttribute("message", message);
             } else {
                 double prix = Double.parseDouble(actePrix);
-                gestionActe.creerActe(actePrix, acteNom, prix);
+                gestionActe.creerActe(acteNom,acteDescription, prix);
                 String message = "Acte créé";
                 request.setAttribute("message", message);
             }

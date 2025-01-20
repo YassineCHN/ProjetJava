@@ -31,7 +31,7 @@ public interface ActeFacadeLocal {
 
     void creerActe(String nom, String description, double prix);
 
-    void modifierActe(Long id, String nom, String description, double prix);
+    void modifierActe(Acte acte);
 
     void supprimerActe(Long id);
 
