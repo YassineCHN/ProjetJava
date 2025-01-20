@@ -11,22 +11,22 @@
     <title>Document</title>
 </head>
 <body>
-    <%Z_USER user = (Z_USER) request.getAttribute("utilisateurFicheUtilisateur");%>
+    <%Z_USER user1 = (Z_USER) request.getAttribute("utilisateurFicheUtilisateur");%>
     <jsp:useBean id="listepersonnes" scope="request" class="java.util.List"></jsp:useBean> 
     
     <form action="NewServlet" method="post">
     <fieldset>
         <label for="id_utilisateurFicheUtilisateur">ID utilisateur :</label>
-        <input type="text" id="id_utilisateurFicheUtilisateur" name="id_utilisateurFicheUtilisateur" value="<%=Long.toString(user.getId())%>" readonly>
+        <input type="text" id="id_utilisateurFicheUtilisateur" name="id_utilisateurFicheUtilisateur" value="<%=Long.toString(user1.getId())%>" readonly>
         <br><br>
         <label for="login">Login :</label>
-        <input type="text" id="login" name="login_ficheUtilisateur" value="<%=user.getLogin()%>" required>
+        <input type="text" id="login" name="login_ficheUtilisateur" value="<%=user1.getLogin()%>" required>
         <br><br>
         <label for="password">Mot de passe :</label>
-        <input type="text" id="password_ficheUtilisateur" name="password_ficheUtilisateur" value="<%=user.getMdp()%>" required>
+        <input type="text" id="password_ficheUtilisateur" name="password_ficheUtilisateur" value="<%=user1.getMdp()%>" required>
         <br><br>
         <label for="role">R�le de l'utilisateur :</label>
-        <input type="text" id="role_ficheUtilisateur" name="role_ficheUtilisateur" value="<%=user.getRole()%>" readonly>
+        <input type="text" id="role_ficheUtilisateur" name="role_ficheUtilisateur" value="<%=user1.getRole()%>" readonly>
         <br><br>
         <%List<Z_PERSONNE> lesPers=listepersonnes;%>
         <div id="personneField" class="">
@@ -43,7 +43,7 @@
     <input type="submit" value="Valider" />
 </form>
  <form action="NewServlet">
-        <input type="hidden" id="supprimerService" name="supprimerUtilisateur" value="<%=Long.toString(user.getId())%>">
+        <input type="hidden" id="supprimerService" name="supprimerUtilisateur" value="<%=Long.toString(user1.getId())%>">
         <input type="hidden" name="action" value="supprimerUtilisateur">
         <input type="submit" value="Supprimer utilisateur" />
     </form>
