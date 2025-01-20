@@ -16,7 +16,44 @@
     <head>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Toutes les factures -->
         <% List<Facture> list = (List<Facture>) request.getAttribute("listeFacture"); %>
+        <!-- Les factures affichées -->
+       
+        <%List<Facture> facturesAffichees = new java.util.ArrayList<Facture>(); 
+        System.out.println("le user");
+                
+
+        
+        %>
+        
+        
+        <%
+            
+            if("PATIENT".equals(role_utilisateur)) {
+            for (Facture facture : list) {
+//                if (user.getPersonne().equals(facture.getLeDossier().getLePatient())) {
+//                        facturesAffichees.add(facture);
+//                        System.out.println("une facture ajoutée à l'affichage");
+//                    }
+//                    else{
+//                     System.out.println("une facture PAS AJOUTEE à l'affichage");
+//            } 
+                System.out.println("le patient");
+                System.out.println(facture.getLeDossier().getLePatient());
+                System.out.println("===========================================================");
+                System.out.println("le user");
+                
+                System.out.println(user.getId());
+                System.out.println(user.getPersonne());
+                }
+            }
+            else {
+            facturesAffichees = list;
+            }
+        %>
+        
+        
         <title>Actes</title>
     </head>
     <body>
@@ -35,7 +72,7 @@
                 <TD>ID dossier</TD>
                 <TD>ID journal</TD>
             </tr>
-            <% for (Facture cp : list) { %>
+            <% for (Facture cp : facturesAffichees) { %>
                 <tr>
                     <!-- Dans chaque ligne du tableau, on récupère les informations du patient qu'on encapsule dans une balise <a> -->
                     <!-- Cette balise redirige vers la jsp "fichePatient.jsp" avec dans l'URL l'id du patient -->

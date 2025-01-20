@@ -50,6 +50,7 @@
                 <!-- Cas pour l'utilisateur PATIENT :  -->
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
+                <%@ include file="card_GestionFacturation.jsp" %>
                 <% } else if ("PERSONNEL".equals(role_utilisateur)) { %>
                 <!-- Cas pour l'utilisateur PERSONNEL -->
                 <%@ include file="card_EspacePersonnel.jsp" %>

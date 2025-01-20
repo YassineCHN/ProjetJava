@@ -66,9 +66,9 @@ public class NewServlet extends HttpServlet {
 ////    J'abandonne
 //    @Resource(name = "mail/mySession")
 //    private Session mailMonMailSession;
-
-    @EJB
-    private envoieMailLocal envoieMail;
+//// On s'en servira pas
+//    @EJB
+//    private envoieMailLocal envoieMail;
 
     
 
@@ -132,13 +132,14 @@ public class NewServlet extends HttpServlet {
                 if (user != null) {
                     String user_identifié = user.getLogin();
                     RoleUSER role_identifié = user.getRole();
-                    Long id_user =  user.getId();
+                    String id_user = String.valueOf(user.getId());
                     
                     if (role_identifié != null) {
                         session.setAttribute("utilisateur2", user_identifié);
                         session.setAttribute("role2", role_identifié.name());
                         session.setAttribute("id_user", id_user);
                         request.setAttribute("message", "Bienvenue, " + role_identifié.name() + "!");
+                        request.setAttribute("utilisateurConnecte", user);
                     }
 
                     // Définir un message de bienvenue
