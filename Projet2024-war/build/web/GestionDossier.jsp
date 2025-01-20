@@ -63,10 +63,10 @@
                     <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getHeureDepart()%></a>
                 </td>
                 <td Width=15%>
-                    <a href="NewServlet?action=afficherFichePersonne&id_personne=<%= cp.getLePatient().getIdpers() %>"><%= cp.getLePatient().getIdpers()%>-<%= cp.getLePatient().getNomPersonne()%><%=" "%><%=cp.getLePatient().getPrenomPersonne() %> </a>
+                    <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId() %>"><%= cp.getLePatient().getIdpers()%>-<%= cp.getLePatient().getNomPersonne()%><%=" "%><%=cp.getLePatient().getPrenomPersonne() %> </a>
                 </td>
                 <td Width=15%>
-                    <a href="NewServlet?action=afficherFicheService&id_service=<%= cp.getLeService()%>"><%= cp.getLeService().getId()%>-<%= cp.getLeService().getServiceNom()%></a>
+                    <a href="NewServlet?action=afficherFicheDossier&id_dossier=<%= cp.getId()%>"><%= cp.getLeService().getId()%>-<%= cp.getLeService().getServiceNom()%></a>
                 </td>
                 <td Width=25%>
                     <%

@@ -60,7 +60,7 @@
                     <a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= cp.getId() %>"><%= cp.getDossier().getId()%></a>
                 </td>
                 <td Width=15%>
-                    <a href="NewServlet?action=afficherFicheUtilisateur&id_utilisateur=<%= cp.getUtilisateurCreateur().getId()%>"><%= cp.getUtilisateurCreateur().getLogin()%></a>
+                    <a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= cp.getId()%>"><%= cp.getUtilisateurCreateur().getLogin()%></a>
                 </td>
 
             
