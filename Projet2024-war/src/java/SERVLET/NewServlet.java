@@ -445,7 +445,7 @@ public class NewServlet extends HttpServlet {
                         (role == RoleUSER.PERSONNEL && !"PERSONNEL".equals(typePersonne))) 
                     {
                         request.setAttribute("erreur", "Le rôle sélectionné ne correspond pas au type de la personne.");
-                        List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverToutesLesPersonnes(); // Charger la liste des personnes
+                        List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverPersonnesSansUtilisateur(); // Charger la liste des personnes
                         request.setAttribute("listepersonnes", listePersonnes);
                         request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
                         return;
@@ -455,7 +455,7 @@ public class NewServlet extends HttpServlet {
                 boolean utilisateurCree = z_USER_BEAN.creerUtilisateur(login, mdp, role, pers);
                  if (!utilisateurCree) {        // Si l'utilisateur n'a pas été créé, afficher un message d'erreur
                      request.setAttribute("erreur", "Ce login existe déjà.");
-                     List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverToutesLesPersonnes();
+                     List<Z_PERSONNE> listePersonnes = z_USER_BEAN.trouverPersonnesSansUtilisateur();
                      request.setAttribute("listepersonnes", listePersonnes);
                      request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
                      return;
