@@ -97,10 +97,10 @@
                 <label for="mode_paiement">Mode de paiement :</label>
                 <select id="mode_paiement" name="mode_paiement" 
                         <%= (facture != null && facture.isFacturePayee()) ? "disabled" : ""%> required>
-                    <option value="Virement">Virement</option>
-                    <option value="Carte Bancaire">Carte Bancaire</option>
-                    <option value="Chèque">Chèque</option>
-                    <option value="Espèces">Espèces</option>
+                    <option value="VIREMENT">Virement</option>
+                    <option value="CARTE">Carte Bancaire</option>
+                    <option value="CHEQUE">Chèque</option>
+                    <option value="ESPECES">Espèces</option>
                 </select>
 
                 <input type="submit" value="Payer la facture"

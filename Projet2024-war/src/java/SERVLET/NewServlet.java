@@ -63,9 +63,9 @@ import javax.servlet.http.HttpSession;
 public class NewServlet extends HttpServlet {
     
     
-//    J'abandonne
-    @Resource(name = "mail/mySession")
-    private Session mailMonMailSession;
+////    J'abandonne
+//    @Resource(name = "mail/mySession")
+//    private Session mailMonMailSession;
 
     @EJB
     private envoieMailLocal envoieMail;
