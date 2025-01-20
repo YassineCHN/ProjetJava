@@ -57,14 +57,5 @@ public class Z_ADMIN extends Z_USER {
 //        return "ENTITE.Z_ADMIN[ id=" + id + " ]";
 //    }
     
-    private String ADMIN_STATUS;
-
-    public String getADMIN_STATUS() {
-        return ADMIN_STATUS;
-    }
-
-    public void setADMIN_STATUS(String ADMIN_STATUS) {
-        this.ADMIN_STATUS = ADMIN_STATUS;
-    }
     
 }

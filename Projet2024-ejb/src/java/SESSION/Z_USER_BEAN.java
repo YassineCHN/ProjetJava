@@ -116,8 +116,8 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
         return user;
     }
     
-    public void creerAdmin(String login, String mdp, String adminStatus) {
-        z_USERFacade.creerAdmin(login, mdp, adminStatus);
+    public void creerAdmin(String login, String mdp) {
+        z_USERFacade.creerAdmin(login, mdp);
     }
     
     public boolean creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE pers) {

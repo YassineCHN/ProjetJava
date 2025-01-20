@@ -29,7 +29,7 @@ public interface Z_USER_BEANLocal {
     
     public Z_USER trouverUserParLogin(String login);
 
-    void creerAdmin(String login, String mdp, String adminStatus);
+    void creerAdmin(String login, String mdp);
 
     Z_USER trouverUtilisateurParId(Long id);
 

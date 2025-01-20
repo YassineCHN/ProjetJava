@@ -180,12 +180,11 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
 
     
     @Override
-    public void creerAdmin(String login, String mdp, String adminStatus) {
+    public void creerAdmin(String login, String mdp) {
         System.out.println("appel de la méthode creerAdmin");
     Z_ADMIN user = new Z_ADMIN();
         user.setLogin(login);
         user.setMdp(mdp);
-        user.setADMIN_STATUS(adminStatus);
         try {
         getEntityManager().persist(user);
         System.out.println("Utilisateur ADMIN créé avec succès : " + user.getLogin());
