@@ -143,7 +143,9 @@ public class NewServlet extends HttpServlet {
                                                 if (role_identifié == RoleUSER.PERSONNEL) {
                             Z_PERSONNE test = user.getPersonne();
                             Z_PERSONNEL test2 = (Z_PERSONNEL) test;
-                            if (test2.getService().getServiceNom()=="Financier") {
+                            String serviceNom =test2.getService().getServiceNom();
+                            
+                            if (test2.getService().getServiceNom().equals("Financier")) {
                                 String ServiceFinancier2 = "ServiceFinancier";
                                 session.setAttribute("ServiceFinancier", ServiceFinancier2);
                             }
