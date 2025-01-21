@@ -50,7 +50,7 @@
             <br><br>
 
             <!-- Adresse -->
-            <label for="adressePersonne">Adresse :</label>
+            <label for="adressePersonne">Adresse Mail :</label>
             <input type="text" id="adressePersonne" name="adressePersonne" value="<%=pers.getAdressePersonne() %>" required>
             <br><br>
 

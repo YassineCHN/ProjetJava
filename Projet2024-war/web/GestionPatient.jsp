@@ -28,7 +28,7 @@
                 <TD>ID</TD>
                 <TD>Nom</TD>
                 <TD>Prénom</TD>
-                <TD>Adresse</TD>
+                <TD>Adresse Mail</TD>
                 <td>Numéro Sécurité sociale</td>
                 <td>Nom Mutuelle</td>
                 <td>Adresse Mutuelle</td>

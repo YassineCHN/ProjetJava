@@ -42,7 +42,7 @@
             <br><br>
 
             <!-- Adresse -->
-            <label for="adresse">Adresse :</label>
+            <label for="adresse">Adresse Mail :</label>
             <input type="text" id="adressePersonne" name="adressePersonne" value="<%= personne.getAdressePersonne() %>" required>
             <br><br>
             

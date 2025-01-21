@@ -33,7 +33,7 @@
         <label for="Prenom">Prénom :</label>
         <input type="text" id="prenomPersonne" name="prenomPersonne" required><br><br>
         
-        <label for="Adresse">Adresse :</label>
+        <label for="Adresse">Adresse Mail :</label>
         <input type="text" id="adressePersonne" name="adressePersonne"><br><br>
         
  <!-- Choix du type de la personne -->

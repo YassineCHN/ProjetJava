@@ -28,7 +28,7 @@
                 <TD>ID</TD>
                 <TD>Nom</TD>
                 <TD>Prenom</TD>
-                <TD>Adresse</TD>
+                <TD>Adresse Mail</TD>
                 <TD>Nom Service</TD>
                 <TD>Localisation Service</TD>
             </tr>
