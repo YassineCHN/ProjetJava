@@ -25,7 +25,7 @@
 
             </h1>
             <hr>
-
+            <h1><%=serviceFinancierTest%></h1>
 
             <div class="cards_page_content">
                 <% if (utilisateurIdentifie0 != null) { %>
@@ -51,12 +51,16 @@
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
                 <%@ include file="card_GestionFacturation.jsp" %>
-                <% } else if ("PERSONNEL".equals(role_utilisateur)) { %>
+                <% } else if ("PERSONNEL".equals(role_utilisateur) && serviceFinancierTest!="serviceFinancier") { %>
                 <!-- Cas pour l'utilisateur PERSONNEL -->
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
-                <% } %>
-                <% }%>
+                <% } else if ("PERSONNEL".equals(role_utilisateur) && serviceFinancierTest=="serviceFinancier") { %>
+                                <%@ include file="card_EspacePersonnel.jsp" %>
+                <!-- Dans gestion facturation on peut aussi voir via un bouton les factures en retard -->
+                <%@ include file="card_GestionFacturation.jsp" %>
+                <%@ include file="card_GestionJournal.jsp" %>
+                <% }}%>
             </div>
 
         </div>

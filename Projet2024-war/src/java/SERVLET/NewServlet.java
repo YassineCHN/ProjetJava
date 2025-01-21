@@ -140,6 +140,14 @@ public class NewServlet extends HttpServlet {
                         session.setAttribute("id_user", id_user);
                         request.setAttribute("message", "Bienvenue, " + role_identifié.name() + "!");
                         request.setAttribute("utilisateurConnecte", user);
+                                                if (role_identifié == RoleUSER.PERSONNEL) {
+                            Z_PERSONNE test = user.getPersonne();
+                            Z_PERSONNEL test2 = (Z_PERSONNEL) test;
+                            if (test2.getService().getServiceNom()=="Financier") {
+                                String ServiceFinancier2 = "ServiceFinancier";
+                                session.setAttribute("ServiceFinancier", ServiceFinancier2);
+                            }
+                        }
                     }
 
                     // Définir un message de bienvenue
