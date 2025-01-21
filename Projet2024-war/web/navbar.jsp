@@ -5,7 +5,7 @@
 </head>
 <html lang="en">
     <div class="navbar">
-        <div class="logo"><a href="landing_page.jsp">Finance and Operations</a></div>
+        <div class="logo"><a href="landing_page.jsp">Home</a></div>
         <div class="onglets">
             <ul>
                <%  String utilisateurIdentifie0 = (String) session.getAttribute("utilisateur2");

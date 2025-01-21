@@ -29,7 +29,7 @@
                 <TD>Prenom</TD>
                 <TD>Adresse Mail</TD>
                 <td>Specialite</td>
-                <TD>Nom Service</TD>
+                <TD>Service</TD>
                 <TD>Localisation Service</TD>
             </tr>
             <% for (Z_MEDECIN cp : list) { %>

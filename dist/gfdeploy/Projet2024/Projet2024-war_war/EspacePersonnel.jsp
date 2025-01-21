@@ -88,5 +88,9 @@
 
         <input type="submit" value="Mettre à jour mes informations">
     </form>
+        <td Width=25%><A HREF="landing_page.jsp" class="button_link"> Retour
+            Menu</A></td>
+            <br>
+            <br>
 </body>
 </html>

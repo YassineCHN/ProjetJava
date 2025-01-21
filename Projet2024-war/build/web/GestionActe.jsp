@@ -39,22 +39,22 @@
                 <tr>
                     <!-- Dans chaque ligne du tableau, on récupère les informations du patient qu'on encapsule dans une balise <a> -->
                     <!-- Cette balise redirige vers la jsp "fichePatient.jsp" avec dans l'URL l'id du patient -->
-                    <td Width=15%>
+                    <td Width=10%>
                         <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getId() %></a>
                     </td>
                     <td Width=15%>
                         <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getActeNom()%></a>
                     </td>
-                    <td Width=30%>
+                    <td Width=20%>
                         <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getActeDescription()%></a>
                     </td>
-                    <td Width=30%>
+                    <td Width=10%>
                         <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getActePrix()%></a>
                     </td>
-                    <td Width=30%>
+                    <td Width=25%>
                         <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getCoefficient_SecuriteSociale()%></a>
                     </td>
-                    <td Width=30%>
+                    <td Width=25%>
                         <a href="NewServlet?action=afficherFicheActe&id_Acte=<%= cp.getId() %>"><%= cp.getCoefficient_Mutuelle()%></a>
                     </td>
                 </tr>

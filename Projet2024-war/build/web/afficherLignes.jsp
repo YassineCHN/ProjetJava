@@ -37,6 +37,11 @@
             <% } %>
         </tbody>
     </table>
+        
+            <td Width=25%><A HREF="landing_page.jsp" class="button_link"> Retour
+            Menu</A></td>
+            <br>
+            <br>
         </div>
 </body>
 </html>

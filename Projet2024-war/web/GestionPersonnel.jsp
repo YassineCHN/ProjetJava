@@ -29,7 +29,7 @@
                 <TD>Nom</TD>
                 <TD>Prenom</TD>
                 <TD>Adresse Mail</TD>
-                <TD>Nom Service</TD>
+                <TD>Service</TD>
                 <TD>Localisation Service</TD>
             </tr>
             <% for (Z_PERSONNEL cp : list) { %>
