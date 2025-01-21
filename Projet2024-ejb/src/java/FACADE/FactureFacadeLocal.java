@@ -45,4 +45,6 @@ public interface FactureFacadeLocal {
     void validerFacturePaiement(Facture facture);
 
     List<Facture> trouverFacturesPatient(Z_PATIENT patient);
+
+    List<Facture> trouverFacturesNonPayeesAvecEmissionDepassee();
 }

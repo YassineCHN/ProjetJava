@@ -8,6 +8,7 @@ import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
 import ENTITE.JournalActe;
 import ENTITE.Z_PATIENT;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -117,6 +118,16 @@ public class FactureFacade extends AbstractFacade<Facture> implements FactureFac
 
          
       
+    }
+
+    @Override
+    public List<Facture> trouverFacturesNonPayeesAvecEmissionDepassee() {
+        
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -14);
+        Date dateLimite = calendar.getTime();
+        return em.createQuery("SELECT f FROM Facture f WHERE f.factureDateEmissions <= :dateLimite AND f.facturePayee = false",Facture.class).setParameter("dateLimite", dateLimite).getResultList();
     }
     
     

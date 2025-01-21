@@ -5,12 +5,14 @@
 package ENTITE;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -19,6 +21,9 @@ import javax.persistence.ManyToOne;
 @Entity
 @DiscriminatorValue("MEDECIN")
 public class Z_MEDECIN extends Z_PERSONNE {
+
+    @OneToMany(mappedBy = "leMedecin")
+    private List<LigneJournal> ligneJournals;
 
     @ManyToOne
     private Service service;

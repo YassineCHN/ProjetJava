@@ -28,5 +28,7 @@ public interface GestionFactureLocal {
     void validerFacturePaiement(Facture facture);
 
     List<Facture> trouverFacturesPatient(Z_PATIENT patient);
+
+    List<Facture> trouverFacturesNonPayeesAvecEmissionDepassee();
     
 }

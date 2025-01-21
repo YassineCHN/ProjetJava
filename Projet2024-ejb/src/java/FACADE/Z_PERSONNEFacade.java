@@ -35,7 +35,7 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
     public Z_PERSONNEFacade() {
         super(Z_PERSONNE.class);
     }
-    
+        @Override
     public void creerPersonne(String nom, String prenom,String adresse) {
         Z_PERSONNE pers = new Z_PERSONNE();
         pers.setNomPersonne(nom);
@@ -44,11 +44,11 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
         getEntityManager().persist(pers);
     }
     
-
+    @Override
     public void mettreAJourPersonne(Z_PERSONNE pers) {
          getEntityManager().merge(pers);
     }
-
+    @Override
     public void supprimerPersonne(Long id) {
     try {
         if (id == null || id == 0) {
@@ -68,7 +68,7 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
     }
 }
 
-    
+        @Override
     public Z_PERSONNE trouverPersonneParId(Long id) {
         Z_PERSONNE pers = null;
         String txt = "SELECT u from Z_PERSONNE as u where u.idpers=:variable";
@@ -84,12 +84,12 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
         }
         return pers;
     }
-
+    @Override
     public List<Z_PERSONNE> trouverPersonnesSansUtilisateur() {
         String txt = "SELECT p FROM Z_PERSONNE p WHERE NOT EXISTS (SELECT u FROM Z_USER u WHERE u.personne.idpers = p.idpers)";
         return em.createQuery(txt, Z_PERSONNE.class).getResultList();
     }
-    
+     @Override   
     public boolean personneHasUser(Long idPersonne) {
         String txt = "SELECT COUNT(u) FROM Z_USER u WHERE u.personne.idpers = :idPersonne";
         Query query = em.createQuery(txt);
@@ -98,15 +98,18 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
         Long count = (Long) query.getSingleResult();
         return count > 0; // Retourne true si au moins un utilisateur est associé
     }
-    
+     @Override   
     public List<Z_PERSONNE> trouverToutesLesPersonnes() {
         return em.createQuery("SELECT s FROM Z_PERSONNE s", Z_PERSONNE.class).getResultList();
     }
 
     
+    @Override
     public List<Z_MEDECIN> trouverTousLesMedecins() {
         return em.createQuery("SELECT s FROM Z_MEDECIN as s where s.idpers IS NOT NULL", Z_MEDECIN.class).getResultList();
     }
+    
+//    return em.createQuery("SELECT s FROM Z_MEDECIN as s where s.idpers IS NOT NULL", Z_MEDECIN.class).getResultList();
 //pas besoin de préciser le rôle
 //    c'est automatique dans la stratégie single_table
 //    le champ propre à médecin/admin sera rempli automatiquement
@@ -121,6 +124,7 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
 //        pers.setSpecialite(specialite);
 //        getEntityManager().persist(pers);
 //    }
+        @Override
 public void creerMedecin(String nom, String prenom, String adresse, String specialite,Service service) {
     System.out.println("appel de la méthode creerMedecin");
     Z_MEDECIN pers = new Z_MEDECIN();
@@ -137,11 +141,11 @@ public void creerMedecin(String nom, String prenom, String adresse, String speci
         System.err.println("Erreur lors de la création de la personne médecin : " + e.getMessage());
     }
 }
-
+    @Override
     public List<Z_PATIENT> trouverTousLesPatients() {
         return em.createQuery("SELECT s FROM Z_PATIENT as s where s.idpers IS NOT NULL", Z_PATIENT.class).getResultList();
     }
-
+    @Override
     public void creerPatient(String nom, String prenom,String adresse, String numSecuSoc,String nomMutuelle, String adresseMutuelle) {
           System.out.println("appel de la méthode creerPatient");
     Z_PATIENT pers = new Z_PATIENT();
@@ -158,7 +162,7 @@ public void creerMedecin(String nom, String prenom, String adresse, String speci
         System.err.println("Erreur lors de la création de la personne PATIENT : " + e.getMessage());
     }
     }
-
+    @Override
     public Z_PATIENT trouverPatientParNumSecu(String numSecu) {
         Z_PATIENT pers = null;
         String txt = "SELECT u from Z_PATIENT as u where u.numSecuSoc=:variable";
@@ -175,7 +179,7 @@ public void creerMedecin(String nom, String prenom, String adresse, String speci
         return pers;
     }
     
-    
+        @Override
     public void creerPersonnel(String nom, String prenom, String adresse, Service service) {
           System.out.println("appel de la méthode creerPersonnel");
     Z_PERSONNEL pers = new Z_PERSONNEL();
@@ -190,8 +194,10 @@ public void creerMedecin(String nom, String prenom, String adresse, String speci
         System.err.println("Erreur lors de la création de lapersonne Personnel : " + e.getMessage());
     }
     }
-    
+        @Override
     public List<Z_PERSONNEL> trouverTousLesPersonnels() {
         return em.createQuery("SELECT p FROM Z_PERSONNEL as p where p.idpers IS NOT NULL", Z_PERSONNEL.class).getResultList();
     }
+
+    
 }

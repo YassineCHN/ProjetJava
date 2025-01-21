@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -59,6 +60,7 @@ public class LigneJournal implements Serializable {
     
     
     
+    @Temporal(javax.persistence.TemporalType.DATE)
         private Date Date_acte;
 
     public Date getDate_acte() {
@@ -112,5 +114,15 @@ public class LigneJournal implements Serializable {
     }
     
 
+    @ManyToOne
+        private Z_MEDECIN leMedecin;
+
+    public Z_MEDECIN getLeMedecin() {
+        return leMedecin;
+    }
+
+    public void setLeMedecin(Z_MEDECIN leMedecin) {
+        this.leMedecin = leMedecin;
+    }
 
 }

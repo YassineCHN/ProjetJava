@@ -17,7 +17,7 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Toutes les factures -->
-        <% List<Facture> list = (List<Facture>) request.getAttribute("listeFacture"); %>
+        <% List<Facture> list = (List<Facture>) request.getAttribute("facturesEnRetard"); %>
         <!-- Les factures affichées -->
        
         
@@ -31,15 +31,8 @@
         <div class="main_content">
         <h1>Factures</h1>
         
-        <div class="ruban_actions">
-            <form action="NewServlet">
-            
-            <input type="hidden" name="action" value="afficherFacturesRetard">
-            <input type="submit" value="Voir les factures en retard de paiement" />
-        </form>
-        </div>
-    
         
+    
         <TABLE border width=50%>
             <tr>
                 <TD>ID</TD>

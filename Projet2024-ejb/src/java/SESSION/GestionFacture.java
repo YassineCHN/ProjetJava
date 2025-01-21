@@ -136,4 +136,17 @@ public class GestionFacture implements GestionFactureLocal {
         
     }
 
+    @Override
+    public List<Facture> trouverFacturesNonPayeesAvecEmissionDepassee() {
+         
+        List<Facture> result = factureFacade.trouverFacturesNonPayeesAvecEmissionDepassee();
+        
+        if (result != null) {
+            return result;
+        } else {
+            return null;
+        }
+        
+    }
+
 }

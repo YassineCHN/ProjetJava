@@ -60,6 +60,8 @@ public interface Z_PERSONNEFacadeLocal {
     public void creerPersonnel(String nom, String prenom, String adresse, Service service) ;
     
     public List<Z_PERSONNEL> trouverTousLesPersonnels() ;
+
+    
     
     
 }

@@ -8,6 +8,7 @@ import ENTITE.Acte;
 import ENTITE.Facture;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.Z_MEDECIN;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -34,13 +35,14 @@ public class LigneJournalFacade extends AbstractFacade<LigneJournal> implements 
     }
 
     @Override
-    public void creerLigneJournal(Date date_acte, int quantite, String commentaire, Acte acte, JournalActe journal) {
+    public void creerLigneJournal(Date date_acte, int quantite, String commentaire, Acte acte, JournalActe journal, Z_MEDECIN leMedecin) {
         LigneJournal ligne = new LigneJournal();
         ligne.setDate_acte(date_acte);
         ligne.setQuantité_Acte(quantite);
         ligne.setCommentaire(commentaire);
         ligne.setId_acte(acte);
         ligne.setId_journal(journal);
+        ligne.setLeMedecin(leMedecin);
         em.persist(ligne);
         System.out.println("CREATION LIGNE DANS FACADE");
     }

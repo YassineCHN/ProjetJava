@@ -8,6 +8,7 @@ import ENTITE.Acte;
 import ENTITE.Facture;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.Z_MEDECIN;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -33,7 +34,7 @@ public interface LigneJournalFacadeLocal {
 
     int count();
 
-    void creerLigneJournal(Date date_acte, int quantite, String commentaire, Acte acte, JournalActe journal);
+    void creerLigneJournal(Date date_acte, int quantite, String commentaire, Acte acte, JournalActe journal, Z_MEDECIN leMedecin);
 
     void supprimerLigne(long id);
 

@@ -368,7 +368,14 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("listeActeJournal", lesActes);
             
             List<LigneJournal> lignes = gestionLigne.listerLignesParJournal(journal.getId());
-        request.setAttribute("lignes_journals", lignes);
+            request.setAttribute("lignes_journals", lignes);
+            List<Z_MEDECIN> lesMedecins2 = z_USER_BEAN.trouverTousLesMedecins();
+            request.setAttribute("listeMedecins", lesMedecins2);
+            
+            
+            
+            
+            
         }
         else if (act.equals("afficherLignes")) {
             jspClient = "/afficherLignes.jsp";
@@ -379,6 +386,16 @@ public class NewServlet extends HttpServlet {
             jspClient = "/GestionJournal.jsp";
             List<JournalActe> journaux = (List<JournalActe>) gestionJournalActe.trouverTousLesJournaux();
             request.setAttribute("lesJournaux", journaux);
+        }
+        else if (act.equals("afficherFacturesRetard")) {
+            jspClient ="/FacturesImpayees.jsp";
+            List<Facture> facturesRetard = gestionFacture.trouverFacturesNonPayeesAvecEmissionDepassee();
+            if (facturesRetard == null) {
+                jspClient="/landing_page.jsp";
+                request.setAttribute("message", "Il n'y a aucunes factures en retard à afficher.");
+            } else {
+                request.setAttribute("facturesEnRetard", facturesRetard);
+            }
         }
         
         else if (act.equals("supprimerService")) {
@@ -787,7 +804,8 @@ public class NewServlet extends HttpServlet {
             
             DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(id_dossier));
             JournalActe JournalExistant = gestionJournalActe.trouverJournalParDossier(dossier);
-            
+            List<Z_MEDECIN> lesMedecins2 = z_USER_BEAN.trouverTousLesMedecins();
+            request.setAttribute("listeMedecins", lesMedecins2);
             if (JournalExistant != null) {
                 // Le journal existe déjà, on ne le recrée pas
         request.setAttribute("journal_object", JournalExistant);
@@ -817,11 +835,12 @@ public class NewServlet extends HttpServlet {
              String[] date_acte = request.getParameterValues("date[]");
              String[] quantite_acte = request.getParameterValues("quantite[]");
              String[] idActe_acte = request.getParameterValues("id_acte[]");
+             String[] idMedecin = request.getParameterValues("id_medecin[]");
              String idjournal = (String) request.getParameter("id_journal");
              JournalActe journal2 = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
 //             il faut que toutes les lignes soient saisies, c'est à dire que le nombre de champs remplis par type de champ soit égale
 
-             if(commentaires_acte.length != date_acte.length || commentaires_acte.length != quantite_acte.length || commentaires_acte.length != idActe_acte.length || journal2.getStatut() == statutJournal.Validé){
+             if(commentaires_acte.length != date_acte.length || commentaires_acte.length != quantite_acte.length || commentaires_acte.length != idActe_acte.length || idMedecin.length != commentaires_acte.length || journal2.getStatut() == statutJournal.Validé){
                  jspClient="/landing_page.jsp";
                  String message = "ERREUR CHAMPS MANQUANTS OU LE JOURNAL N'EST PLUS MODIFIABLE";
                  System.out.println("erreur au niveau des lignes, les lignes ne sont pas toutes pleines");
@@ -840,6 +859,7 @@ public class NewServlet extends HttpServlet {
                      String idActe = idActe_acte[i];
                      System.out.println(idActe);
 //                     String id_ligne2 = id_ligne[i];
+                    String idMedecin2 = idMedecin[i];
                     
                      
                      String idLigneStr = (id_ligne != null && i < id_ligne.length) ? id_ligne[i] : null;
@@ -856,6 +876,8 @@ public class NewServlet extends HttpServlet {
                      JournalActe journal = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
                      Acte acte = gestionActe.trouverActeParId(Long.valueOf(idActe));
                      LigneJournal existingLigne = gestionLigne.trouverLigneParId(Long.valueOf(idLigneStr));
+                     Z_MEDECIN medecin = (Z_MEDECIN) z_USER_BEAN.trouverPersonneParId(Long.valueOf(idMedecin2));
+                     
                      
 //                     Si la ligne existe déjà, on la modifie
 //                       sinon on la crée
@@ -873,7 +895,7 @@ public class NewServlet extends HttpServlet {
                         gestionLigne.mettreAJourLigne(existingLigne);
                      } else {
                          System.out.println("ligne INEXISTANTE, on CREE");
-                         gestionLigne.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal);
+                         gestionLigne.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal,medecin);
                      }
                      
                  }

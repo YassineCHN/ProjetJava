@@ -7,6 +7,7 @@ package SESSION;
 import ENTITE.Acte;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.Z_MEDECIN;
 import FACADE.LigneJournalFacadeLocal;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +28,8 @@ public class GestionLigne implements GestionLigneLocal {
     
     
     @Override
-    public void creerLigne(Date date_acte, int quantite, String commentaire, Acte acte, JournalActe journal) {
-        ligneJournalFacade.creerLigneJournal(date_acte, quantite, commentaire, acte, journal);
+    public void creerLigne(Date date_acte, int quantite, String commentaire, Acte acte, JournalActe journal, Z_MEDECIN leMedecin) {
+        ligneJournalFacade.creerLigneJournal(date_acte, quantite, commentaire, acte, journal, leMedecin);
     }
     
 

@@ -32,9 +32,14 @@
         <h1>Factures</h1>
         
         <div class="ruban_actions">
-            <a href="" class="button_link">Ajouter une facture</a>
+            <form action="NewServlet">
+            
+            <input type="hidden" name="action" value="afficherFacturesRetard">
+            <input type="submit" value="Voir les factures en retard de paiement" />
+        </form>
         </div>
     
+        
         <TABLE border width=50%>
             <tr>
                 <TD>ID</TD>

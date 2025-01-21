@@ -1,3 +1,4 @@
+<%@page import="ENTITE.Z_MEDECIN"%>
 <%@page import="ENTITE.statutJournal"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -13,7 +14,6 @@
 
     // Récupération (éventuelle) des lignes existantes du journal
     List<LigneJournal> lignes = (List<LigneJournal>) request.getAttribute("lignes_journals");
-
     // Pour formatter les dates des lignes existantes
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -23,6 +23,9 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <% List<Z_MEDECIN> list = (List<Z_MEDECIN>) request.getAttribute("listeMedecins"); %>
+       <% System.out.println("on recupere des médecins ????");%>
+    <%System.out.println(list.size());;%>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Fiche Journal</title>
         <style>
@@ -50,10 +53,10 @@
                     <input type="number" name="quantite[]" placeholder="Quantité" required>
                     <select name="id_acte[]" required>
             <% if (actes != null) {
-                                for (Acte acte : actes) {%>
+                    for (Acte acte : actes) {%>
                                  <option value="<%= acte.getId()%>"><%= acte.getActeNom()%></option>
             <%   }
-                            }%>
+                }%>
                     </select>
                 `;
                 container.appendChild(newLine);
@@ -90,24 +93,29 @@
                 <label for="dateCreation_ficheJournal">Date de création</label>
                 <input type="date" id="dateCreation_ficheJournal" name="dateCreation_ficheJournal"
                        value="<%= (journal != null && journal.getDateCreation() != null)
-                           ? sdf.format(journal.getDateCreation()) : ""%>" readonly>
+                               ? sdf.format(journal.getDateCreation()) : ""%>" readonly>
                 <br><br>
 
                 <label for="dossier_ficheJournal">Dossier</label>
                 <input type="text" id="dossier_ficheJournal" name="dossier_ficheJournal"
                        value="<%= (journal != null && journal.getDossier() != null)
-                           ? journal.getDossier().getId() : ""%>" readonly>
+                               ? journal.getDossier().getId() : ""%>" readonly>
                 <br><br>
 
                 <label for="utilisateur_ficheJournal">Utilisateur</label>
                 <input type="text" id="utilisateur_ficheJournal" name="utilisateur_ficheJournal"
                        value="<%= (journal != null && journal.getUtilisateurCreateur() != null)
-                           ? journal.getUtilisateurCreateur().getId() : ""%>" readonly>
+                               ? journal.getUtilisateurCreateur().getId() : ""%>" readonly>
                 <br><br>
                 <label for="statut_ficheJournal">Statut journal</label>
                 <input type="text" id="statut_ficheJournal" name="statut_ficheJournal"
                        value="<%= (journal != null && journal.getStatut() != null)
-                           ? journal.getStatut() : ""%>" readonly>
+                               ? journal.getStatut() : ""%>" readonly>
+                <br><br>
+                <label for="datevalidation_journal">Date de validation</label>
+                <input type="date" id="datevalidation_journal" name="datevalidation_journal"
+                       value="<%= (journal != null && journal.getDateValidation()!= null)
+                               ? sdf.format(journal.getDateValidation()) : ""%>" readonly>
                 <br><br>
             </fieldset>
         </form>
@@ -145,7 +153,7 @@
             <div class="line-container">
                 <hr>
                 <input type="hidden" name="idligne[]" placeholder="ID" 
-                        value="<%= (ligne.getId()!= null) ? ligne.getId(): ""%>"
+                       value="<%= (ligne.getId() != null) ? ligne.getId() : ""%>"
                        <%= isDisabled ? "disabled" : ""%>required >
                 <input type="text" name="commentaire[]" placeholder="Commentaire"
                        value="<%= (ligne.getCommentaire() != null) ? ligne.getCommentaire() : ""%>"
@@ -155,6 +163,7 @@
                 <input type="number" name="quantite[]" placeholder="Quantité"
                        value="<%= ligne.getQuantité_Acte()%>"
                        <%= isDisabled ? "disabled" : ""%> required>
+
                 <select name="id_acte[]" <%= isDisabled ? "disabled" : ""%> required>
                     <%
                         if (actes != null) {
@@ -188,14 +197,31 @@
                 <input type="text" name="commentaire[]" placeholder="Commentaire" required>
                 <input type="date" name="date[]" required>
                 <input type="number" name="quantite[]" placeholder="Quantité" required>
+                <label for="id_acte[]">Acte</label>
                 <select name="id_acte[]" required>
                     <% if (actes != null) {
-                                for (Acte acte : actes) {%>
+                            for (Acte acte : actes) {%>
                     <option value="<%= acte.getId()%>">
                         <%= acte.getActeNom()%>
                     </option>
                     <%   }
-                            } %>
+                        } %>
+                </select>
+                <!-- Sélection du médecin -->
+                <label for="id_medecin[]">Médecin</label>
+                <select name="id_medecin[]" required>
+                    <%
+
+                        if (list != null) {
+                            for (Z_MEDECIN medecin : list) {
+                    %>
+                    <option value="<%= medecin.getIdpers()%>">
+                        <%= medecin.getNomPersonne()%> - <%=medecin.getPrenomPersonne()%>
+                    </option>
+                    <%
+                            }
+                        }
+                    %>
                 </select>
             </div>
             <%

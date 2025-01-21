@@ -117,5 +117,7 @@ public class Facture implements Serializable {
     public void setLeJournal(JournalActe leJournal) {
         this.leJournal = leJournal;
     }
+    
+    
 
 }
