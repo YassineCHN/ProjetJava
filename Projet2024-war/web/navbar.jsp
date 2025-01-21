@@ -11,6 +11,7 @@
                <%  String utilisateurIdentifie0 = (String) session.getAttribute("utilisateur2");
                  String role_utilisateur = (String) session.getAttribute("role2");
                 Z_USER user = (Z_USER) session.getAttribute("utilisateurConnecte");
+                String serviceFinancier = (String) session.getAttribute("ServiceFinancier");
                 %>
                 
             </ul>

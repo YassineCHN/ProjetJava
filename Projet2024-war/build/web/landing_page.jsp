@@ -51,11 +51,15 @@
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
                 <%@ include file="card_GestionFacturation.jsp" %>
-                <% } else if ("PERSONNEL".equals(role_utilisateur)) { %>
+                <% } else if ("PERSONNEL".equals(role_utilisateur) && serviceFinancier!="ServiceFinancier") { %>
                 <!-- Cas pour l'utilisateur PERSONNEL -->
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
-                <% } %>
+                <% } else if ("PERSONNEL".equals(role_utilisateur) && serviceFinancier=="serviceFinancier") {%>
+                <%@ include file="card_EspacePersonnel.jsp" %>
+                <!-- Dans gestion facturation on peut aussi voir via un bouton les factures en retard -->
+                <%@ include file="card_GestionFacturation.jsp" %>
+                <%@ include file="card_GestionJournal.jsp" %>
                 <% }%>
             </div>
 

@@ -112,15 +112,15 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("message", "pas d'informations");
 
         } 
+        
+        
+        
+        
+        
         else if (act.equals("authentificationUtilisateur_HERITAGE")) {
             jspClient = "/landing_page.jsp";
             String login = request.getParameter("loginHeritage");
             String password = request.getParameter("passwordHeritage");
-            
-            
-                
-            
-            
             
             if (login.trim().isEmpty() || password.trim().isEmpty()) {
                 // Vérification des champs vides pour le login et le mot de passe
@@ -140,6 +140,14 @@ public class NewServlet extends HttpServlet {
                         session.setAttribute("id_user", id_user);
                         request.setAttribute("message", "Bienvenue, " + role_identifié.name() + "!");
                         request.setAttribute("utilisateurConnecte", user);
+                        if (role_identifié == RoleUSER.PERSONNEL) {
+                            Z_PERSONNE test = user.getPersonne();
+                            Z_PERSONNEL test2 = (Z_PERSONNEL) test;
+                            if (test2.getService().getServiceNom()=="Financier") {
+                                String ServiceFinancier = "ServiceFinancier";
+                                session.setAttribute("ServiceFinancier", ServiceFinancier);
+                            }
+                        }
                     }
 
                     // Définir un message de bienvenue
@@ -152,6 +160,14 @@ public class NewServlet extends HttpServlet {
                 }
             }
         }
+        
+        
+        
+        
+        
+        
+        
+        
         else if (act.equals("logout")) {
             jspClient = "/landing_page.jsp";
             request.setAttribute("message", "Vous avez été déconnecté avec succès.");
