@@ -107,6 +107,14 @@ form {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 500px;
 }
+.button-form{
+    background-color: white;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
 /*Style pour que le formulaire sous forme de bouton ne prenne pas le style hérité du formulaire*/
 form.formulairebouton{
   all : unset;

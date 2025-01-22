@@ -46,7 +46,8 @@ public class GestionFacture implements GestionFactureLocal {
             return null;
         }
 
-        // Vérifie si le journal est "Validé".
+        // vérifier que le journal est différent de validé
+        // si oui alors on peut pas créer de facture.
         if (journal.getStatut() != statutJournal.Validé) {
             System.out.println("[GestionFacture] Aucune facture créée : statut du journal non valide (" + journal.getStatut() + ").");
             return null;
@@ -78,6 +79,8 @@ public class GestionFacture implements GestionFactureLocal {
             int quantite = ligne.getQuantité_Acte();
             double coefSecu = ligne.getId_acte().getCoefficient_SecuriteSociale();
             double coefMutuelle = ligne.getId_acte().getCoefficient_Mutuelle();
+            
+//            pour le débogage
             System.out.println("============================");
             System.out.println("ITERATION N");
             System.out.println("le prix unitaire : ");
@@ -101,7 +104,7 @@ public class GestionFacture implements GestionFactureLocal {
         Facture laFacture = factureFacade.creerFacturePourJournal(new Date(), total, false,
                 journal.getDossier(), journal);
 
-        // Sorties console (vous pouvez envisager un vrai logger au lieu de System.out)
+        // débogage
         System.out.println("[GestionFacture] Facture créée avec succès :");
         System.out.println(" - ID journal : " + journal.getId());
         System.out.println(" - Montant total : " + total);

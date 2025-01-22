@@ -5,8 +5,7 @@
 package FACADE;
 
 import ENTITE.RoleUSER;
-import ENTITE.Service;
-import ENTITE.Z_ADMIN;
+
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
 import ENTITE.Z_PERSONNE;
@@ -133,11 +132,19 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
         return em.createQuery("SELECT s FROM Z_USER s", Z_USER.class).getResultList();
     }
 
+//    je garde ce commentaire pour la postérité/ à titre d'information
 //pas besoin de préciser le rôle
 //    c'est automatique dans la stratégie single_table
 //    le champ propre à médecin/admin sera rempli automatiquement
-
-    
+//    @Override
+//    public void creerMedecin(String login, String mdp, String specialite) {
+//        System.out.println("appel de la méthode creerMedecin");
+//        Z_MEDECIN user = new Z_MEDECIN();
+//        user.setLogin(login);
+//        user.setMdp(mdp);
+//        user.setSpecialite(specialite);
+//        getEntityManager().persist(user);
+//    }
     
     public Z_USER trouverUserParLogin(String login) {
     Z_USER user = null;
@@ -156,19 +163,19 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
     }
 
     
-    @Override
-    public void creerAdmin(String login, String mdp) {
-        System.out.println("appel de la méthode creerAdmin");
-    Z_ADMIN user = new Z_ADMIN();
-        user.setLogin(login);
-        user.setMdp(mdp);
-        try {
-        getEntityManager().persist(user);
-        System.out.println("Utilisateur ADMIN créé avec succès : " + user.getLogin());
-    } catch (Exception e) {
-        System.err.println("Erreur lors de la création de l'utilisateur ADMIN : " + e.getMessage());
-    }
-    
-    }
+//    @Override
+//    public void creerAdmin(String login, String mdp) {
+//        System.out.println("appel de la méthode creerAdmin");
+//    Z_ADMIN user = new Z_ADMIN();
+//        user.setLogin(login);
+//        user.setMdp(mdp);
+//        try {
+//        getEntityManager().persist(user);
+//        System.out.println("Utilisateur ADMIN créé avec succès : " + user.getLogin());
+//    } catch (Exception e) {
+//        System.err.println("Erreur lors de la création de l'utilisateur ADMIN : " + e.getMessage());
+//    }
+//    
+//    }
     
 }

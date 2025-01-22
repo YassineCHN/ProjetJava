@@ -24,10 +24,10 @@
     <head>
         <meta charset="UTF-8">
         <% List<Z_MEDECIN> list = (List<Z_MEDECIN>) request.getAttribute("listeMedecins"); %>
-       <% System.out.println("on recupere des médecins ????");%>
-    <%System.out.println(list.size());;%>
+       
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Fiche Journal</title>
+        
+   
         <style>
             .line-container {
                 display: flex;
@@ -40,6 +40,7 @@
             }
         </style>
         <script>
+            
             // Fonction pour ajouter dynamiquement une nouvelle ligne vide
             function addLine() {
                 var container = document.getElementById('linesContainer');
@@ -51,10 +52,19 @@
                     <input type="text" name="commentaire[]" placeholder="Commentaire" required>
                     <input type="date" name="date[]" required>
                     <input type="number" name="quantite[]" placeholder="Quantité" required>
+                    
                     <select name="id_acte[]" required>
             <% if (actes != null) {
                     for (Acte acte : actes) {%>
                                  <option value="<%= acte.getId()%>"><%= acte.getActeNom()%></option>
+            <%   }
+                }%>
+                    </select>
+                        <label for="id_medecin[]">Médecin</label>
+                    <select name="id_medecin[]" required>
+            <% if (list != null) {
+                    for (Z_MEDECIN medecin : list) {%>
+                                 <option value="<%= medecin.getIdpers()%>"><%= medecin.getNomPersonne()%> - <%=medecin.getPrenomPersonne()%></option>
             <%   }
                 }%>
                     </select>
@@ -65,7 +75,7 @@
     </head>
     <body>
         <h1>Détails du journal</h1>
-
+        
 
         <form action="NewServlet">
             <!--ID du journal -->
@@ -76,13 +86,34 @@
             <input type="hidden" name="id_dossierCreerFacture" value="<%= (journal != null) ? journal.getDossier().getId() : ""%>">
             <input type="submit" value="Accéder à la facture" />
         </form>
-        <form action="NewServlet">
-            <!--ID du journal -->
-            <input type="hidden" id="id_journalValidation" name="id_journalValidation" value="<%=Long.toString(journal.getId())%>">
-            <input type="hidden" name="action" value="validerJournal">
-            <input type="submit" value="Valider le journal" />
-        </form>
-
+            
+            
+            
+            <!-- j'utilise la balise dialog qui est native et est très astucieux
+                elle permet de faire apparaître une sorte de "pop-up" ouvrable et fermable à volonté
+                dialog a une propriété "open" et closed (sinon absence de propriété par défaut) qu'on peut manipuler
+                avec du javascript.
+                Ca consiste à manipuer deux méthodes de l'objet/balise dialog :
+                .close() et .showModal(). On fait ça avec les boutons
+            -->
+            <div class="button-form">
+                <dialog id="myDialog">
+            <form action="NewServlet">
+                <!-- ID du journal -->
+                <p>Si vous validez le journal, vous ne pourrez plus saisir de lignes.</p>
+                <input type="hidden" id="id_journalValidation" name="id_journalValidation" value="<%=Long.toString(journal.getId())%>">
+                <input type="hidden" name="action" value="validerJournal">
+                <input type="submit" value="Valider quand même le journal" />
+                
+            </form>
+            <button onclick="document.getElementById('myDialog').close()">Fermer</button>
+        </dialog>
+        <button onclick="document.getElementById('myDialog').showModal()">Valider le journal</button>
+            </div>
+            
+        
+            
+            
         <form action="NewServlet" method="post" name="entete_journal">
             <fieldset>
                 <label for="idJournal_ficheJournal">ID Journal</label>
@@ -169,6 +200,22 @@
                     %>
                     <option value="<%= acte.getId()%>" <%= selected%>>
                         <%= acte.getActeNom()%>
+                    </option>
+                    <%
+                            }
+                        }
+                    %>
+                </select>
+                <!-- Sélection du médecin -->
+                <label for="id_medecin[]">Médecin</label>
+                <select name="id_medecin[]" required>
+                    <%
+
+                        if (list != null) {
+                            for (Z_MEDECIN medecin : list) {
+                    %>
+                    <option value="<%= medecin.getIdpers()%>">
+                        <%= medecin.getNomPersonne()%> - <%=medecin.getPrenomPersonne()%>
                     </option>
                     <%
                             }

@@ -51,7 +51,6 @@ public interface Z_USERFacadeLocal {
     
     public Z_USER trouverUserParLogin(String login);
 
-    void creerAdmin(String login, String mdp);
 
 
 

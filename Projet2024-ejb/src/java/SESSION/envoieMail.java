@@ -31,7 +31,11 @@ public class envoieMail implements envoieMailLocal {
 //      ==========================================================================================
 //      ==========================================================================================
 //      ==========================================================================================
-//    Au final on a abandonné la fonctionnalité de relance des patients
+//    Au final on a abandonné la fonctionnalité de relance des patients par mail, le paramétrage ne fonctionne pas ...
+//      comme vu avec Mme Talens lundi 20/01/2025
+//    en gère la relance en affichant dans un écran dédié (FacturesImpayees.jsp)
+//    les factures en retard de paiement, c'est à dire en retard de 14 jours par rapport à la date d'émission
+//    pour info, le délai légal de paiement est 14 jours à partir de la date de réception d'une facture.
     
 //      ==========================================================================================
 //      ==========================================================================================

@@ -42,19 +42,7 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
             return null;
         }
     }
-    // Nouvelle méthode pour simplement retourner l'utilisateur
-//    
-//    public Object[] Z_authentificationUtilisateur(String login, String mdp) {
-//        Z_USER user = z_USERFacade.authentification(login, mdp);
-//        String role = null;
-//        if (user != null) {
-//            role = user.getRole(); 
-//            return new Object[]{user, role};
-//
-//        } else {
-//            return null;
-//        }
-//    }
+    
 
         @Override
     public Z_USER Z_authentificationUtilisateur(String login, String mdp) {
@@ -70,18 +58,7 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
 
     }
 
-//    
-//    public Object[] Z_authentificationUtilisateur(String login, String mdp) {
-//        Z_USER user = z_USERFacade.authentification(login, mdp);
-//        String role = null;
-//        if (user != null) {
-//            role = user.getRole(); 
-//            return new Object[]{user, role};
-//
-//        } else {
-//            return null;
-//        }
-//    }
+//  
 
         @Override
     public List<Z_USER> trouverTousLesUtilisateurs() {
@@ -103,10 +80,7 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
     public List<Z_MEDECIN> trouverTousLesMedecins() {
         return z_PERSONNEFacade.trouverTousLesMedecins();
     }
-//    @Override
-//    public List<Z_MEDECIN> trouverTousLesMedecins() {
-//        return z_PERSONNEFacade.trouverTousLesMedecinsNew();
-//    }
+//  
     
         @Override
     public void creerPersonne(String nom, String prenom,String adresse) {
@@ -121,10 +95,7 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
         Z_USER user=z_USERFacade.trouverUserParLogin(login);
         return user;
     }
-        @Override
-    public void creerAdmin(String login, String mdp) {
-        z_USERFacade.creerAdmin(login, mdp);
-    }
+
         @Override
     public boolean creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE pers) {
         return z_USERFacade.creerUtilisateur(login, mdp, role, pers);
