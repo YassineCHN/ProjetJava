@@ -416,16 +416,15 @@ public class NewServlet extends HttpServlet {
                 request.setAttribute("message", "Suppression impossible : Utilisateur non trouvé.");
             }
         }
-       
         else if (act.equals("supprimerPersonne")){
             jspClient = "/landing_page.jsp";
-            Long idPersonne = Long.parseLong(request.getParameter("supprimerPersonne"));
+            Long idPersonne = Long.parseLong(request.getParameter("id_supprimerPersonne"));
             Z_USER utilisateur = z_USER_BEAN.trouverUtilisateurParPers(idPersonne);
-            if (utilisateur != null) {
-                z_USER_BEAN.supprimerUtilisateur(utilisateur.getId());
-            } 
-            z_USER_BEAN.supprimerPersonne(idPersonne);
-            request.setAttribute("message", "Personne supprimée avec succès.");   
+            if (z_USER_BEAN.supprimerPersonne(idPersonne)) {
+                request.setAttribute("message", "Personne supprimée avec succès.");
+            } else{
+                request.setAttribute("message", "Suppression Impossible : Personne non trouvé ou encore lié à un Dossier(PATIENT), un Service(MEDECIN/PERSONNEL) ou un Journal(MEDECIN)");
+            }  
         }
         else if (act.equals("supprimerActe")){
             jspClient="/landing_page.jsp";

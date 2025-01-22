@@ -21,6 +21,7 @@
             function togglePatientFields() {
                 var existingPatientField = document.getElementById("existingPatientField");
                 var newPatientField = document.getElementById("newPatientField");
+                var patientIdField = document.getElementById("patientId");
                 var nomField = document.getElementById("nomPersonne");
                 var prenomField = document.getElementById("prenomPersonne");
                 var numSecuField = document.getElementById("numSecuPatient");
@@ -31,12 +32,14 @@
                     nomField.setAttribute("required", "required");
                     prenomField.setAttribute("required", "required");
                     numSecuField.setAttribute("required", "required");
+                    patientIdField.removeAttribute("required");
                 } else {
                     existingPatientField.classList.remove("hidden");
                     newPatientField.classList.add("hidden");
                     nomField.removeAttribute("required");
                     prenomField.removeAttribute("required");
                     numSecuField.removeAttribute("required");
+                    patientIdField.setAttribute("required", "required");
                 }
             }
         </script>
@@ -62,7 +65,7 @@
                     <label for="patientId">ID du patient :</label>
                     
                     <!--                    <input type="text" id="patientId" name="patientId"><br><br>-->
-                    <select id="patientId" name="patientId">
+                    <select id="patientId" name="patientId" required>
                         <option value="" disabled selected>ID - Nom patient</option>
                         A l'avenir faudra récupérer le nom patient
                         <%for (Z_PATIENT cp : listPatient) {%>
@@ -102,7 +105,7 @@
                         <!--                
                                         <input type="text" id="serviceId" name="serviceId" required><br><br>-->
 
-                        <select id="serviceId" name="serviceId">
+                        <select id="serviceId" name="serviceId" required>
                             <option value="" disabled selected>ID - Nom du service</option>
                             <%for (Service cp : listService) {%>
                             <option value="<%= cp.getId()%>"><p><%=cp.getId()%> — <%=cp.getServiceNom()%></p></option>

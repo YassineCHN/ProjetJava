@@ -129,6 +129,14 @@ public class Facture implements Serializable {
     public void setLeJournal(JournalActe leJournal) {
         this.leJournal = leJournal;
     }
+
+    public Paiement getPaiement() {
+        return paiement;
+    }
+
+    public void setPaiement(Paiement paiement) {
+        this.paiement = paiement;
+    }
     
     
 

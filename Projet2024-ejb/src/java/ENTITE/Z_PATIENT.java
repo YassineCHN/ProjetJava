@@ -91,4 +91,12 @@ public class Z_PATIENT extends Z_PERSONNE{
         this.adresseMutuelle = adresseMutuelle;
     }
 
+    public List<DossierHospitalisation> getDossierHospitalisations() {
+        return dossierHospitalisations;
+    }
+
+    public void setDossierHospitalisations(List<DossierHospitalisation> dossierHospitalisations) {
+        this.dossierHospitalisations = dossierHospitalisations;
+    }
+
 }

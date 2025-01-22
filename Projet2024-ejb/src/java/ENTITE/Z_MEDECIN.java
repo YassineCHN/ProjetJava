@@ -94,4 +94,12 @@ public class Z_MEDECIN extends Z_PERSONNE {
         this.specialite = specialite;
     }
 
+    public List<LigneJournal> getLigneJournals() {
+        return ligneJournals;
+    }
+
+    public void setLigneJournals(List<LigneJournal> ligneJournals) {
+        this.ligneJournals = ligneJournals;
+    }
+
 }

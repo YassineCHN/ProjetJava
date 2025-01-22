@@ -157,9 +157,33 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
         }
     }
     @Override
-    public void supprimerPersonne(Long id) {
-        z_PERSONNEFacade.supprimerPersonne(id);
+    public boolean supprimerPersonne(Long id) {
+        Z_PERSONNE persSupp=z_PERSONNEFacade.trouverPersonneParId(id);
+        if (persSupp==null){
+            return false;
+        }
+        if(persSupp instanceof Z_MEDECIN) {
+            Z_MEDECIN medecin = (Z_MEDECIN) persSupp; 
+            if (medecin.getService()==null && medecin.getLigneJournals().isEmpty()){
+                z_PERSONNEFacade.supprimerPersonne(persSupp);
+                return true;
+            }
+        } else if (persSupp instanceof Z_PATIENT){
+            Z_PATIENT patient = (Z_PATIENT) persSupp; 
+            if (patient.getDossierHospitalisations().isEmpty()){
+                z_PERSONNEFacade.supprimerPersonne(persSupp);
+                return true;
+            }  
+        }else if (persSupp instanceof Z_PERSONNEL){
+            Z_PERSONNEL personnel = (Z_PERSONNEL) persSupp; 
+            if (personnel.getService()==null){
+                z_PERSONNEFacade.supprimerPersonne(persSupp);
+                return true;
+            }
+        }
+        return false; 
     }
+    
         @Override
     public void modifierPersonne(Z_PERSONNE pers) {
         z_PERSONNEFacade.mettreAJourPersonne(pers);
