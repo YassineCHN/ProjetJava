@@ -6,6 +6,7 @@ package ENTITE;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,10 @@ import javax.persistence.Temporal;
 @Entity
 public class Facture implements Serializable {
 
+    
+//    OneToOne à cause du sujet
+//    en entreprise, selon les cas, une facture peut avoir plusieurs paiements
+//    Ca devient un problème comptable : le lettrage 
     @OneToOne(mappedBy = "laFacture")
     private Paiement paiement;
 
@@ -63,7 +68,7 @@ public class Facture implements Serializable {
     public String toString() {
         return "ENTITE.Facture[ id=" + id + " ]";
     }
-
+    @Column(nullable = false) 
     private Double factureMontant;
 
     public Double getFactureMontant() {
@@ -73,7 +78,7 @@ public class Facture implements Serializable {
     public void setFactureMontant(Double factureMontant) {
         this.factureMontant = factureMontant;
     }
-
+    @Column(nullable = false) 
     private boolean facturePayee;
 
     public boolean isFacturePayee() {
@@ -83,7 +88,7 @@ public class Facture implements Serializable {
     public void setFacturePayee(boolean facturePayee) {
         this.facturePayee = facturePayee;
     }
-
+    @Column(nullable = false) 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date factureDateEmissions;
 
@@ -95,6 +100,13 @@ public class Facture implements Serializable {
         this.factureDateEmissions = factureDateEmissions;
     }
 
+    
+    
+//    Pour ces deux champs j'assume de pouvoir les laisser null pour les raisons suivantes
+//    Pour l'instant l'application ne le permet pas mais l'idée serait de
+//    pouvoir facturer un client/patient en ne se basant ni sur un journal ni sur un dossier
+//    
+    
     @ManyToOne
         private DossierHospitalisation leDossier;
 

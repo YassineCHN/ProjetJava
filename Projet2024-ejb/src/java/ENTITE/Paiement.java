@@ -6,6 +6,7 @@ package ENTITE;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -67,6 +68,7 @@ public class Paiement implements Serializable {
      *
      * @return the value of datePaiement
      */
+    @Column(nullable = false) 
     public Date getDatePaiement() {
         return datePaiement;
     }
@@ -87,6 +89,7 @@ public class Paiement implements Serializable {
      *
      * @return the value of montantPaiement
      */
+        @Column(nullable = false) 
     public Double getMontantPaiement() {
         return montantPaiement;
     }
@@ -96,6 +99,7 @@ public class Paiement implements Serializable {
      *
      * @param montantPaiement new value of montantPaiement
      */
+    
     public void setMontantPaiement(Double montantPaiement) {
         this.montantPaiement = montantPaiement;
     }

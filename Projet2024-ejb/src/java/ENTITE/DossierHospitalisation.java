@@ -7,12 +7,14 @@ package ENTITE;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -67,7 +69,8 @@ public class DossierHospitalisation implements Serializable {
     public String toString() {
         return "ENTITE.DossierHospitalisation[ id=" + id + " ]";
     }
-
+    
+    @Column(nullable = false) 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateHospitalisation;
 
@@ -100,7 +103,7 @@ public class DossierHospitalisation implements Serializable {
     public void setHeureDepart(Date heureDepart) {
         this.heureDepart = heureDepart;
     }
-
+    @JoinColumn(nullable = false) 
     @ManyToOne
     private Z_PATIENT lePatient;
 
@@ -111,7 +114,8 @@ public class DossierHospitalisation implements Serializable {
     public void setLePatient(Z_PATIENT lePatient) {
         this.lePatient = lePatient;
     }
-
+    
+    @JoinColumn(nullable = false) 
     @ManyToOne
         private Service leService;
 

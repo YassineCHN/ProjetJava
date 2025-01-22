@@ -6,6 +6,7 @@ package ENTITE;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -60,7 +61,7 @@ public class Acte implements Serializable {
     public String toString() {
         return "ENTITE.Acte[ id=" + id + " ]";
     }
-
+    @Column(nullable = false) 
     private String acteNom;
 
     public String getActeNom() {
@@ -70,7 +71,7 @@ public class Acte implements Serializable {
     public void setActeNom(String acteNom) {
         this.acteNom = acteNom;
     }
-
+    @Column(nullable = false) 
     private String acteDescription;
 
     public String getActeDescription() {
@@ -80,7 +81,7 @@ public class Acte implements Serializable {
     public void setActeDescription(String acteDescription) {
         this.acteDescription = acteDescription;
     }
-
+    @Column(nullable = false) 
     private double actePrix;
 
     public double getActePrix() {
@@ -101,6 +102,7 @@ public class Acte implements Serializable {
 //    public void setLeDossier(DossierHospitalisation leDossier) {
 //        this.leDossier = leDossier;
 //    }
+    @Column(nullable = false) 
         private double coefficient_SecuriteSociale;
 
     public double getCoefficient_SecuriteSociale() {
@@ -110,7 +112,7 @@ public class Acte implements Serializable {
     public void setCoefficient_SecuriteSociale(double coefficient_SecuriteSociale) {
         this.coefficient_SecuriteSociale = coefficient_SecuriteSociale;
     }
-
+    @Column(nullable = false) 
     private double coefficient_Mutuelle;
 
     public double getCoefficient_Mutuelle() {
