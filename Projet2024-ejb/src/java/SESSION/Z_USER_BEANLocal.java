@@ -41,7 +41,7 @@ public interface Z_USER_BEANLocal {
 
     public void creerPersonne(String nom, String prenom,String adresse);
     
-    public void supprimerPersonne(Long id_test) ;
+    boolean supprimerPersonne(Long id_test) ;
     
     public void modifierPersonne(Z_PERSONNE pers);
     

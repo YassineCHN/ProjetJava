@@ -49,24 +49,10 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
          getEntityManager().merge(pers);
     }
     @Override
-    public void supprimerPersonne(Long id) {
-    try {
-        if (id == null || id == 0) {
-            throw new IllegalArgumentException("ID invalide : L'ID ne peut pas être null ou égal à 0.");
-        }
-        Z_PERSONNE pers = em.find(Z_PERSONNE.class, id);
-        if (pers != null) {
-            em.remove(pers);
-            System.out.println("La personne avec l'ID " + id + " a été supprimée.");
-        } else {
-            System.err.println("Aucune personne trouvée avec l'ID " + id);
-        }
-    } catch (IllegalArgumentException e) {
-        System.err.println("Erreur : " + e.getMessage());
-    } catch (Exception e) {
-        System.err.println("Une erreur s'est produite lors de la suppression de la personne : " + e.getMessage());
+    public void supprimerPersonne(Z_PERSONNE persSupp) {
+        em.remove(persSupp);
+        
     }
-}
 
         @Override
     public Z_PERSONNE trouverPersonneParId(Long id) {
@@ -109,21 +95,8 @@ public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PE
         return em.createQuery("SELECT s FROM Z_MEDECIN as s where s.idpers IS NOT NULL", Z_MEDECIN.class).getResultList();
     }
     
-//    return em.createQuery("SELECT s FROM Z_MEDECIN as s where s.idpers IS NOT NULL", Z_MEDECIN.class).getResultList();
-//pas besoin de préciser le rôle
-//    c'est automatique dans la stratégie single_table
-//    le champ propre à médecin/admin sera rempli automatiquement
-
     
-//    @Override
-//    public void creerMedecin(String login, String mdp, String specialite) {
-//        System.out.println("appel de la méthode creerMedecin");
-//        Z_MEDECIN pers = new Z_MEDECIN();
-//        pers.setLogin(login);
-//        pers.setMdp(mdp);
-//        pers.setSpecialite(specialite);
-//        getEntityManager().persist(pers);
-//    }
+
         @Override
 public void creerMedecin(String nom, String prenom, String adresse, String specialite,Service service) {
     System.out.println("appel de la méthode creerMedecin");

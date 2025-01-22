@@ -110,7 +110,7 @@
 
     <!-- Formulaire de suppression -->
     <form action="NewServlet" method="post">
-        <input type="hidden" name="supprimerPersonne" value="<%=Long.toString(pers.getIdpers())%>">
+        <input type="hidden" name="id_supprimerPersonne" value="<%=Long.toString(pers.getIdpers())%>">
         <input type="hidden" name="action" value="supprimerPersonne">
         <input type="submit" value="Supprimer la personne">
     </form>

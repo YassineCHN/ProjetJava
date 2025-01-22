@@ -37,7 +37,7 @@ public interface Z_PERSONNEFacadeLocal {
     
     public void mettreAJourPersonne(Z_PERSONNE pers);
     
-    public void supprimerPersonne(Long id) ;
+    public void supprimerPersonne(Z_PERSONNE persSupp) ;
 
     public Z_PERSONNE trouverPersonneParId(Long id) ;
     
