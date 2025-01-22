@@ -88,25 +88,11 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
     }
 
     @Override
-    public void supprimerUtilisateur(Long id_test) {
-        try {
-        if (id_test == 0) {
-            throw new IllegalArgumentException("ID invalide");
-        }
-        Z_USER user = em.find(Z_USER.class, id_test);
-        if (user != null) {
-            if (user.getPersonne() != null) {
-                user.setPersonne(null);
+    public void supprimerUtilisateur(Z_USER userSupp) {
+        if (userSupp.getPersonne() != null) {
+                userSupp.setPersonne(null);
             }
-            em.remove(user);
-        }
-    } catch (IllegalArgumentException e) {
-        // Gérer l'exception lorsque id est null
-        System.err.println("Erreur : " + e.getMessage());
-    } catch (Exception e) {
-        // Gérer toute autre exception
-        System.err.println("Une erreur s'est produite lors de la suppression de utilisateur : " + e.getMessage());
-    }
+        em.remove(userSupp);
     }
 
     @Override

@@ -409,13 +409,11 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("supprimerUtilisateur")){
             jspClient = "/landing_page.jsp";
-            Long value = Long.parseLong(request.getParameter("supprimerUtilisateur"));
-            Z_USER utilisateur = z_USER_BEAN.trouverUtilisateurParId(value);
-            if (utilisateur != null) {
-                z_USER_BEAN.supprimerUtilisateur(value);
+            Long idUser = Long.parseLong(request.getParameter("id_supprimerUtilisateur"));
+            if(z_USER_BEAN.supprimerUtilisateur(idUser)){
                 request.setAttribute("message", "Utilisateur supprimé avec succès.");
             } else {
-                request.setAttribute("message", "Utilisateur non trouvé.");
+                request.setAttribute("message", "Suppression impossible : Utilisateur non trouvé.");
             }
         }
        

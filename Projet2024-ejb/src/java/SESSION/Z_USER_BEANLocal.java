@@ -33,7 +33,7 @@ public interface Z_USER_BEANLocal {
 
     Z_USER trouverUtilisateurParId(Long id);
 
-    void supprimerUtilisateur(Long id);
+    boolean supprimerUtilisateur(Long id);
 
     Z_PATIENT trouverPatientParNumSecu(String numSecu);
     

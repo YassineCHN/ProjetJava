@@ -46,7 +46,7 @@
     <input type="submit" value="Valider" />
 </form>
  <form action="NewServlet">
-        <input type="hidden" id="supprimerService" name="supprimerUtilisateur" value="<%=Long.toString(user2.getId())%>">
+        <input type="hidden" id="id_supprimerUtilisateur" name="id_supprimerUtilisateur" value="<%=Long.toString(user2.getId())%>">
         <input type="hidden" name="action" value="supprimerUtilisateur">
         <input type="submit" value="Supprimer utilisateur" />
     </form>

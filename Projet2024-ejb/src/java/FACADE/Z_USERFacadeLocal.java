@@ -41,7 +41,7 @@ public interface Z_USERFacadeLocal {
 
     void mettreAJourUtilisateur(Z_USER user);
 
-    void supprimerUtilisateur(Long id);
+    void supprimerUtilisateur(Z_USER userSupp);
 
     Z_USER trouverUtilisateurParId(Long id);
     

@@ -144,9 +144,17 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
         Z_PERSONNE pers = z_PERSONNEFacade.trouverPersonneParId(id);
         return pers;
     }
-        @Override
-    public void supprimerUtilisateur(Long id) {
-        z_USERFacade.supprimerUtilisateur(id);
+    
+    @Override
+    public boolean supprimerUtilisateur(Long id) {
+        Z_USER userSupp=z_USERFacade.trouverUtilisateurParId(id);
+        if(userSupp!=null){
+            z_USERFacade.supprimerUtilisateur(userSupp);
+            return true;
+        } else {
+            return false;
+
+        }
     }
     @Override
     public void supprimerPersonne(Long id) {
