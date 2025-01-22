@@ -102,11 +102,6 @@
                                ? journal.getDossier().getId() : ""%>" readonly>
                 <br><br>
 
-                <label for="utilisateur_ficheJournal">Utilisateur</label>
-                <input type="text" id="utilisateur_ficheJournal" name="utilisateur_ficheJournal"
-                       value="<%= (journal != null && journal.getUtilisateurCreateur() != null)
-                               ? journal.getUtilisateurCreateur().getId() : ""%>" readonly>
-                <br><br>
                 <label for="statut_ficheJournal">Statut journal</label>
                 <input type="text" id="statut_ficheJournal" name="statut_ficheJournal"
                        value="<%= (journal != null && journal.getStatut() != null)

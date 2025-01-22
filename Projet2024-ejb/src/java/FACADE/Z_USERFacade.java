@@ -138,15 +138,6 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
 //    le champ propre à médecin/admin sera rempli automatiquement
 
     
-//    @Override
-//    public void creerMedecin(String login, String mdp, String specialite) {
-//        System.out.println("appel de la méthode creerMedecin");
-//        Z_MEDECIN user = new Z_MEDECIN();
-//        user.setLogin(login);
-//        user.setMdp(mdp);
-//        user.setSpecialite(specialite);
-//        getEntityManager().persist(user);
-//    }
     
     public Z_USER trouverUserParLogin(String login) {
     Z_USER user = null;

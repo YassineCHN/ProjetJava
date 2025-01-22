@@ -35,12 +35,11 @@ public class JournalActeFacade extends AbstractFacade<JournalActe> implements Jo
     }
 
     @Override
-    public JournalActe creerJournal( DossierHospitalisation dossier, Z_USER user) {
+    public JournalActe creerJournal( DossierHospitalisation dossier) {
         JournalActe journal = new JournalActe();
         journal.setDateCreation(new Date());
         journal.setDossier(dossier);
         journal.setStatut(statutJournal.Brouillon);
-        journal.setUtilisateurCreateur(user);
         em.persist(journal);
         
         

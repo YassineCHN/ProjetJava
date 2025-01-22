@@ -21,6 +21,7 @@
                 <th>ID Ligne</th>
                 <th>Nom de l'acte</th>
                 <th>ID Journal</th>
+                <th>Médecin</th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                 <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getId() %></a></td>
                 <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getId_acte().getActeNom() %></a></td>
                 <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getId_journal().getId()%></a></td>
+                <td><a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= e.getId_journal().getId()%>" > <%= e.getLeMedecin().getNomPersonne()%>-<%= e.getLeMedecin().getPrenomPersonne()%> </a></td>
             </tr>
             <% } %>
         </tbody>

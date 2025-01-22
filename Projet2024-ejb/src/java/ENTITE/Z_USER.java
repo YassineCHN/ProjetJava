@@ -24,8 +24,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Z_USER implements Serializable {
 
-    @OneToMany(mappedBy = "utilisateurCreateur")
-    private List<JournalActe> journalActes;
     
     @OneToOne
     @JoinColumn(name = "idpers")

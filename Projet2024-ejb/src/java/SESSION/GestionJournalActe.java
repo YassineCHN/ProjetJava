@@ -25,8 +25,8 @@ public class GestionJournalActe implements GestionJournalActeLocal {
     private JournalActeFacadeLocal journalActeFacade;
 
     @Override
-    public JournalActe creerJournal(DossierHospitalisation dossier, Z_USER user) {
-        JournalActe journal = journalActeFacade.creerJournal(dossier, user);
+    public JournalActe creerJournal(DossierHospitalisation dossier) {
+        JournalActe journal = journalActeFacade.creerJournal(dossier);
         return journal;
     }
 

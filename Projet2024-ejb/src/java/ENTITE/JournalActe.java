@@ -171,27 +171,6 @@ public class JournalActe implements Serializable {
         this.DateValidation = DateValidation;
     }
     
-    @ManyToOne
-    private Z_USER utilisateurCreateur;
-
-    /**
-     * Get the value of utilisateurCreateur
-     *
-     * @return the value of utilisateurCreateur
-     */
-    public Z_USER getUtilisateurCreateur() {
-        return utilisateurCreateur;
-    }
-    
-
-    /**
-     * Set the value of utilisateurCreateur
-     *
-     * @param utilisateurCreateur new value of utilisateurCreateur
-     */
-    public void setUtilisateurCreateur(Z_USER utilisateurCreateur) {
-        this.utilisateurCreateur = utilisateurCreateur;
-    }
     
     @JoinColumn(nullable = false) 
     @ManyToOne

@@ -776,7 +776,6 @@ public class NewServlet extends HttpServlet {
             String role_user = (String) session.getAttribute("role2");
             String user = (String) session.getAttribute("user_identifié");
             Long id_user = Long.parseLong((String) session.getAttribute("id_user"));
-            Z_USER user_2 = z_USER_BEAN.trouverUtilisateurParId(id_user);
             
             DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(id_dossier));
             JournalActe JournalExistant = gestionJournalActe.trouverJournalParDossier(dossier);
@@ -793,7 +792,7 @@ public class NewServlet extends HttpServlet {
         
             } else {
 //                journal existe pas déjà, on le crée
-                JournalActe journal = gestionJournalActe.creerJournal(dossier, user_2);
+                JournalActe journal = gestionJournalActe.creerJournal(dossier);
                 request.setAttribute("journal_object", journal);
                 System.out.println("journal existe pas déjà, on le crée");
                 request.setAttribute("lignes_journals", null); 

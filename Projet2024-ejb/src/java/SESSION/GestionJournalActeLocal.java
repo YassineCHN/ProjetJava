@@ -20,7 +20,7 @@ public interface GestionJournalActeLocal {
     
 
 
-    JournalActe creerJournal(DossierHospitalisation dossier, Z_USER user);
+    JournalActe creerJournal(DossierHospitalisation dossier);
 
     JournalActe trouverJournalParId(Long id);
 

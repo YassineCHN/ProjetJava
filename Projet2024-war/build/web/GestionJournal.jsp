@@ -38,7 +38,6 @@
             <TD>Date de création</TD>
             <TD>Date de validation</TD>
             <TD>ID du dossier d'hospitalisation</TD>
-            <td>Identifiant de l'user créateur</td>
             
         </tr>
         <% if (list != null || !list.isEmpty()) { %>
@@ -58,9 +57,6 @@
                 </td>
                 <td Width=15%>
                     <a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= cp.getId() %>"><%= cp.getDossier().getId()%></a>
-                </td>
-                <td Width=15%>
-                    <a href="NewServlet?action=afficherFicheJournalActe&id_journal_1=<%= cp.getId()%>"><%= cp.getUtilisateurCreateur().getLogin()%></a>
                 </td>
 
             
