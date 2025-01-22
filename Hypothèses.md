@@ -29,9 +29,9 @@
 
 ## Dossier d'Hospitalisation
 - Le personnel peut seulement modifier la date d'arrivé et de départ
-- Le médecin peut seulement modifier la date d'hospitalisation
+- Le médecin peut seulement modifier la date d'hospitalisation et annuler un dosier
 - Les ID de service et de patient d'un dossier sont immuables.
-- Pour supprimer un dossier, on initialise d'abord ces deux ID et les journaux d'actes liés à `null`.
+- On ne permet pas de supprimer un dossier car pour le supprimer il faudrait qu'il ne soit rattaché à aucun service et aucun patient, cependant ce cas est impossible car on autorise pas la création d'un dossier pas rattaché 
 - Un médecin peut créer un dossier d'hospitalisation et le rattacher à un autre service, mais une fois créé, il ne pourra plus le visualiser dans la liste des dossiers.
 
 ## Service
