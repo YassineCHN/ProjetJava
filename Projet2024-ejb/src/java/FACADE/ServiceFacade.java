@@ -44,23 +44,9 @@ public class ServiceFacade extends AbstractFacade<Service> implements ServiceFac
     }
 
     @Override
-public void supprimerService(Long id) {
-    try {
-        if (id == null) {
-            throw new IllegalArgumentException("L'identifiant du service ne peut pas être null.");
-        }
-        Service service = em.find(Service.class, id);
-        if (service != null) {
-            em.remove(service);
-        }
-    } catch (IllegalArgumentException e) {
-        // Gérer l'exception lorsque id est null
-        System.err.println("Erreur : " + e.getMessage());
-    } catch (Exception e) {
-        // Gérer toute autre exception
-        System.err.println("Une erreur s'est produite lors de la suppression du service : " + e.getMessage());
+    public void supprimerService(Service servSupp) {
+            em.remove(servSupp);
     }
-}
 
 
     @Override

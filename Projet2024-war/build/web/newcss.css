@@ -195,7 +195,7 @@ input[type="reset"] {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    background-color: skyblue;
+    background-color: dodgerblue;
     
     cursor: pointer;
     margin-right: 10px;
@@ -204,7 +204,7 @@ button {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    background-color: skyblue;
+    background-color: dodgerblue;
     
     cursor: pointer;
     margin-right: 10px;
@@ -220,11 +220,11 @@ input[type="reset"]:hover {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    background-color: skyblue;
+    background-color: dodgerblue;
    
     cursor: pointer;
     margin-right: 10px;
-    background-color: skyblue;
+    background-color: dodgerblue;
 }
 /* Conteneur pour aligner les boutons horizontalement */
 .button-container {

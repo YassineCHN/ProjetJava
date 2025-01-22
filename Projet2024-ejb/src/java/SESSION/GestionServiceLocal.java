@@ -19,7 +19,7 @@ public interface GestionServiceLocal {
     
     void modifierService(Service serv);
 
-    void SupprimerService(Long idService);
+    boolean SupprimerService(Long idService);
 
     List<Service> tousLesServices();
 

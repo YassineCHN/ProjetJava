@@ -30,11 +30,11 @@ public interface ServiceFacadeLocal {
     int count();
     
     
-        void creerService(String nom, String localisation);
+   void creerService(String nom, String localisation);
 
     void modifierService(Service serv);
 
-    void supprimerService(Long id);
+    void supprimerService(Service servSupp);
 
     Service trouverServiceParId(Long id);
 

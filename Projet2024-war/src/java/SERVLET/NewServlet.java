@@ -400,19 +400,11 @@ public class NewServlet extends HttpServlet {
         
         else if (act.equals("supprimerService")) {
             jspClient = "/landing_page.jsp";
-            Long idService = Long.valueOf(request.getParameter("supprimerService"));
-            Service serv=gestionService.trouverServiceParID(idService);
-            if(serv != null){
-                if(serv.getLesPersonnels().isEmpty()&& serv.getLesMedecins().isEmpty()){
-                    if(serv.getDossierHospitalisations().isEmpty()){
-                       gestionService.SupprimerService(idService);
-                   request.setAttribute("message", "Service supprimé avec succès.");
-                   } else {
-                        request.setAttribute("message", "Impossible de supprimer le service car des dossiers y sont encore liés");
-                    }
-                } else {
-                    request.setAttribute("message", "Impossible de supprimer le service car des membres du personnel ou médecins y sont encore liés");
-                }   
+            Long idService = Long.valueOf(request.getParameter("id_supprimerService"));
+            if(gestionService.SupprimerService(idService)){
+               request.setAttribute("message", "Service supprimé avec succès."); 
+            }else {
+                request.setAttribute("message", "Suppression Impossible : Service non trouvé ou encore lié à un Dossier, un Médecin ou un Personnel");
             }
         }
         else if (act.equals("supprimerUtilisateur")){

@@ -39,20 +39,19 @@ public class GestionService implements GestionServiceLocal {
     // "Insert Code > Add Business Method")
 
     @Override
-public void SupprimerService(Long idService) {
-    try {
-        if (idService == null) {
-            throw new IllegalArgumentException("L'identifiant du service ne peut pas être null.");
+    public boolean SupprimerService(Long idService) {
+    Service serv=serviceFacade.trouverServiceParId(idService);
+        if (serv != null && 
+            serv.getDossierHospitalisations().isEmpty() &&
+            serv.getLesMedecins().isEmpty() &&
+            serv.getLesPersonnels().isEmpty() )
+        {
+            serviceFacade.supprimerService(serv);
+            return true;
+        } else {
+            return false;
         }
-        serviceFacade.supprimerService(idService);
-    } catch (IllegalArgumentException e) {
-        // Gérer l'exception lorsque idService est null
-        System.err.println("Erreur : " + e.getMessage());
-    } catch (Exception e) {
-        // Gérer toute autre exception
-        System.err.println("Une erreur s'est produite lors de la suppression du service : " + e.getMessage());
     }
-}
 
 
     @Override

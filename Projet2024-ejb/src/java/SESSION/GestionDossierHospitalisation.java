@@ -25,11 +25,6 @@ public class GestionDossierHospitalisation implements GestionDossierHospitalisat
     @EJB
     private DossierHospitalisationFacadeLocal dossierHospitalisationFacade;
 
-    
-    
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 
     @Override
     public List<DossierHospitalisation> afficherDossier() {

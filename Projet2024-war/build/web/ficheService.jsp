@@ -28,7 +28,7 @@
         
     </form>
     <form action="NewServlet">
-        <input type="hidden" id="supprimerService" name="supprimerService" value="<%=Long.toString(service.getId())%>">
+        <input type="hidden" id="id_supprimerService" name="id_supprimerService" value="<%=Long.toString(service.getId())%>">
         <input type="hidden" name="action" value="supprimerService">
         <input type="submit" value="Supprimer Service" />
     </form>
