@@ -46,7 +46,9 @@
   - il n'existe qu'un seul journal par dossier.
   - Par conséquent, il n'y qu'une seule facture par journal et donc par dossier.
 - L'utilisation d'un journal se passe en 3 étapes :
-  - à partir du dossier d'hospitalisation, accéder au journal
+  - 1. à partir du dossier d'hospitalisation, accéder au journal
+  - 2. dans le journal, saisir des lignes et les enregistrer
+  - 3. Valider le journal, plus aucune modification ne sera possible
 
 ## Concernant la navigation entre les JSP
 - On privilégie l'utilisation, s'ils sont présents, des boutons "Retour" qui permettent de retourner au menu principal
