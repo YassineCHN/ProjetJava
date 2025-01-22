@@ -58,11 +58,17 @@ public class DossierHospitalisationBatchBean implements DossierHospitalisationBa
 //          en utilisant les propriétés/méthodes du type Date
 
         Date dateHosp = dossier.getDateHospitalisation();
-        if(dateHosp == null) return false;
-        long nowMillis = new Date().getTime();
+        if(dateHosp == null) {
+            return false;
+        } else if (dossier.getHeureArrivee()==null){
+            long nowMillis = new Date().getTime();
         long hospMillis = dateHosp.getTime();
         
         return (nowMillis-hospMillis) > 3_600_000; 
+        }else {
+            return false;
+        }
+        
 
     }
 }

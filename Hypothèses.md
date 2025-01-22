@@ -54,3 +54,6 @@
 - On privilégie l'utilisation, s'ils sont présents, des boutons "Retour" qui permettent de retourner au menu principal
   - A noter que le mot "Home" dans la barre supérieur permet de retourner au menu principal
 
+## Concernant l'annulation du dossier médical si le patient est en retard
+- "S’il (le patient) ne se présente pas ou trop tard (1 heure de retard est tolérée), son dossier d’hospitalisation est annulé."
+- Le retard est défini par rapport à la date et heure d'hospitalisation. Un batch tourne à interval régulier (30 minutes) pour vérifier tous les dossiers 
