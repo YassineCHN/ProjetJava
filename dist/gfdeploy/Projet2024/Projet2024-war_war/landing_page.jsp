@@ -43,7 +43,6 @@
                 <% } else if ("MEDECIN".equals(role_utilisateur)) { %>
                 <!-- Cas pour l'utilisateur MEDECIN : voir certaines cartes spécifiques -->
                 <%@ include file="card_GestionActe.jsp" %>
-                <%@ include file="card_GestionService.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <% } else if ("PATIENT".equals(role_utilisateur)) { %>

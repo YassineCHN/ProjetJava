@@ -5,6 +5,7 @@
 --%>
 
    
+<%@page import="ENTITE.RoleUSER"%>
 <%@page import="ENTITE.Acte"%>
 <%@page import="ENTITE.LigneJournal"%>
 <%@page import="ENTITE.JournalActe"%>
@@ -19,16 +20,17 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% List<DossierHospitalisation> list = (List<DossierHospitalisation>) request.getAttribute("listeDossiers"); %>
-        
+        <%RoleUSER role = (RoleUSER) request.getAttribute("role"); %>
         <title>Utilisateur</title>
     </head>
     <body>
         <div class="main_content">
         <h1>Gestion des dossiers médicaux</h1>
-        
+        <%if (role == RoleUSER.MEDECIN || role == RoleUSER.ADMIN) {%>
         <div class="ruban_actions">
             <a href="NewServlet?action=ajouterDossierForm" class="button_link">Créer un dossier</a>
         </div>
+        <%}%>
     
       
 

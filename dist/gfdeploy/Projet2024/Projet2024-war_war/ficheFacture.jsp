@@ -1,3 +1,4 @@
+<%@page import="ENTITE.RoleUSER"%>
 <%@page import="ENTITE.Facture"%>
 <%@page import="ENTITE.JournalActe"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -14,6 +15,7 @@
     else {
         statutFacture = "Impayée";
     }
+    RoleUSER role = (RoleUSER) request.getAttribute("role");
 %>
 
 <!DOCTYPE html>
@@ -77,19 +79,18 @@
                        value="<%=statutFacture%>"
                        disabled>
                 <br><br>
-                
-                <!-- Action cachée pour indiquer la modification de la facture -->
-                <input type="hidden" name="action" value="modifierFacture">
-                <input type="submit" value="Valider">
+               
             </fieldset>
         </form>
-        
+                       
+        <%if (role == RoleUSER.PERSONNEL || role == RoleUSER.ADMIN) {%>
         <!-- Formulaire de suppression de la facture -->
         <form action="NewServlet" method="post">
             <input type="hidden" name="id_supprimerFacture" value="<%= facture.getId() %>">
             <input type="hidden" name="action" value="supprimerFacture">
             <input type="submit" value="Supprimer Facture">
         </form>
+            <%}%>
             <form action="NewServlet" method="post">
                 <input type="hidden" name="id_payerFacture" value="<%= facture.getId()%>">
                 <input type="hidden" name="action" value="payerFacture">

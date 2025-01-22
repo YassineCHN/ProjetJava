@@ -291,8 +291,19 @@ public class NewServlet extends HttpServlet {
             jspClient ="/ficheFacture.jsp";
             String id_facture = (String) request.getParameter("id_Facture");
             Facture facture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            if (utilisateurIdentifie != null) {
+                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                if(user!=null){
+                    Z_PERSONNE personne = user.getPersonne();
+                    request.setAttribute("personne", personne);
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
             request.setAttribute("facture", facture);
+                }
+            }
         }
+            
         else if (act.equals("afficherFicheUtilisateur")) {
             jspClient = "/ficheUtilisateur.jsp";
             String test = request.getParameter("id_utilisateur");

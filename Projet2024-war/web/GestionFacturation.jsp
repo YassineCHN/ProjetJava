@@ -5,6 +5,7 @@
 --%>
 
    
+<%@page import="ENTITE.RoleUSER"%>
 <%@page import="ENTITE.Facture"%>
 <%@page import="ENTITE.Acte"%>
 <%@page import="ENTITE.Z_USER"%>
@@ -17,7 +18,8 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Toutes les factures -->
-        <% List<Facture> list = (List<Facture>) request.getAttribute("listeFacture"); %>
+        <% List<Facture> list = (List<Facture>) request.getAttribute("listeFacture");
+        RoleUSER role = (RoleUSER) request.getAttribute("role");%>
         <!-- Les factures affichées -->
        
         
@@ -25,12 +27,12 @@
         
         
         
-        <title>Actes</title>
+        <title>Factures</title>
     </head>
     <body>
         <div class="main_content">
         <h1>Factures</h1>
-        
+        <%if (role == RoleUSER.PERSONNEL || role == RoleUSER.ADMIN) {%>
         <div class="ruban_actions">
             <form action="NewServlet">
             
@@ -38,6 +40,7 @@
             <input type="submit" value="Voir les factures en retard de paiement" />
         </form>
         </div>
+        <%}%>
     
         
         <TABLE border width=50%>
