@@ -36,8 +36,15 @@ public class GestionActe implements GestionActeLocal {
     }
 
     @Override
-    public void supprimerActe(Long id) {
-        acteFacade.supprimerActe(id);
+    public boolean supprimerActe(Long id) {
+        Acte acte=acteFacade.trouverActeParId(id);
+        if(acte!=null && acte.getLigneJournals().isEmpty()){
+            acteFacade.supprimerActe(acte);
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
     @Override

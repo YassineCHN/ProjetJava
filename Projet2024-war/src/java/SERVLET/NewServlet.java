@@ -439,13 +439,11 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("supprimerActe")){
             jspClient="/landing_page.jsp";
-            Long value = Long.parseLong(request.getParameter("id_supprimerActe"));
-            Acte acte= gestionActe.trouverActeParId(value);
-            if(acte!=null){
-               gestionActe.supprimerActe(value);
+            Long idActe = Long.parseLong(request.getParameter("id_supprimerActe"));
+            if(gestionActe.supprimerActe(idActe)){
                request.setAttribute("message", "Acte supprimé avec succès."); 
             }else {
-                request.setAttribute("message", "Acte non trouvé.");
+                request.setAttribute("message", "Suppression Impossible : Acte non trouvé ou encore lié à une ligne de journal");
             }
             
         }

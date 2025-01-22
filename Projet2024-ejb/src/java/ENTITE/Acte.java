@@ -121,5 +121,13 @@ public class Acte implements Serializable {
         this.coefficient_Mutuelle = coefficient_Mutuelle;
     }
 
+    public List<LigneJournal> getLigneJournals() {
+        return ligneJournals;
+    }
+
+    public void setLigneJournals(List<LigneJournal> ligneJournals) {
+        this.ligneJournals = ligneJournals;
+    }
+
     
 }

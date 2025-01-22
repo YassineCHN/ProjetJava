@@ -33,7 +33,7 @@ public interface ActeFacadeLocal {
 
     void modifierActe(Acte acte);
 
-    void supprimerActe(Long id);
+    void supprimerActe(Acte acteSupp);
 
     Acte trouverActeParNom(String nom);
 

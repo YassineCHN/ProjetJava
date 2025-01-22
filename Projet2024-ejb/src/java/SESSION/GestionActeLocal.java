@@ -19,7 +19,7 @@ public interface GestionActeLocal {
 
     Acte trouverActeParId(long id);
 
-    void supprimerActe(Long id);
+    boolean supprimerActe(Long id);
 
     void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle);
     
