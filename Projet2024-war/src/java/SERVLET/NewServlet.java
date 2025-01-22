@@ -437,18 +437,6 @@ public class NewServlet extends HttpServlet {
             z_USER_BEAN.supprimerPersonne(idPersonne);
             request.setAttribute("message", "Personne supprimée avec succès.");   
         }
-        else if (act.equals("supprimerDossier")) {
-            jspClient="/landing_page.jsp";
-            Long idDossier = Long.parseLong(request.getParameter("id_supprimerDossier"));
-            DossierHospitalisation dossier=gestionDossierHospitalisation.trouverDossierParId(idDossier);
-            if (dossier!=null){
-               gestionDossierHospitalisation.supprimerDossier(idDossier);
-               request.setAttribute("message", "Dossier supprimé avec succès.");
-            } else {
-                request.setAttribute("message", "Dossier non trouvé.");
-            }
-            
-        }
         else if (act.equals("supprimerActe")){
             jspClient="/landing_page.jsp";
             Long value = Long.parseLong(request.getParameter("id_supprimerActe"));

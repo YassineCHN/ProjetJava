@@ -23,7 +23,6 @@ public interface GestionDossierHospitalisationLocal {
 
     DossierHospitalisation trouverDossierParId(Long id);
 
-    void supprimerDossier(Long id);
     
     void annulerDossierHospitalisation(Long id) ;
 

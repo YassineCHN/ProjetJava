@@ -117,21 +117,11 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
         return dossiers;
     }
 
+    // bien que la méthode supprimer existe dans cette facade, on a décidé de ne pas permettre aux utilisateurs de supprimer un dossier
     @Override
     public void supprimerDossierHospitalisation(Long id) {
-        DossierHospitalisation dossier=trouverDossierHospitalisationParId(id) ;
-        if(dossier!=null) {
-            dossier.setLePatient(null);
-            dossier.setLeService(null);
-            List<JournalActe> list=dossier.getJournalActes();
-            for (JournalActe ja : list)
-                ja.setDossier(null);
-            
+        DossierHospitalisation dossier=trouverDossierHospitalisationParId(id) ;            
             em.remove(dossier);
-            System.out.println("Le dossier avec l'ID " + id + " a été supprimée.");
-        } else {
-            System.err.println("Aucun dossier trouvé avec l'ID " + id);
-        }
     }
     
     

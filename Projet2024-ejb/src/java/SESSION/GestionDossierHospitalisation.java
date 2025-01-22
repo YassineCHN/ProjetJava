@@ -44,10 +44,6 @@ public class GestionDossierHospitalisation implements GestionDossierHospitalisat
         return dossier;
     }
 
-    @Override
-    public void supprimerDossier(Long id) {
-        dossierHospitalisationFacade.supprimerDossierHospitalisation(id);
-    }
 
     @Override
     public void annulerDossierHospitalisation(Long id) {

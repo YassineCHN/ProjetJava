@@ -46,11 +46,6 @@
             <button type="submit">Annuler le Dossier</button>
         </form>
         <%if (role == RoleUSER.MEDECIN || role == RoleUSER.ADMIN) {%>
-        <form action="NewServlet" method="post" class="formulairebouton">
-            <input type="hidden" id="id_supprimerDossier" name="id_supprimerDossier" value="<%=Long.toString(dossier.getId())%>">
-            <input type="hidden" name="action" value="supprimerDossier">
-            <button type="submit">Supprimer le dossier</button>
-        </form>
 
         <form action="NewServlet" method="post"class="formulairebouton">
             <input type="hidden" id="id_ajouterJournal" name="id_ajouterJournal" value="<%=Long.toString(dossier.getId())%>">
