@@ -40,6 +40,8 @@ public class Z_USER implements Serializable {
 //    public String getRole() {
 //        // Utilisation d'une expression JPA pour récupérer la valeur de la colonne discriminante
 //        return this.getClass().getAnnotation(DiscriminatorValue.class).value();  }
+//    au final on ne s'en sert pas ...
+    
 
     private static final long serialVersionUID = 1L;
     @Id

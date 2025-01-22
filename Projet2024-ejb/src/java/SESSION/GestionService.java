@@ -32,6 +32,7 @@ public class GestionService implements GestionServiceLocal {
             serviceFacade.creerService(nomService, localisationService);
        
     }
+    @Override
     public void modifierService(Service serv){
         serviceFacade.modifierService(serv);
     }

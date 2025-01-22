@@ -53,6 +53,9 @@ public class DossierHospitalisationBatchBean implements DossierHospitalisationBa
 //        // Exemple : vérifie si now est au moins 1h après la date d’hospitalisation
 //        LocalDateTime dateHospitalisation = dossier.getDateHospitalisation();
 //        return now.isAfter(dateHospitalisation.plusHours(1));
+//          
+//          au lieu de faire comme dans les lignes ci-dessus, on calcul le temps en millisecondes
+//          en utilisant les propriétés/méthodes du type Date
 
         Date dateHosp = dossier.getDateHospitalisation();
         if(dateHosp == null) return false;

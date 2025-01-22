@@ -138,16 +138,7 @@ public class DossierHospitalisation implements Serializable {
         this.StatutD = StatutD;
     }
     
-//    @OneToMany(mappedBy = "leDossier")
-//    private List<Acte> lesActes;
-//
-//    public List<Acte> getLesActes() {
-//        return lesActes;
-//    }
-//
-//    public void setLesActes(List<Acte> lesActes) {
-//        this.lesActes = lesActes;
-//    }
+
 
     public List<JournalActe> getJournalActes() {
         return journalActes;
