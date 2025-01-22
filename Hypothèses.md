@@ -54,4 +54,3 @@
 - On privilégie l'utilisation, s'ils sont présents, des boutons "Retour" qui permettent de retourner au menu principal
   - A noter que le mot "Home" dans la barre supérieur permet de retourner au menu principal
 
-
