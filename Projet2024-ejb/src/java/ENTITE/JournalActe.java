@@ -7,12 +7,14 @@ package ENTITE;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -43,7 +45,7 @@ public class JournalActe implements Serializable {
     
     @Enumerated(EnumType.STRING)
     private statutJournal Statut;
-
+    @Column(nullable = false) 
     public statutJournal getStatut() {
         return Statut;
     }
@@ -126,7 +128,7 @@ public class JournalActe implements Serializable {
     public void setCommentaire(String Commentaire) {
         this.Commentaire = Commentaire;
     }
-
+    @Column(nullable = false) 
     @Temporal(javax.persistence.TemporalType.DATE)
         private Date DateCreation;
 
@@ -168,7 +170,7 @@ public class JournalActe implements Serializable {
     public void setDateValidation(Date DateValidation) {
         this.DateValidation = DateValidation;
     }
-
+    
     @ManyToOne
     private Z_USER utilisateurCreateur;
 
@@ -191,6 +193,7 @@ public class JournalActe implements Serializable {
         this.utilisateurCreateur = utilisateurCreateur;
     }
     
+    @JoinColumn(nullable = false) 
     @ManyToOne
         private DossierHospitalisation Dossier;
 

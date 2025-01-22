@@ -6,10 +6,12 @@ package ENTITE;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
@@ -59,7 +61,7 @@ public class LigneJournal implements Serializable {
     }
     
     
-    
+    @Column(nullable = false) 
     @Temporal(javax.persistence.TemporalType.DATE)
         private Date Date_acte;
 
@@ -70,7 +72,7 @@ public class LigneJournal implements Serializable {
     public void setDate_acte(Date Date_acte) {
         this.Date_acte = Date_acte;
     }
-
+    @Column(nullable = false) 
     private int Quantité_Acte;
 
     public int getQuantité_Acte() {
@@ -90,7 +92,7 @@ public class LigneJournal implements Serializable {
     public void setCommentaire(String Commentaire) {
         this.Commentaire = Commentaire;
     }
-
+    @JoinColumn(nullable = false) 
     @ManyToOne
     private Acte id_acte;
 
@@ -101,7 +103,7 @@ public class LigneJournal implements Serializable {
     public void setId_acte(Acte id_acte) {
         this.id_acte = id_acte;
     }
-    
+    @JoinColumn(nullable = false)
     @ManyToOne
         private JournalActe id_journal;
 
@@ -113,7 +115,7 @@ public class LigneJournal implements Serializable {
         this.id_journal = id_journal;
     }
     
-
+    @JoinColumn(nullable = false)
     @ManyToOne
         private Z_MEDECIN leMedecin;
 
