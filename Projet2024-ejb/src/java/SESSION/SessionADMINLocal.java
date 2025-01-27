@@ -4,6 +4,8 @@
  */
 package SESSION;
 
+import ENTITE.Acte;
+import ENTITE.DossierHospitalisation;
 import ENTITE.RoleUSER;
 import ENTITE.Service;
 import ENTITE.Z_MEDECIN;
@@ -70,4 +72,18 @@ public interface SessionADMINLocal {
     List<Service> tousLesServices();
 
     Service trouverServiceParID(Long id);
+    
+    List<DossierHospitalisation> afficherDossier();
+    
+    List<Acte> trouverTousLesActes();
+    
+    Acte trouverActeParId(long id);
+
+    boolean supprimerActe(Long id);
+
+    void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle);
+    
+    void modifierActe(Acte acte);
+    
+    
 }

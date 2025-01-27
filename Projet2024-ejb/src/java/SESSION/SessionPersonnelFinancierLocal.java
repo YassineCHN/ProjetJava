@@ -70,4 +70,8 @@ public interface SessionPersonnelFinancierLocal {
     public Z_USER trouverUtilisateurParPers(Long id);
     
     Z_USER trouverUtilisateurParId(Long id);
+    
+    List<JournalActe> trouverTousLesJournaux();
+
+    void validerJournal(JournalActe journal);
 }

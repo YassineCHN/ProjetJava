@@ -4,6 +4,8 @@
  */
 package SESSION;
 
+import ENTITE.Acte;
+import ENTITE.DossierHospitalisation;
 import ENTITE.RoleUSER;
 import ENTITE.Service;
 import ENTITE.Z_MEDECIN;
@@ -11,6 +13,8 @@ import ENTITE.Z_PATIENT;
 import ENTITE.Z_PERSONNE;
 import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
+import FACADE.ActeFacadeLocal;
+import FACADE.DossierHospitalisationFacadeLocal;
 import FACADE.ServiceFacadeLocal;
 import FACADE.Z_PERSONNEFacadeLocal;
 import FACADE.Z_USERFacadeLocal;
@@ -33,6 +37,12 @@ public class SessionADMIN implements SessionADMINLocal {
     
     @EJB
     private ServiceFacadeLocal serviceFacade;
+    
+    @EJB
+    private ActeFacadeLocal acteFacade;
+    
+    @EJB
+    private DossierHospitalisationFacadeLocal dossierHospitalisationFacade;
     
     
     @Override
@@ -205,6 +215,46 @@ public class SessionADMIN implements SessionADMINLocal {
     public Service trouverServiceParID(Long id) {
         Service test = serviceFacade.trouverServiceParId(id);
         return test;
+    }
+    
+    @Override
+    public List<DossierHospitalisation> afficherDossier() {
+        List<DossierHospitalisation> result = dossierHospitalisationFacade.trouverTousLesDossiers();
+        System.out.println(result.toString());
+        return result;
+    }
+    @Override
+    public List<Acte> trouverTousLesActes() {
+        List<Acte> result = acteFacade.trouverTousLesActes();
+        return result;
+    }
+
+    @Override
+    public Acte trouverActeParId(long id) {
+        Acte result = acteFacade.trouverActeParId(id);
+        return result;
+    }
+
+    @Override
+    public boolean supprimerActe(Long id) {
+        Acte acte=acteFacade.trouverActeParId(id);
+        if(acte!=null && acte.getLigneJournals().isEmpty()){
+            acteFacade.supprimerActe(acte);
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+
+    @Override
+    public void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle) {
+        acteFacade.creerActe(nom, description, prix, coefSecu,  coefMutuelle);
+    }
+    
+    @Override
+    public void modifierActe(Acte acte) {
+        acteFacade.modifierActe(acte);
     }
     
      

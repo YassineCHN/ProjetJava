@@ -83,6 +83,16 @@ public class SessionPersonnelFinancier implements SessionPersonnelFinancierLocal
     }
     
     @Override
+    public List<JournalActe> trouverTousLesJournaux() {
+        return journalActeFacade.trouverTousLesJournaux();
+    }
+    
+    @Override
+    public void validerJournal(JournalActe journal) {
+        journalActeFacade.validerJournal(journal);
+    }
+    
+    @Override
     public Facture creerFacturePourJournal(Long idJournal) {
         JournalActe journal = trouverJournalParId(idJournal);
         if (journal == null) {
