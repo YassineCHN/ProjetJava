@@ -4,15 +4,28 @@
  */
 package SESSION;
 
+import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.ModePaiement;
+import ENTITE.Paiement;
+import ENTITE.Service;
+import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
+import ENTITE.Z_PERSONNE;
+import ENTITE.Z_USER;
 import ENTITE.statutJournal;
+import FACADE.ActeFacadeLocal;
+import FACADE.DossierHospitalisationFacadeLocal;
 import FACADE.FactureFacadeLocal;
+import FACADE.JournalActeFacadeLocal;
 import FACADE.LigneJournalFacadeLocal;
-
+import FACADE.PaiementFacadeLocal;
+import FACADE.ServiceFacadeLocal;
+import FACADE.Z_PERSONNEFacadeLocal;
+import FACADE.Z_USERFacadeLocal;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -20,27 +33,58 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author charl
+ * @author ychen
  */
 @Stateless
-public class GestionFacture implements GestionFactureLocal {
+public class SessionPersonnelFinancier implements SessionPersonnelFinancierLocal {
 
     @EJB
-    private LigneJournalFacadeLocal ligneJournalFacade;
-
+    private JournalActeFacadeLocal journalActeFacade;
+    
+    @EJB
+    private ActeFacadeLocal acteFacade;
+    
     @EJB
     private FactureFacadeLocal factureFacade;
-
-    @EJB
-    private GestionActeLocal gestionActe;
-
-    @EJB
-    private GestionJournalActeLocal gestionJournalActe;
     
+    @EJB
+    private ServiceFacadeLocal serviceFacade;
+    
+    @EJB
+    private PaiementFacadeLocal paiementFacade;
+    
+    @EJB
+    private DossierHospitalisationFacadeLocal dossierHospitalisationFacade;
+    
+    @EJB
+    private LigneJournalFacadeLocal ligneJournalFacade;
+    
+    @EJB
+    private Z_PERSONNEFacadeLocal z_PERSONNEFacade;
 
+    @EJB
+    private Z_USERFacadeLocal z_USERFacade;
+    
+    @Override
+    public Acte trouverActeParId(long id) {
+        Acte result = acteFacade.trouverActeParId(id);
+        return result;
+    }
+    
+    @Override
+    public DossierHospitalisation trouverDossierParId(Long id) {
+        DossierHospitalisation dossier = dossierHospitalisationFacade.trouverDossierHospitalisationParId(id);
+        return dossier;
+    }
+    
+    @Override
+    public JournalActe trouverJournalParId(Long id) {
+        return journalActeFacade.trouverJournalParId(id);
+    }
+    
     @Override
     public Facture creerFacturePourJournal(Long idJournal) {
-        JournalActe journal = gestionJournalActe.trouverJournalParId(idJournal);
+        JournalActe journal = trouverJournalParId(idJournal);
         if (journal == null) {
             System.out.println("[GestionFacture] Aucune facture créée : journal introuvable (id=" + idJournal + ").");
             return null;
@@ -148,7 +192,74 @@ public class GestionFacture implements GestionFactureLocal {
         } else {
             return null;
         }
-        
+    }
+    @Override
+    public void creerLigne(Date date_acte, int quantite, String commentaire, Acte acte, JournalActe journal, Z_MEDECIN leMedecin) {
+        ligneJournalFacade.creerLigneJournal(date_acte, quantite, commentaire, acte, journal, leMedecin);
+    }
+    
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
+
+    @Override
+    public List<LigneJournal> trouverToutesLignes() {
+      return  ligneJournalFacade.trouverToutesLignes();
     }
 
+    @Override
+    public void supprimerLigne(long id) {
+        ligneJournalFacade.supprimerLigne(id);
+    }
+
+    @Override
+    public List<LigneJournal> listerLignesParJournal(Long idJournal) {
+        return ligneJournalFacade.listerLignesParJournal(idJournal);
+    }
+
+    @Override
+    public LigneJournal trouverLigneParId(Long id) {
+        return ligneJournalFacade.trouverLigneParId(id);
+    }
+
+    @Override
+    public void mettreAJourLigne(LigneJournal ligne) {
+        ligneJournalFacade.mettreAJourLigne(ligne);
+    }
+    
+    @Override
+    public Paiement enregistrerPaiement(Double montantPaiement, ModePaiement modePaiement, Facture laFacture) {
+        return paiementFacade.enregistrerPaiement(montantPaiement, modePaiement, laFacture);
+    }
+    
+    @Override
+    public Service trouverServiceParID(Long id) {
+        Service test = serviceFacade.trouverServiceParId(id);
+        return test;
+    }
+    
+    @Override
+    public void modifierPersonne(Z_PERSONNE pers) {
+        z_PERSONNEFacade.mettreAJourPersonne(pers);
+    }
+    
+    @Override
+    public Z_USER trouverUtilisateurParPers(Long id) {
+        Z_USER user = z_USERFacade.trouverUtilisateurParPersonne(id);
+        return user;
+    }
+    
+    @Override
+    public Z_PERSONNE trouverPersonneParId(Long id) {
+        Z_PERSONNE pers = z_PERSONNEFacade.trouverPersonneParId(id);
+        return pers;
+    }
+    
+    @Override
+    public Z_USER trouverUtilisateurParId(Long id) {
+        Z_USER user = z_USERFacade.trouverUtilisateurParId(id);
+        return user;
+    }
+    
+    
 }

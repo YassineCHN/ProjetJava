@@ -6,8 +6,11 @@ package SESSION;
 
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
+import ENTITE.Facture;
 import ENTITE.JournalActe;
 import ENTITE.LigneJournal;
+import ENTITE.ModePaiement;
+import ENTITE.Paiement;
 import ENTITE.Service;
 import ENTITE.Z_MEDECIN;
 import ENTITE.Z_PATIENT;
@@ -22,51 +25,41 @@ import javax.ejb.Local;
  * @author ychen
  */
 @Local
-public interface SessionMEDECINLocal {
-
-    void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle);
+public interface SessionPersonnelFinancierLocal {
     
-    void modifierActe(Acte acte);
-    
-    boolean supprimerActe(Long id);
-    
-    List<Acte> trouverTousLesActes();
-
     Acte trouverActeParId(long id);
     
-    List<DossierHospitalisation> afficherDossier();
-
     DossierHospitalisation trouverDossierParId(Long id);
-
-    void creerDossier(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart);
     
-    public void modifierDossier(DossierHospitalisation dossier) ;
-    
-    void annulerDossierHospitalisation(Long id) ;
-    
-    public List<DossierHospitalisation> trouverTousLesDossiersUnService(Service service);
-    
-    JournalActe creerJournal(DossierHospitalisation dossier);
+    Facture creerFacturePourJournal(Long idJournal);
     
     JournalActe trouverJournalParId(Long id);
-    
-    JournalActe trouverJournalParDossier(DossierHospitalisation dossier);
 
-    void validerJournal(JournalActe journal);
+    List<Facture> trouverToutesFactures();
+
+    Facture trouverFactureParDossier(DossierHospitalisation dossier);
+
+    Facture trouverFactureParID(Long id);
+
+    void validerFacturePaiement(Facture facture);
+
+    List<Facture> trouverFacturesPatient(Z_PATIENT patient);
+
+    List<Facture> trouverFacturesNonPayeesAvecEmissionDepassee();
     
     void creerLigne(Date date_acte, int quantite, String commentaire, Acte acte, JournalActe journal, Z_MEDECIN leMedecin);
 
     List<LigneJournal> trouverToutesLignes();
 
     void supprimerLigne(long id);
-    
+
     List<LigneJournal> listerLignesParJournal(Long idJournal);
-    
+
     LigneJournal trouverLigneParId(Long id);
 
     void mettreAJourLigne(LigneJournal ligne);
     
-    List<Service> tousLesServices();
+    Paiement enregistrerPaiement(Double montantPaiement, ModePaiement modePaiement, Facture laFacture);
 
     Service trouverServiceParID(Long id);
     
@@ -74,8 +67,6 @@ public interface SessionMEDECINLocal {
     
     public Z_PERSONNE trouverPersonneParId(Long id) ;
     
-    public void creerPatient(String nom, String prenom, String adresse, String numSecuSoc, String nomMutuelle, String adresseMutuelle);
-
     public Z_USER trouverUtilisateurParPers(Long id);
     
     Z_USER trouverUtilisateurParId(Long id);

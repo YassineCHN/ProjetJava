@@ -33,7 +33,6 @@ import SESSION.GestionPaiementLocal;
 import SESSION.GestionServiceLocal;
 
 import SESSION.Z_USER_BEANLocal;
-import SESSION.envoieMailLocal;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -63,12 +62,6 @@ import javax.servlet.http.HttpSession;
 public class NewServlet extends HttpServlet {
     
     
-////    J'abandonne
-//    @Resource(name = "mail/mySession")
-//    private Session mailMonMailSession;
-//// On s'en servira pas
-//    @EJB
-//    private envoieMailLocal envoieMail;
 
     
 

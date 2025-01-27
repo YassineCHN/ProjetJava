@@ -4,6 +4,11 @@
  */
 package SESSION;
 
+import ENTITE.DossierHospitalisation;
+import ENTITE.Service;
+import ENTITE.Z_PERSONNE;
+import ENTITE.Z_USER;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,4 +18,21 @@ import javax.ejb.Local;
 @Local
 public interface SessionPERSONNELLocal {
     
+    public List<DossierHospitalisation> trouverTousLesDossiersUnService(Service service);
+    
+    public void modifierDossier(DossierHospitalisation dossier) ;
+    
+    void annulerDossierHospitalisation(Long id) ;
+    
+    DossierHospitalisation trouverDossierParId(Long id);
+
+    Service trouverServiceParID(Long id);
+    
+    public void modifierPersonne(Z_PERSONNE pers);
+    
+    public Z_PERSONNE trouverPersonneParId(Long id) ;
+    
+    public Z_USER trouverUtilisateurParPers(Long id);
+    
+    Z_USER trouverUtilisateurParId(Long id);
 }
