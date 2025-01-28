@@ -7,6 +7,8 @@ package SESSION;
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
+import ENTITE.ModePaiement;
+import ENTITE.Paiement;
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
 import ENTITE.Z_PERSONNE;
@@ -40,6 +42,7 @@ public interface SessionPATIENTLocal {
     public Z_USER trouverUtilisateurParPers(Long id);
     
     Z_USER trouverUtilisateurParId(Long id);
+    Paiement enregistrerPaiement(Double montantPaiement, ModePaiement modePaiement, Facture laFacture);
     
     
 }

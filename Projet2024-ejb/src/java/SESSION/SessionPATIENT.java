@@ -7,6 +7,8 @@ package SESSION;
 import ENTITE.Acte;
 import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
+import ENTITE.ModePaiement;
+import ENTITE.Paiement;
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
 import ENTITE.Z_PERSONNE;
@@ -14,6 +16,7 @@ import ENTITE.Z_USER;
 import FACADE.ActeFacadeLocal;
 import FACADE.DossierHospitalisationFacadeLocal;
 import FACADE.FactureFacadeLocal;
+import FACADE.PaiementFacadeLocal;
 import FACADE.ServiceFacadeLocal;
 import FACADE.Z_PERSONNEFacadeLocal;
 import FACADE.Z_USERFacadeLocal;
@@ -27,6 +30,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SessionPATIENT implements SessionPATIENTLocal {
+
+    @EJB
+    private PaiementFacadeLocal paiementFacade;
     
     @EJB
     private ServiceFacadeLocal serviceFacade;
@@ -42,6 +48,7 @@ public class SessionPATIENT implements SessionPATIENTLocal {
 
     @EJB
     private Z_USERFacadeLocal z_USERFacade;
+    
 
     
     @Override
@@ -96,5 +103,10 @@ public class SessionPATIENT implements SessionPATIENTLocal {
     public Z_USER trouverUtilisateurParId(Long id) {
         Z_USER user = z_USERFacade.trouverUtilisateurParId(id);
         return user;
+    }
+    
+    @Override
+    public Paiement enregistrerPaiement(Double montantPaiement, ModePaiement modePaiement, Facture laFacture) {
+        return paiementFacade.enregistrerPaiement(montantPaiement, modePaiement, laFacture);
     }
 }

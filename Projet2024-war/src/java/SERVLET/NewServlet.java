@@ -328,7 +328,7 @@ public class NewServlet extends HttpServlet {
             Z_USER user = sessionADMIN.trouverUtilisateurParId(id_utilisateur);
 
             request.setAttribute("utilisateurFicheUtilisateur", user);
-            List <Z_PERSONNE> list = sessionADMIN.trouverToutesLesPersonnes() ; 
+            List <Z_PERSONNE> list = sessionADMIN.trouverPersonnesSansUtilisateur(); 
             request.setAttribute("listepersonnes",list);
         }
         else if (act.equals("afficherFichePersonne")) {
@@ -1005,20 +1005,22 @@ public class NewServlet extends HttpServlet {
                     RoleUSER role = user.getRole();
                     request.setAttribute("role", role);
                     if (role == RoleUSER.PERSONNEL) {
-                         laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
-                    } else if (role == RoleUSER.MEDECIN){
-                         laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
+                         laFacture = sessionPersonnelFinancier.trouverFactureParID(Long.parseLong(id_facture));
+                    } else if (role == RoleUSER.PATIENT){
+                         laFacture = sessionPATIENT.trouverFactureParID(Long.parseLong(id_facture));
+                         
+                         System.out.println("l'ID de la facture à payer :: " + laFacture.getId());
                     }
                     if (laFacture != null && !laFacture.isFacturePayee()) {
                         try {
                             ModePaiement mode = ModePaiement.valueOf(mode_paiement.trim().toUpperCase()); // Conversion de la chaîne en Enum 
                             if (role == RoleUSER.PERSONNEL) {
-                                Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(),mode, laFacture);// Si la conversion réussit, on peut enregistrer le paiement
-                                gestionFacture.validerFacturePaiement(laFacture);// Puis valider la facture
+                                Paiement paiement = sessionPersonnelFinancier.enregistrerPaiement(laFacture.getFactureMontant(),mode, laFacture);// Si la conversion réussit, on peut enregistrer le paiement
+                                sessionPersonnelFinancier.validerFacturePaiement(laFacture);// Puis valider la facture
                                 request.setAttribute("message", "La facture a été payée avec succès en mode : " + mode);
-                            } else if (role == RoleUSER.MEDECIN){
-                                Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(), mode, laFacture);
-                                gestionFacture.validerFacturePaiement(laFacture);// Puis valider la facture
+                            } else if (role == RoleUSER.PATIENT){
+                                Paiement paiement = sessionPATIENT.enregistrerPaiement(laFacture.getFactureMontant(), mode, laFacture);
+                                sessionPATIENT.validerFacturePaiement(laFacture);// Puis valider la facture
                                 request.setAttribute("message", "La facture a été payée avec succès en mode : " + mode);
                             }
                         } catch (IllegalArgumentException e) {                   // Si mode_paiement n'existe pas dans l'énum ModePaiement
