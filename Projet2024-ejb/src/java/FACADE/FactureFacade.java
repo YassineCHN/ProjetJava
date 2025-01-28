@@ -125,7 +125,8 @@ public class FactureFacade extends AbstractFacade<Facture> implements FactureFac
         
         
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, -14);
+//        1 mois de retard ou 30 jours, pas exactement 1 mois 
+        calendar.add(Calendar.DAY_OF_YEAR, -30);
         Date dateLimite = calendar.getTime();
         return em.createQuery("SELECT f FROM Facture f WHERE f.factureDateEmissions <= :dateLimite AND f.facturePayee = false",Facture.class).setParameter("dateLimite", dateLimite).getResultList();
     }
