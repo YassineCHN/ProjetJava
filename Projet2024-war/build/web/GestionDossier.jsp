@@ -26,7 +26,7 @@
     <body>
         <div class="main_content">
         <h1>Gestion des dossiers médicaux</h1>
-        <%if (role == RoleUSER.MEDECIN || role == RoleUSER.ADMIN) {%>
+        <%if (role == RoleUSER.MEDECIN) {%>
         <div class="ruban_actions">
             <a href="NewServlet?action=ajouterDossierForm" class="button_link">Créer un dossier</a>
         </div>

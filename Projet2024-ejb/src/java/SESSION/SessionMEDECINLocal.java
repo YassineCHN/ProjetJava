@@ -74,9 +74,13 @@ public interface SessionMEDECINLocal {
     
     public Z_PERSONNE trouverPersonneParId(Long id) ;
     
-    public void creerPatient(String nom, String prenom, String adresse, String numSecuSoc, String nomMutuelle, String adresseMutuelle);
+    public Z_PATIENT creerPatientCheckBox(String nom, String prenom, String adresse, String numSecuSoc, String nomMutuelle, String adresseMutuelle);
 
     public Z_USER trouverUtilisateurParPers(Long id);
     
     Z_USER trouverUtilisateurParId(Long id);
+    
+    public List<Z_MEDECIN> trouverTousLesMedecins();
+    
+    public List<Z_PATIENT> trouverTousLesPatients() ;
 }

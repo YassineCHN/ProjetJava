@@ -54,6 +54,8 @@ public interface Z_PERSONNEFacadeLocal {
     public List<Z_PATIENT> trouverTousLesPatients() ;
 
     public void creerPatient(String nom, String prenom,String adresse, String numSecuSoc,String nomMutuelle, String adresseMutuelle);
+    
+     public Z_PATIENT creerPatientCheckBox(String nom, String prenom,String adresse, String numSecuSoc,String nomMutuelle, String adresseMutuelle);
 
     public Z_PATIENT trouverPatientParNumSecu(String numSecu);
     

@@ -190,8 +190,9 @@ public class SessionMEDECIN implements SessionMEDECINLocal {
     
     
     @Override
-    public void creerPatient(String nom, String prenom, String adresse, String numSS, String nomMut,String adresseMut) {
-        z_PERSONNEFacade.creerPatient(nom, prenom, adresse, numSS, nomMut, adresseMut);
+    public Z_PATIENT creerPatientCheckBox(String nom, String prenom, String adresse, String numSS, String nomMut,String adresseMut) {
+        Z_PATIENT patient=z_PERSONNEFacade.creerPatientCheckBox(nom, prenom, adresse, numSS, nomMut, adresseMut);
+        return patient;
     }
     
     @Override
@@ -210,5 +211,15 @@ public class SessionMEDECIN implements SessionMEDECINLocal {
     public Z_USER trouverUtilisateurParId(Long id) {
         Z_USER user = z_USERFacade.trouverUtilisateurParId(id);
         return user;
+    }
+    
+    @Override
+    public List<Z_MEDECIN> trouverTousLesMedecins() {
+        return z_PERSONNEFacade.trouverTousLesMedecins();
+    }
+    
+    @Override
+    public List<Z_PATIENT> trouverTousLesPatients() {
+        return z_PERSONNEFacade.trouverTousLesPatients();
     }
 }

@@ -31,6 +31,7 @@ import SESSION.GestionJournalActeLocal;
 import SESSION.GestionLigneLocal;
 import SESSION.GestionPaiementLocal;
 import SESSION.GestionServiceLocal;
+import SESSION.SUPERSessionLocal;
 import SESSION.SessionADMINLocal;
 import SESSION.SessionMEDECINLocal;
 import SESSION.SessionPATIENTLocal;
@@ -65,6 +66,9 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "NewServlet", urlPatterns = {"/NewServlet"})
 public class NewServlet extends HttpServlet {
+
+    @EJB
+    private SUPERSessionLocal sUPERSession;
 
     @EJB
     private SessionPERSONNELLocal sessionPERSONNEL;
@@ -104,6 +108,8 @@ public class NewServlet extends HttpServlet {
 
     @EJB
     private Z_USER_BEANLocal z_USER_BEAN;
+    
+    
    
     
     
@@ -223,7 +229,7 @@ public class NewServlet extends HttpServlet {
             jspClient = "/GestionDossier.jsp";
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
             if (utilisateurIdentifie != null) {
-                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
                 if(user!=null){
                     Z_PERSONNE personne = user.getPersonne();
                     request.setAttribute("personne", personne);
@@ -273,7 +279,7 @@ public class NewServlet extends HttpServlet {
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
             List<Facture> factures = null;
             if (utilisateurIdentifie != null) {
-                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
                 if(user!=null){
                     Z_PERSONNE personne = user.getPersonne();
                     request.setAttribute("personne", personne);
@@ -302,13 +308,13 @@ public class NewServlet extends HttpServlet {
             Facture facture = sessionPersonnelFinancier.trouverFactureParID(Long.parseLong(id_facture));
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
             if (utilisateurIdentifie != null) {
-                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
                 if(user!=null){
                     Z_PERSONNE personne = user.getPersonne();
                     request.setAttribute("personne", personne);
                     RoleUSER role = user.getRole();
                     request.setAttribute("role", role);
-            request.setAttribute("facture", facture);
+                    request.setAttribute("facture", facture);
                 }
             }
         }
@@ -331,8 +337,8 @@ public class NewServlet extends HttpServlet {
 
             Long id_personne = Long.valueOf(test);
 
-            Z_PERSONNE pers = z_USER_BEAN.trouverPersonneParId(id_personne);
-            List<Service> listeServices = gestionService.tousLesServices();
+            Z_PERSONNE pers = sessionADMIN.trouverPersonneParId(id_personne);
+            List<Service> listeServices = sessionADMIN.tousLesServices();
             request.setAttribute("listeServices", listeServices);
             request.setAttribute("personneFichePersonne", pers);
         }
@@ -559,24 +565,6 @@ public class NewServlet extends HttpServlet {
                     }
                 }
         }      
-        else if (act.equals("creerPatient")){
-            jspClient="/landing_page.jsp";
-            String nom = request.getParameter("nomPatient");
-            String prenom = request.getParameter("prenomPatient");
-            String adresse = request.getParameter("adressePatient");
-            String numSecuPatient = request.getParameter("numSecuPatient");
-            String nomMut = request.getParameter("nomMutuelle");
-            String adresseMut  = request.getParameter("adresseMutuelle");
-            if(nom.trim().isEmpty() || prenom.trim().isEmpty() || numSecuPatient.trim().isEmpty() ){
-                String message = "Formulaire de création patient erroné";
-                request.setAttribute("message", message);
-            } else {
-                z_USER_BEAN.creerPatient(nom, prenom, adresse, numSecuPatient, nomMut, adresseMut);
-                String message = "Patient créé";
-                request.setAttribute("message", message);
-            }
-            
-        }
         else if (act.equals("modifierService")) {
             jspClient="/landing_page.jsp";
             String idServiceStr = request.getParameter("id_service");
@@ -696,14 +684,6 @@ public class NewServlet extends HttpServlet {
             String prixActe=request.getParameter("acte_prix");
             String coefSecu = request.getParameter("coefSecu");
             String coefMutuelle = request.getParameter("coefMutuelle");
-            System.out.println(nomActe);
-            System.out.println(descriptionActe);
-            System.out.println(prixActe);
-            System.out.println(coefSecu);
-            System.out.println(coefMutuelle);
-            System.out.println("CI DESSOUS LES COEF APREM TRIM");
-            System.out.println(coefSecu.trim());
-            System.out.println(coefMutuelle.trim());
             
             Acte acte=sessionADMIN.trouverActeParId(idActe);
             if(acte!=null){
@@ -760,10 +740,10 @@ public class NewServlet extends HttpServlet {
             }
         else if (act.equals("ajouterDossierForm")){
             jspClient = "/AjouterDossier.jsp";
-            List<Z_PATIENT> lesPatients = z_USER_BEAN.trouverTousLesPatients();
+            List<Z_PATIENT> lesPatients = sessionMEDECIN.trouverTousLesPatients();
             request.setAttribute("listePatientsAjoutDossier", lesPatients);
             
-            List<Service> lesServices = gestionService.tousLesServices();
+            List<Service> lesServices = sessionMEDECIN.tousLesServices();
             request.setAttribute("listeServicesAjoutDossier", lesServices);
         }
         else if (act.equals("creerActe")){
@@ -793,30 +773,31 @@ public class NewServlet extends HttpServlet {
             String user = (String) session.getAttribute("user_identifié");
             Long id_user = Long.parseLong((String) session.getAttribute("id_user"));
             
-            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(id_dossier));
-            JournalActe JournalExistant = gestionJournalActe.trouverJournalParDossier(dossier);
-            List<Z_MEDECIN> lesMedecins2 = z_USER_BEAN.trouverTousLesMedecins();
+            DossierHospitalisation dossier = sessionMEDECIN.trouverDossierParId(Long.parseLong(id_dossier));
+            JournalActe JournalExistant = sessionMEDECIN.trouverJournalParDossier(dossier);
+            List<Z_MEDECIN> lesMedecins2 = sessionMEDECIN.trouverTousLesMedecins();
             request.setAttribute("listeMedecins", lesMedecins2);
             if (JournalExistant != null) {
                 // Le journal existe déjà, on ne le recrée pas
         request.setAttribute("journal_object", JournalExistant);
         System.out.println("Le journal existe déjà, on ne le recrée pas");
                 // On récupère les lignes du journal
-        List<LigneJournal> lignes = gestionLigne.listerLignesParJournal(JournalExistant.getId());
+        List<LigneJournal> lignes = sessionMEDECIN.listerLignesParJournal(JournalExistant.getId());
         request.setAttribute("lignes_journals", lignes);
         
         
             } else {
 //                journal existe pas déjà, on le crée
-                JournalActe journal = gestionJournalActe.creerJournal(dossier);
+                JournalActe journal = sessionMEDECIN.creerJournal(dossier);
                 request.setAttribute("journal_object", journal);
                 System.out.println("journal existe pas déjà, on le crée");
                 request.setAttribute("lignes_journals", null); 
             }
-            List<Acte> lesActes = gestionActe.trouverTousLesActes();
+            List<Acte> lesActes = sessionMEDECIN.trouverTousLesActes();
             request.setAttribute("listeActeJournal", lesActes);
             jspClient = "/ficheJournal.jsp";
         }
+        
         else if (act.equals("ajouterLignesJournal")){
             jspClient="/landing_page.jsp";
 //            on récupère dans chaque variable plusieurs strings
@@ -834,31 +815,16 @@ public class NewServlet extends HttpServlet {
              if(commentaires_acte.length != date_acte.length || commentaires_acte.length != quantite_acte.length || commentaires_acte.length != idActe_acte.length || idMedecin.length != commentaires_acte.length || journal2.getStatut() == statutJournal.Validé){
                  jspClient="/landing_page.jsp";
                  String message = "ERREUR CHAMPS MANQUANTS OU LE JOURNAL N'EST PLUS MODIFIABLE";
-                 System.out.println("erreur au niveau des lignes, les lignes ne sont pas toutes pleines");
-                 System.out.println("Sinon c'est que le journal est déjà validé et que donc l'ajout de ligne est interdit");
+                 
              } else {
                  for(int i = 0; i<commentaires_acte.length;i++) {
                      
-                     
-                     
                      String commentaire = commentaires_acte[i];
-                     System.out.println(commentaire);
-                     String date = date_acte[i];
-                     System.out.println(date);
+                     String date = date_acte[i];                     
                      String quantite = quantite_acte[i];
-                     System.out.println(quantite);
                      String idActe = idActe_acte[i];
-                     System.out.println(idActe);
-//                     String id_ligne2 = id_ligne[i];
-                    String idMedecin2 = idMedecin[i];
-                    
-                     
+                     String idMedecin2 = idMedecin[i];                     
                      String idLigneStr = (id_ligne != null && i < id_ligne.length) ? id_ligne[i] : null;
-                      System.out.println(idLigneStr);
-                     
-                     
-                     
-                     
                      
                      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                      Date dateCreationActe = sdf.parse(date);
@@ -869,11 +835,6 @@ public class NewServlet extends HttpServlet {
                      LigneJournal existingLigne = gestionLigne.trouverLigneParId(Long.valueOf(idLigneStr));
                      Z_MEDECIN medecin = (Z_MEDECIN) z_USER_BEAN.trouverPersonneParId(Long.valueOf(idMedecin2));
                      
-                     
-//                     Si la ligne existe déjà, on la modifie
-//                       sinon on la crée
-                        System.out.println("ligne existante ????");
-                        
                      if (existingLigne != null){
                          System.out.println("ligne existante, on modifie");
 //                         mettre à jour la ligne eixstante
@@ -885,7 +846,6 @@ public class NewServlet extends HttpServlet {
                         // Méthode "update" ou "edit"
                         gestionLigne.mettreAJourLigne(existingLigne);
                      } else {
-                         System.out.println("ligne INEXISTANTE, on CREE");
                          gestionLigne.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal,medecin);
                      }
                      
@@ -923,7 +883,7 @@ public class NewServlet extends HttpServlet {
             
             Z_PATIENT patient = null;
             Long serviceId = Long.valueOf(serviceIdStr);
-            Service service = gestionService.trouverServiceParID(serviceId);
+            Service service = sessionMEDECIN.trouverServiceParID(serviceId);
             
             if (dateHospitalisation_test == null) {
                 jspClient = "/landing_page.jsp";
@@ -938,18 +898,15 @@ public class NewServlet extends HttpServlet {
                     String adresseMut = request.getParameter("adresseMutuelle");
                     if (nomPatient.trim().isEmpty() || prenomPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty()) {
                         jspClient = "/landing_page.jsp";
-                        System.out.println("formulaire incomplet");
                     } else {
-                        z_USER_BEAN.creerPatient(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMut, adresseMut);
+                        patient=sessionMEDECIN.creerPatientCheckBox(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMut, adresseMut);
                     }
-                    patient = z_USER_BEAN.trouverPatientParNumSecu(numSecuPatient);
-                    gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
+                    sessionMEDECIN.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
                 } else {
-                    System.out.println("Chercher patient puis créer dossier");
                     String patientIdStr = request.getParameter("patientId");
                     Long patientId = Long.valueOf(patientIdStr);
-                    patient = (Z_PATIENT) z_USER_BEAN.trouverPersonneParId(patientId);
-                    gestionDossierHospitalisation.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
+                    patient = (Z_PATIENT) sessionMEDECIN.trouverPersonneParId(patientId);
+                    sessionMEDECIN.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
                 }
             }
         }
@@ -957,21 +914,14 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("payerFacture")) {
             jspClient = "/landing_page.jsp";
             String id_facture = request.getParameter("id_payerFacture");
-            System.out.println("ID de la facture");
-            System.out.println(id_facture);
             
             String mode_paiement = request.getParameter("mode_paiement");
-            System.out.println("MODE DE PAIEMENT");
-            System.out.println(mode_paiement);
             Facture laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
-            System.out.println("on recup une facture ??????");
-            System.out.println("oui " + laFacture.getFactureMontant());
             
             if (laFacture != null && !laFacture.isFacturePayee()) {
                 try {
                     // Conversion de la chaîne en Enum 
                     ModePaiement mode = ModePaiement.valueOf(mode_paiement.trim().toUpperCase());
-
                     // Si la conversion réussit, on peut enregistrer le paiement
                     Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(),mode, laFacture);
                     // Puis valider la facture
@@ -982,7 +932,6 @@ public class NewServlet extends HttpServlet {
                 } catch (IllegalArgumentException e) {
                     // Si mode_paiement n'existe pas dans l'énum ModePaiement
                     request.setAttribute("message", "Le mode de paiement '" + mode_paiement + "' est invalide.");
-                    System.out.println("Mode de paiement invalide : " + mode_paiement);
                     
                     jspClient = "/landing_page.jsp";
                 }
@@ -995,58 +944,36 @@ public class NewServlet extends HttpServlet {
             jspClient = "/ficheFacture.jsp";
             String idDossier = request.getParameter("id_dossierCreerFacture");
             Long idJournal = Long.valueOf(request.getParameter("id_journalcreerFacture"));
-            System.out.println(idJournal);
-            System.out.println(idDossier);
 
-            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(Long.parseLong(idDossier));
+            DossierHospitalisation dossier = sessionPersonnelFinancier.trouverDossierParId(Long.parseLong(idDossier));
             
-            Facture factureExistant = gestionFacture.trouverFactureParDossier(dossier);
+            Facture factureExistant = sessionPersonnelFinancier.trouverFactureParDossier(dossier);
             
 //            La facture existe déjà, on la recrée pas
             if(factureExistant != null){
                 
                 Facture factureCreee = factureExistant;
                 request.setAttribute("facture", factureCreee);
-                System.out.println("FACTURE EXISTE DEJA");
             }
 //            La facture n'existe pas, on la crée
             else {
-                Facture factureCreee = gestionFacture.creerFacturePourJournal(idJournal);
+                Facture factureCreee = sessionPersonnelFinancier.creerFacturePourJournal(idJournal);
                 System.out.println("CREER FACTURE");
                 
                 if (factureCreee != null) {
-                    System.out.println("la facture est bien cree, != null");
-                    System.out.println(factureCreee);
                     request.setAttribute("message", "Facture créée avec succès ! Montant = " + factureCreee.getFactureMontant());
                     request.setAttribute("facture", factureCreee);
                     jspClient = "/ficheFacture.jsp";
-                    
 
                 } else {
-                    System.out.println("FACTURE CREE EST NULL");
                     request.setAttribute("message", "Impossible de créer la facture (journal invalide ou non VALIDE).");
                     jspClient = "/landing_page.jsp";
                 }
                 
-            }
-            
-            
-            
-            
-            
+            }  
         }
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         RequestDispatcher Rd; // Déclare un RequestDispatcher pour gérer la redirection ou le forwarding
         Rd = getServletContext().getRequestDispatcher(jspClient); // Récupère le dispatcher pour la JSP cible
         Rd.forward(request, response); // Forward la requête et la réponse vers la JSP cible

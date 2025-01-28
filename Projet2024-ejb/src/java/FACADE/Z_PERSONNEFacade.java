@@ -128,13 +128,23 @@ public void creerMedecin(String nom, String prenom, String adresse, String speci
         pers.setNumSecuSoc(numSecuSoc);
         pers.setNomMutuelle(nomMutuelle);
         pers.setAdresseMutuelle(adresseMutuelle);
-        try {
         getEntityManager().persist(pers);
-        System.out.println("Personne PATIENT créé avec succès : " + pers.getNomPersonne());
-    } catch (Exception e) {
-        System.err.println("Erreur lors de la création de la personne PATIENT : " + e.getMessage());
+        
     }
+    
+    public Z_PATIENT creerPatientCheckBox(String nom, String prenom,String adresse, String numSecuSoc,String nomMutuelle, String adresseMutuelle) {
+        Z_PATIENT pers = new Z_PATIENT();
+        pers.setNomPersonne(nom);
+        pers.setPrenomPersonne(prenom);
+        pers.setAdresse(adresse);
+        pers.setNumSecuSoc(numSecuSoc);
+        pers.setNomMutuelle(nomMutuelle);
+        pers.setAdresseMutuelle(adresseMutuelle);
+        getEntityManager().persist(pers);
+        return pers;
     }
+    
+    
     @Override
     public Z_PATIENT trouverPatientParNumSecu(String numSecu) {
         Z_PATIENT pers = null;

@@ -110,6 +110,7 @@ public class Z_USER_BEAN implements Z_USER_BEANLocal {
         Z_USER user = z_USERFacade.trouverUtilisateurParPersonne(id);
         return user;
     }
+    
     @Override
     public Z_PERSONNE trouverPersonneParId(Long id) {
         Z_PERSONNE pers = z_PERSONNEFacade.trouverPersonneParId(id);
