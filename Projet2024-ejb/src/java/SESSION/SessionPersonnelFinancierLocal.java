@@ -74,4 +74,8 @@ public interface SessionPersonnelFinancierLocal {
     List<JournalActe> trouverTousLesJournaux();
 
     void validerJournal(JournalActe journal);
+    
+    List<Acte> trouverTousLesActes();
+    
+    public List<Z_MEDECIN> trouverTousLesMedecins();
 }

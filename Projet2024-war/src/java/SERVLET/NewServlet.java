@@ -23,14 +23,6 @@ import ENTITE.Z_PERSONNE;
 import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import ENTITE.statutJournal;
-import SESSION.GestionActeLocal;
-import SESSION.GestionDossierHospitalisation;
-import SESSION.GestionDossierHospitalisationLocal;
-import SESSION.GestionFactureLocal;
-import SESSION.GestionJournalActeLocal;
-import SESSION.GestionLigneLocal;
-import SESSION.GestionPaiementLocal;
-import SESSION.GestionServiceLocal;
 import SESSION.SUPERSessionLocal;
 import SESSION.SessionADMINLocal;
 import SESSION.SessionMEDECINLocal;
@@ -38,7 +30,6 @@ import SESSION.SessionPATIENTLocal;
 import SESSION.SessionPERSONNELLocal;
 import SESSION.SessionPersonnelFinancierLocal;
 
-import SESSION.Z_USER_BEANLocal;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -85,29 +76,7 @@ public class NewServlet extends HttpServlet {
     @EJB
     private SessionPersonnelFinancierLocal sessionPersonnelFinancier;
     
-    @EJB
-    private GestionPaiementLocal gestionPaiement;
-
-    @EJB
-    private GestionFactureLocal gestionFacture;
-
-    @EJB
-    private GestionLigneLocal gestionLigne;
-
-    @EJB
-    private GestionJournalActeLocal gestionJournalActe;
-
-    @EJB
-    private GestionActeLocal gestionActe;
-
-    @EJB
-    private GestionDossierHospitalisationLocal gestionDossierHospitalisation;
-
-    @EJB
-    private GestionServiceLocal gestionService;
-
-    @EJB
-    private Z_USER_BEANLocal z_USER_BEAN;
+    
     
     
    
@@ -142,7 +111,7 @@ public class NewServlet extends HttpServlet {
                 String message = "L'un des items du formulaire est vide, reessayez!";
                 request.setAttribute("message", message);
             } else {
-                Z_USER user = z_USER_BEAN.Z_authentificationUtilisateur(login, password);
+                Z_USER user = sUPERSession.Z_authentificationUtilisateur(login, password);
                 // Vérification si l'authentification renvoie bien un utilisateur
                 if (user != null) {
                     String user_identifié = user.getLogin();
@@ -348,7 +317,7 @@ public class NewServlet extends HttpServlet {
 
             Long id_service = Long.valueOf(test);
 
-            Service service = gestionService.trouverServiceParID(id_service);
+            Service service = sessionADMIN.trouverServiceParID(id_service);
             
             request.setAttribute("ficheService", service);
             
@@ -357,20 +326,23 @@ public class NewServlet extends HttpServlet {
             jspClient = "/ficheDossier.jsp";
             String test = request.getParameter("id_dossier");
             Long id_dossier = Long.valueOf(test);
-            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(id_dossier);
-            request.setAttribute("ficheDossier", dossier);
-            
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            DossierHospitalisation dossier =null;
             if (utilisateurIdentifie != null) {
-                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
                 if (user != null) {
                     Z_PERSONNE personne = user.getPersonne();
                     request.setAttribute("personne", personne);
                     RoleUSER role = user.getRole();
                     request.setAttribute("role", role);
+                    if (role==RoleUSER.MEDECIN){dossier = sessionMEDECIN.trouverDossierParId(id_dossier);} 
+                    else if (role==RoleUSER.PERSONNEL){dossier = sessionPERSONNEL.trouverDossierParId(id_dossier);} 
+                    else if (role==RoleUSER.PATIENT){dossier = sessionPATIENT.trouverDossierParId(id_dossier);}
                 }
             }
+            request.setAttribute("ficheDossier", dossier);
         }
+        
         else if (act.equals("afficherFicheActe")){
            jspClient = "/ficheActe.jsp";
             
@@ -386,19 +358,33 @@ public class NewServlet extends HttpServlet {
             jspClient="/ficheJournal.jsp";
             String id_journal = request.getParameter("id_journal_1");
             Long id_journal_bis = Long.valueOf(id_journal);
-            
-            JournalActe journal = gestionJournalActe.trouverJournalParId(id_journal_bis);
-            request.setAttribute("journal_object", journal);
-            
-            List<Acte> lesActes = gestionActe.trouverTousLesActes();
-            request.setAttribute("listeActeJournal", lesActes);
-            
-            List<LigneJournal> lignes = gestionLigne.listerLignesParJournal(journal.getId());
-            request.setAttribute("lignes_journals", lignes);
-            List<Z_MEDECIN> lesMedecins2 = z_USER_BEAN.trouverTousLesMedecins();
-            request.setAttribute("listeMedecins", lesMedecins2);
-               
-            
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            if (utilisateurIdentifie != null) {
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
+                if (user != null) {
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
+                    if (role == RoleUSER.MEDECIN) {
+                        JournalActe journal = sessionMEDECIN.trouverJournalParId(id_journal_bis);
+                        request.setAttribute("journal_object", journal);
+                        List<Acte> lesActes = sessionMEDECIN.trouverTousLesActes();
+                        request.setAttribute("listeActeJournal", lesActes);
+                        List<LigneJournal> lignes = sessionMEDECIN.listerLignesParJournal(journal.getId());
+                        request.setAttribute("lignes_journals", lignes);            
+                        List<Z_MEDECIN> lesMedecins2 = sessionMEDECIN.trouverTousLesMedecins();
+                        request.setAttribute("listeMedecins", lesMedecins2);
+                    } else if (role==RoleUSER.PERSONNEL) {
+                        JournalActe journal = sessionPersonnelFinancier.trouverJournalParId(id_journal_bis);
+                        request.setAttribute("journal_object", journal);
+                        List<Acte> lesActes = sessionPersonnelFinancier.trouverTousLesActes();
+                        request.setAttribute("listeActeJournal", lesActes);
+                        List<LigneJournal> lignes = sessionPersonnelFinancier.listerLignesParJournal(journal.getId());
+                        request.setAttribute("lignes_journals", lignes);            
+                        List<Z_MEDECIN> lesMedecins2 = sessionPersonnelFinancier.trouverTousLesMedecins();
+                        request.setAttribute("listeMedecins", lesMedecins2);
+                    }
+                }
+            }
         }
         else if (act.equals("afficherLignes")) {
             jspClient = "/afficherLignes.jsp";

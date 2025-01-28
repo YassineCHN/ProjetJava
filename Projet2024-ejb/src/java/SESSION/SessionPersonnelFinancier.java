@@ -271,5 +271,17 @@ public class SessionPersonnelFinancier implements SessionPersonnelFinancierLocal
         return user;
     }
     
+    @Override
+    public List<Acte> trouverTousLesActes() {
+        List<Acte> result = acteFacade.trouverTousLesActes();
+        return result;
+    }
+    
+    @Override
+    public List<Z_MEDECIN> trouverTousLesMedecins() {
+        return z_PERSONNEFacade.trouverTousLesMedecins();
+    }
+    
+    
     
 }
