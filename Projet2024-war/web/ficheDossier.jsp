@@ -45,7 +45,7 @@
             <input type="hidden" name="action" value="annulerDossier">
             <button type="submit">Annuler le Dossier</button>
         </form>
-        <%if (role == RoleUSER.MEDECIN || role == RoleUSER.ADMIN) {%>
+        <%if (role == RoleUSER.MEDECIN ) {%>
 
         <form action="NewServlet" method="post"class="formulairebouton">
             <input type="hidden" id="id_ajouterJournal" name="id_ajouterJournal" value="<%=Long.toString(dossier.getId())%>">
@@ -65,15 +65,15 @@
             <br><br>
             <label for="dateHospit">DateHospitalisation :</label>
             <input type="datetime-local" id="DateHospitalisation_ficheDossier" name="DateHospitalisation_ficheDossier" value="<%=dateHospitalisation%>" 
-            <% if (role!=RoleUSER.MEDECIN && role!=RoleUSER.ADMIN) { %> readonly <% } %>>
+            <% if (role!=RoleUSER.MEDECIN) { %> readonly <% } %>>
             <br><br>
             <label for="dateIN">Date d'arriv�e :</label>
             <input type="datetime-local" id="DateArrivee_ficheDossier" name="DateArrivee_ficheDossier" value="<%=heureArrivee%>" 
-            <% if (role!=RoleUSER.PERSONNEL && role!=RoleUSER.ADMIN) { %> readonly <% } %>>
+            <% if (role!=RoleUSER.PERSONNEL) { %> readonly <% } %>>
             <br><br>
             <label for="dateOUT">Date de d�part :</label>
             <input type="datetime-local" id="DateDepart_ficheDossier" name="DateDepart_ficheDossier" value="<%=heureDepart%>" 
-            <% if (role!=RoleUSER.PERSONNEL && role!=RoleUSER.ADMIN) { %> readonly <% } %>>
+            <% if (role!=RoleUSER.PERSONNEL ) { %> readonly <% } %>>
             <br><br>
             <label for="idPatient">ID du patient :</label>
             <input type="text" id="IdPatient_ficheDossier" name="IdPatient_ficheDossier" value="<%=dossier.getLePatient().getIdpers()%> - <%=dossier.getLePatient().getNomPersonne()%> <%=dossier.getLePatient().getPrenomPersonne() %>" readonly>
@@ -83,10 +83,13 @@
             <br><br>
         
             
-            <% if (role==RoleUSER.ADMIN || role==RoleUSER.MEDECIN ||role==RoleUSER.PERSONNEL) { %>
-            <input type="hidden" name="action" value="modifierDossier">
+            <% if (role==RoleUSER.MEDECIN) { %>
+            <input type="hidden" name="action" value="modifierDossierMedecin">
             <input type="submit" value="Valider les modifications"  />
-            <% } %>
+            <% } else if(role==RoleUSER.PERSONNEL) { %>
+            <input type="hidden" name="action" value="modifierDossierPersonnel">
+            <input type="submit" value="Valider les modifications"  />
+            <%}%>
         </fieldset>
         </form>
         

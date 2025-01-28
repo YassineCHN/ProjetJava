@@ -35,10 +35,6 @@
                 <%@ include file="card_GestionService.jsp" %>
                 <%@ include file="card_GestionUtilisateur.jsp" %>
                 <%@ include file="card_GestionPersonne.jsp" %>
-                <%@ include file="card_GestionDossier.jsp" %>
-                <%@ include file="card_GestionFacturation.jsp" %>
-                <%@ include file="card_afficherLignes.jsp" %>
-                <%@ include file="card_GestionJournal.jsp" %>
                 
                 <% } else if ("MEDECIN".equals(role_utilisateur)) { %>
                 <!-- Cas pour l'utilisateur MEDECIN : voir certaines cartes spécifiques -->
@@ -55,10 +51,11 @@
                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <%@ include file="card_GestionDossier.jsp" %>
                 <% } else if ("PERSONNEL".equals(role_utilisateur) && serviceFinancierTest=="ServiceFinancier") { %>
-                                <%@ include file="card_EspacePersonnel.jsp" %>
+                 <%@ include file="card_EspacePersonnel.jsp" %>
                 <!-- Dans gestion facturation on peut aussi voir via un bouton les factures en retard -->
                 <%@ include file="card_GestionFacturation.jsp" %>
                 <%@ include file="card_GestionJournal.jsp" %>
+                <%@ include file="card_afficherLignes.jsp" %>
                 <% }}%>
             </div>
 

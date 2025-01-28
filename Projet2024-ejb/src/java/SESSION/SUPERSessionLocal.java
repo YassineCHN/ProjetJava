@@ -25,4 +25,6 @@ public interface SUPERSessionLocal {
     public Z_PERSONNE trouverPersonneParId(Long id) ;
     
     public Z_USER trouverUtilisateurParPers(Long id);
+    
+    public void modifierPersonne(Z_PERSONNE pers);
 }

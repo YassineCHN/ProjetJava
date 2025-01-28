@@ -84,6 +84,13 @@ public class SUPERSession implements SUPERSessionLocal {
         return pers;
     }
     
+    @Override
+    public void modifierPersonne(Z_PERSONNE pers) {
+        z_PERSONNEFacade.mettreAJourPersonne(pers);
+    }
+    
+    
+    
     
     @Schedule(hour="*", minute="30", second="0", persistent=false)
 //    pourquoi false  : https://chatgpt.com/share/677efef0-8cbc-8001-a470-ec5c5c8fff77

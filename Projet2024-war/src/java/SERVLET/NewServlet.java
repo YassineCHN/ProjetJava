@@ -462,7 +462,26 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("annulerDossier")) {
             jspClient="/landing_page.jsp";
             Long value = Long.parseLong(request.getParameter("id_annulerDossier"));
-            gestionDossierHospitalisation.annulerDossierHospitalisation(value);
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            if (utilisateurIdentifie != null) {
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
+                if (user != null) {
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
+                    if (role==RoleUSER.PATIENT){
+                        sessionPATIENT.annulerDossierHospitalisation(value);
+                    } else if (role==RoleUSER.PERSONNEL){
+                        sessionPERSONNEL.annulerDossierHospitalisation(value);
+                    } else if (role==RoleUSER.MEDECIN){
+                        sessionMEDECIN.annulerDossierHospitalisation(value);
+                    }
+                    else {
+                        jspClient="/landing_page.jsp";
+                        request.setAttribute("message","l'utilisateur connecté ne peux pas annuler un dossier");
+                    }
+                request.setAttribute("message", "Dossier Annulé");
+                }
+            }
         }
         else if (act.equals("creerUtilisateur")) {
                 jspClient="/landing_page.jsp";
@@ -621,7 +640,7 @@ public class NewServlet extends HttpServlet {
             String adresse = request.getParameter("adressePersonne");
             String typePersonne = request.getParameter("typePersonne");     
             // Identifiez le type de la personne et mettez à jour les informations spécifiques
-            Z_PERSONNE personne = z_USER_BEAN.trouverPersonneParId(idPersonne);
+            Z_PERSONNE personne = sUPERSession.trouverPersonneParId(idPersonne);
             if (personne != null) {
                 personne.setNomPersonne(nom);
                 personne.setPrenomPersonne(prenom);
@@ -631,7 +650,7 @@ public class NewServlet extends HttpServlet {
                     String specialite = request.getParameter("specialiteMedecin");
                     ((Z_MEDECIN) personne).setSpecialite(specialite);
                     String serviceparamM = request.getParameter("serviceMedecin");
-                    Service service = gestionService.trouverServiceParID(Long.parseLong(serviceparamM));
+                    Service service = sessionMEDECIN.trouverServiceParID(Long.parseLong(serviceparamM));
                     ((Z_MEDECIN) personne).setService(service);
                 } else if (typePersonne.equals("PATIENT")) {
                     String numSecuSoc = request.getParameter("numSecuPatient");
@@ -642,34 +661,46 @@ public class NewServlet extends HttpServlet {
                     ((Z_PATIENT) personne).setAdresseMutuelle(adresseMutuelle);
                 } else if (typePersonne.equals("PERSONNEL")) {
                     String serviceparamP = request.getParameter("servicePersonnel");
-                    Service service = gestionService.trouverServiceParID(Long.parseLong(serviceparamP));
+                    Service service = sessionPERSONNEL.trouverServiceParID(Long.parseLong(serviceparamP));
                     ((Z_PERSONNEL) personne).setService(service);
                 }// Appelez la méthode pour modifier la personne dans la base de données
-                z_USER_BEAN.modifierPersonne(personne);
+                sUPERSession.modifierPersonne(personne);
                 request.setAttribute("message", "Personne modifiée avec succès.");} else {
                 request.setAttribute("message", "Personne non trouvée.");
             } 
         }
-        else if (act.equals("modifierDossier")){
+        else if (act.equals("modifierDossierMedecin")){
             jspClient="/landing_page.jsp";
             Long idDossier= Long.parseLong(request.getParameter("id_dossierFiche"));
-            String statutDossier = request.getParameter("StatutDossier");
             String dateHospitalisationStr = request.getParameter("DateHospitalisation_ficheDossier");
-            String dateArriveeStr = request.getParameter("DateArrivee_ficheDossier");
-            String dateDepartStr = request.getParameter("DateDepart_ficheDossier");
-            DossierHospitalisation dossier = gestionDossierHospitalisation.trouverDossierParId(idDossier);
+            DossierHospitalisation dossier = sessionMEDECIN.trouverDossierParId(idDossier);
             if (dossier != null) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
                 if (dateHospitalisationStr != null && !dateHospitalisationStr.isEmpty()) {
                     dossier.setDateHospitalisation(sdf.parse(dateHospitalisationStr));
                 }
+                sessionMEDECIN.modifierDossier(dossier);
+                request.setAttribute("message", "Dossier modifié avec succès.");
+                System.out.println("Modification réussie : " + dossier.getId());
+            } else {
+                request.setAttribute("message", "Dossier introuvable.");
+            }
+        } 
+        else if (act.equals("modifierDossierPersonnel")){
+            jspClient="/landing_page.jsp";
+            Long idDossier= Long.parseLong(request.getParameter("id_dossierFiche"));
+            String dateArriveeStr = request.getParameter("DateArrivee_ficheDossier");
+            String dateDepartStr = request.getParameter("DateDepart_ficheDossier");
+            DossierHospitalisation dossier = sessionPERSONNEL.trouverDossierParId(idDossier);
+            if (dossier != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
                 if (dateArriveeStr != null && !dateArriveeStr.isEmpty()) {
                     dossier.setHeureArrivee(sdf.parse(dateArriveeStr));
                 }
                 if (dateDepartStr != null && !dateDepartStr.isEmpty()) {
                     dossier.setHeureDepart(sdf.parse(dateDepartStr));
                 }
-                gestionDossierHospitalisation.modifierDossier(dossier);
+                sessionPERSONNEL.modifierDossier(dossier);
                 request.setAttribute("message", "Dossier modifié avec succès.");
                 System.out.println("Modification réussie : " + dossier.getId());
             } else {
@@ -707,7 +738,7 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("afficherInfosPerso")) {
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
             if (utilisateurIdentifie != null) {
-                Z_USER user = z_USER_BEAN.trouverUserParLogin(utilisateurIdentifie);
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
                 if (user != null) {
                     Z_PERSONNE personne = user.getPersonne();
                     request.setAttribute("personne", personne);
@@ -854,16 +885,40 @@ public class NewServlet extends HttpServlet {
         }
         else if (act.equals("validerJournal")){
             jspClient = "/landing_page.jsp";
-            String id_journal = request.getParameter("id_journalValidation");
-           JournalActe journal = gestionJournalActe.trouverJournalParId(Long.parseLong(id_journal));
-           if (journal == null){
-               jspClient="/landing_page.jsp";
-               request.setAttribute("message", "le journal sélectionné pour validation n'existe pas");
-           } else {
-               gestionJournalActe.validerJournal(journal);
-               request.setAttribute("message", "journal validé");
-           }
-            
+            Long id_journal = Long.parseLong(request.getParameter("id_journalValidation"));
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            if (utilisateurIdentifie != null) {
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
+                if (user != null) {
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
+                    if (role == RoleUSER.PERSONNEL) {
+                        JournalActe journal = sessionPersonnelFinancier.trouverJournalParId(id_journal);
+                        if (journal == null) {
+                            jspClient = "/landing_page.jsp";
+                            request.setAttribute("message", "le journal sélectionné pour validation n'existe pas");
+                        }
+                        else {
+                            sessionPersonnelFinancier.validerJournal(journal);
+                            request.setAttribute("message", "journal validé");
+                        }
+                    } else if (role==RoleUSER.MEDECIN){
+                        JournalActe journal = sessionMEDECIN.trouverJournalParId(id_journal);
+                        if (journal == null) {
+                            jspClient = "/landing_page.jsp";
+                            request.setAttribute("message", "le journal sélectionné pour validation n'existe pas");
+                        }
+                        else {
+                            sessionMEDECIN.validerJournal(journal);
+                            request.setAttribute("message", "journal validé");
+                        }
+                    }   
+                    else {
+                        jspClient="/landing_page.jsp";
+                        request.setAttribute("message","l'utilisateur connecté ne peux pas valider un journal");
+                    }
+                }
+            }
         }        
         else if (act.equals("creerDossierMedical")) {
 
@@ -914,31 +969,43 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("payerFacture")) {
             jspClient = "/landing_page.jsp";
             String id_facture = request.getParameter("id_payerFacture");
-            
             String mode_paiement = request.getParameter("mode_paiement");
-            Facture laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
-            
-            if (laFacture != null && !laFacture.isFacturePayee()) {
-                try {
-                    // Conversion de la chaîne en Enum 
-                    ModePaiement mode = ModePaiement.valueOf(mode_paiement.trim().toUpperCase());
-                    // Si la conversion réussit, on peut enregistrer le paiement
-                    Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(),mode, laFacture);
-                    // Puis valider la facture
-                    gestionFacture.validerFacturePaiement(laFacture);
-
-                    request.setAttribute("message", "La facture a été payée avec succès en mode : " + mode);
-
-                } catch (IllegalArgumentException e) {
-                    // Si mode_paiement n'existe pas dans l'énum ModePaiement
-                    request.setAttribute("message", "Le mode de paiement '" + mode_paiement + "' est invalide.");
-                    
-                    jspClient = "/landing_page.jsp";
+            String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
+            Facture laFacture=null;
+            if (utilisateurIdentifie != null) {
+                Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
+                if (user != null) {
+                    RoleUSER role = user.getRole();
+                    request.setAttribute("role", role);
+                    if (role == RoleUSER.PERSONNEL) {
+                         laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
+                    } else if (role == RoleUSER.MEDECIN){
+                         laFacture = gestionFacture.trouverFactureParID(Long.parseLong(id_facture));
+                    }
+                    if (laFacture != null && !laFacture.isFacturePayee()) {
+                        try {
+                            ModePaiement mode = ModePaiement.valueOf(mode_paiement.trim().toUpperCase()); // Conversion de la chaîne en Enum 
+                            if (role == RoleUSER.PERSONNEL) {
+                                Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(),mode, laFacture);// Si la conversion réussit, on peut enregistrer le paiement
+                                gestionFacture.validerFacturePaiement(laFacture);// Puis valider la facture
+                                request.setAttribute("message", "La facture a été payée avec succès en mode : " + mode);
+                            } else if (role == RoleUSER.MEDECIN){
+                                Paiement paiement = gestionPaiement.enregistrerPaiement(laFacture.getFactureMontant(), mode, laFacture);
+                                gestionFacture.validerFacturePaiement(laFacture);// Puis valider la facture
+                                request.setAttribute("message", "La facture a été payée avec succès en mode : " + mode);
+                            }
+                        } catch (IllegalArgumentException e) {                   // Si mode_paiement n'existe pas dans l'énum ModePaiement
+                            request.setAttribute("message", "Le mode de paiement '" + mode_paiement + "' est invalide.");
+                            jspClient = "/landing_page.jsp";
+                        }
+                    } else {
+                        request.setAttribute("message", "Facture introuvable ou déjà payée.");
+                    }
                 }
-            } else {
-                request.setAttribute("message", "Facture introuvable ou déjà payée.");
             }
         }
+        
+            
         else if (act.equals("creerFacture")) { 
             
             jspClient = "/ficheFacture.jsp";
@@ -996,8 +1063,6 @@ public class NewServlet extends HttpServlet {
             Logger.getLogger(NewServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    
 
     
 }
