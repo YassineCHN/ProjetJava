@@ -832,7 +832,6 @@ public class NewServlet extends HttpServlet {
         else if (act.equals("ajouterLignesJournal")){
             jspClient="/landing_page.jsp";
 //            on récupère dans chaque variable plusieurs strings
-             
              String[] id_ligne = request.getParameterValues("idligne[]"); 
              String[] commentaires_acte = request.getParameterValues("commentaire[]"); 
              String[] date_acte = request.getParameterValues("date[]");
@@ -840,10 +839,18 @@ public class NewServlet extends HttpServlet {
              String[] idActe_acte = request.getParameterValues("id_acte[]");
              String[] idMedecin = request.getParameterValues("id_medecin[]");
              String idjournal = (String) request.getParameter("id_journal");
-             JournalActe journal2 = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
+//              Récupération du rôle utilisateur
+            String role_user = (String) session.getAttribute("role2");
+           JournalActe journal2 =  role_user.equals("MEDECIN") ?  sessionMEDECIN.trouverJournalParId(Long.valueOf(idjournal)) :
+                                    role_user.equals("PERSONNEL") ? sessionPersonnelFinancier.trouverJournalParId(Long.valueOf(idjournal)) : null;
+             
 //             il faut que toutes les lignes soient saisies, c'est à dire que le nombre de champs remplis par type de champ soit égale
 
-             if(commentaires_acte.length != date_acte.length || commentaires_acte.length != quantite_acte.length || commentaires_acte.length != idActe_acte.length || idMedecin.length != commentaires_acte.length || journal2.getStatut() == statutJournal.Validé){
+             if(commentaires_acte.length != date_acte.length ||
+                     commentaires_acte.length != quantite_acte.length ||
+                     commentaires_acte.length != idActe_acte.length ||
+                     idMedecin.length != commentaires_acte.length ||
+                     journal2.getStatut() == statutJournal.Validé || journal2.getStatut()==null){
                  jspClient="/landing_page.jsp";
                  String message = "ERREUR CHAMPS MANQUANTS OU LE JOURNAL N'EST PLUS MODIFIABLE";
                  
@@ -856,18 +863,17 @@ public class NewServlet extends HttpServlet {
                      String idActe = idActe_acte[i];
                      String idMedecin2 = idMedecin[i];                     
                      String idLigneStr = (id_ligne != null && i < id_ligne.length) ? id_ligne[i] : null;
-                     
                      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                      Date dateCreationActe = sdf.parse(date);
                      int quantite2 = Integer.parseInt(quantite);
-                     
-                     JournalActe journal = gestionJournalActe.trouverJournalParId(Long.valueOf(idjournal));
-                     Acte acte = gestionActe.trouverActeParId(Long.valueOf(idActe));
-                     LigneJournal existingLigne = gestionLigne.trouverLigneParId(Long.valueOf(idLigneStr));
-                     Z_MEDECIN medecin = (Z_MEDECIN) z_USER_BEAN.trouverPersonneParId(Long.valueOf(idMedecin2));
-                     
-                     if (existingLigne != null){
-                         System.out.println("ligne existante, on modifie");
+                     if (role_user.equals("MEDECIN")) { 
+//                         JournalActe journal = sessionMEDECIN.trouverJournalParId(Long.valueOf(idjournal)); tester avec cette ligne pour le debuggage
+                         JournalActe journal = journal2;
+                         Acte acte = sessionMEDECIN.trouverActeParId(Long.valueOf(idActe));
+                         LigneJournal existingLigne = sessionMEDECIN.trouverLigneParId(Long.valueOf(idLigneStr));
+                         Z_MEDECIN medecin = (Z_MEDECIN) sessionMEDECIN.trouverPersonneParId(Long.valueOf(idMedecin2));
+                         if (existingLigne !=null) {
+                             System.out.println("ligne existante, on modifie");
 //                         mettre à jour la ligne eixstante
                         existingLigne.setCommentaire(commentaire);
                         existingLigne.setDate_acte(dateCreationActe);
@@ -875,14 +881,35 @@ public class NewServlet extends HttpServlet {
                         existingLigne.setId_acte(acte);
 
                         // Méthode "update" ou "edit"
-                        gestionLigne.mettreAJourLigne(existingLigne);
-                     } else {
-                         gestionLigne.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal,medecin);
+                        sessionMEDECIN.mettreAJourLigne(existingLigne);
+                         } else {
+                             sessionMEDECIN.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal, medecin);
+                         }
+                     }else if (role_user.equals("PERSONNEL")) {
+//                         JournalActe journal = sessionPersonnelFinancier.trouverJournalParId(Long.valueOf(idjournal));
+                         JournalActe journal = journal2;
+                         Acte acte = sessionPersonnelFinancier.trouverActeParId(Long.valueOf(idActe));
+                         LigneJournal existingLigne = sessionPersonnelFinancier.trouverLigneParId(Long.valueOf(idLigneStr));
+                         Z_MEDECIN medecin = (Z_MEDECIN) sessionPersonnelFinancier.trouverPersonneParId(Long.valueOf(idMedecin2));
+                         if (existingLigne !=null) {
+                             System.out.println("ligne existante, on modifie");
+//                         mettre à jour la ligne eixstante
+                        existingLigne.setCommentaire(commentaire);
+                        existingLigne.setDate_acte(dateCreationActe);
+                        existingLigne.setQuantité_Acte(quantite2);
+                        existingLigne.setId_acte(acte);
+
+                        // Méthode "update" ou "edit"
+                        sessionPersonnelFinancier.mettreAJourLigne(existingLigne);
+                         } else {
+                             sessionPersonnelFinancier.creerLigne(dateCreationActe, quantite2, commentaire, acte, journal, medecin);
+                         }
                      }
-                     
                  }
              }
         }
+        
+        
         else if (act.equals("validerJournal")){
             jspClient = "/landing_page.jsp";
             Long id_journal = Long.parseLong(request.getParameter("id_journalValidation"));
