@@ -319,6 +319,36 @@ public class SessionPersonnelFinancier implements SessionPersonnelFinancierLocal
             return "Le mode de paiement '" + modePaiementStr + "' est invalide.";
         }
     }
+    
+    
+    
+    @Override
+    public Facture gererFacturePourJournal(Long idDossier, Long idJournal) {
+        // Récupérer le dossier hospitalisation
+        DossierHospitalisation dossier = dossierHospitalisationFacade.trouverDossierHospitalisationParId(idDossier);
+        if (dossier == null) {
+            System.out.println("[GestionFacture] Dossier introuvable (ID = " + idDossier + ").");
+            return null;
+        }
+
+        // Vérifier si une facture existe déjà
+        Facture factureExistante = factureFacade.trouverFactureParDossier(dossier);
+        if (factureExistante != null) {
+            System.out.println("[GestionFacture] Facture existante trouvée (ID = " + factureExistante.getId() + ").");
+            return factureExistante;
+        }
+
+        // Créer une nouvelle facture si aucune n'existe, on fait appel à une méthode déjà existante
+        Facture nouvelleFacture = creerFacturePourJournal(idJournal);
+        if (nouvelleFacture != null) {
+            System.out.println("[GestionFacture] Nouvelle facture créée (ID = " + nouvelleFacture.getId() + ").");
+        } else {
+            System.out.println("[GestionFacture] Échec de la création de la facture.");
+        }
+
+        return nouvelleFacture;
+    }
+
 
     
 }

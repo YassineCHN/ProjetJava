@@ -435,6 +435,15 @@ public class NewServlet extends HttpServlet {
                 }
             }
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         else if (act.equals("creerUtilisateur")) {
                 jspClient="/landing_page.jsp";
                 String login = request.getParameter("loginAjouterUser");
@@ -478,9 +487,19 @@ public class NewServlet extends HttpServlet {
                      request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
                      return;
                  }
-                 
-
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         else if (act.equals("creerPersonne")) {
                 jspClient="/landing_page.jsp";
                     String nom = request.getParameter("nomPersonne");
@@ -941,39 +960,33 @@ public class NewServlet extends HttpServlet {
 
         
             
-        else if (act.equals("creerFacture")) { 
-            
+        else if (act.equals("creerFacture")) {
             jspClient = "/ficheFacture.jsp";
-            String idDossier = request.getParameter("id_dossierCreerFacture");
-            Long idJournal = Long.valueOf(request.getParameter("id_journalcreerFacture"));
 
-            DossierHospitalisation dossier = sessionPersonnelFinancier.trouverDossierParId(Long.parseLong(idDossier));
-            
-            Facture factureExistant = sessionPersonnelFinancier.trouverFactureParDossier(dossier);
-            
-//            La facture existe déjà, on la recrée pas
-            if(factureExistant != null){
-                
-                Facture factureCreee = factureExistant;
-                request.setAttribute("facture", factureCreee);
-            }
-//            La facture n'existe pas, on la crée
-            else {
-                Facture factureCreee = sessionPersonnelFinancier.creerFacturePourJournal(idJournal);
-                System.out.println("CREER FACTURE");
-                
-                if (factureCreee != null) {
-                    request.setAttribute("message", "Facture créée avec succès ! Montant = " + factureCreee.getFactureMontant());
-                    request.setAttribute("facture", factureCreee);
-                    jspClient = "/ficheFacture.jsp";
+            // Récupération des paramètres de la requête
+            String idDossierStr = request.getParameter("id_dossierCreerFacture");
+            String idJournalStr = request.getParameter("id_journalcreerFacture");
 
+            try {
+                Long idDossier = Long.parseLong(idDossierStr);
+                Long idJournal = Long.parseLong(idJournalStr);
+
+                // Appel du Bean Session pour récupérer ou créer la facture
+                Facture facture = sessionPersonnelFinancier.gererFacturePourJournal(idDossier, idJournal);
+
+                if (facture != null) {
+                    request.setAttribute("message", "Facture récupérée/créée avec succès ! Montant = " + facture.getFactureMontant());
+                    request.setAttribute("facture", facture);
                 } else {
-                    request.setAttribute("message", "Impossible de créer la facture (journal invalide ou non VALIDE).");
+                    request.setAttribute("message", "Impossible de récupérer/créer la facture.");
                     jspClient = "/landing_page.jsp";
                 }
-                
-            }  
+            } catch (NumberFormatException e) {
+                request.setAttribute("message", "Paramètres invalides.");
+                jspClient = "/landing_page.jsp";
+            }
         }
+
 
 
         RequestDispatcher Rd; // Déclare un RequestDispatcher pour gérer la redirection ou le forwarding

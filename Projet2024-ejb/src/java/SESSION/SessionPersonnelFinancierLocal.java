@@ -79,4 +79,7 @@ public interface SessionPersonnelFinancierLocal {
     
     public List<Z_MEDECIN> trouverTousLesMedecins();
     String payerFacture(Long idFacture, String modePaiementStr, Z_USER user) ;
+    
+    
+    Facture gererFacturePourJournal(Long idDossier, Long idJournal) ;
 }
