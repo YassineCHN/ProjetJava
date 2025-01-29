@@ -94,4 +94,5 @@ public class SessionPERSONNEL implements SessionPERSONNELLocal {
         Z_USER user = z_USERFacade.trouverUtilisateurParId(id);
         return user;
     }
+    
 }

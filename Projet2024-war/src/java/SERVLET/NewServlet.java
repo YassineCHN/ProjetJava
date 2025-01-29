@@ -984,41 +984,30 @@ public class NewServlet extends HttpServlet {
             String id_facture = request.getParameter("id_payerFacture");
             String mode_paiement = request.getParameter("mode_paiement");
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
-            Facture laFacture=null;
+
             if (utilisateurIdentifie != null) {
                 Z_USER user = sUPERSession.trouverUserParLogin(utilisateurIdentifie);
                 if (user != null) {
-                    RoleUSER role = user.getRole();
-                    request.setAttribute("role", role);
-                    if (role == RoleUSER.PERSONNEL) {
-                         laFacture = sessionPersonnelFinancier.trouverFactureParID(Long.parseLong(id_facture));
-                    } else if (role == RoleUSER.PATIENT){
-                         laFacture = sessionPATIENT.trouverFactureParID(Long.parseLong(id_facture));
-                         
-                         System.out.println("l'ID de la facture à payer :: " + laFacture.getId());
-                    }
-                    if (laFacture != null && !laFacture.isFacturePayee()) {
-                        try {
-                            ModePaiement mode = ModePaiement.valueOf(mode_paiement.trim().toUpperCase()); // Conversion de la chaîne en Enum 
-                            if (role == RoleUSER.PERSONNEL) {
-                                Paiement paiement = sessionPersonnelFinancier.enregistrerPaiement(laFacture.getFactureMontant(),mode, laFacture);// Si la conversion réussit, on peut enregistrer le paiement
-                                sessionPersonnelFinancier.validerFacturePaiement(laFacture);// Puis valider la facture
-                                request.setAttribute("message", "La facture a été payée avec succès en mode : " + mode);
-                            } else if (role == RoleUSER.PATIENT){
-                                Paiement paiement = sessionPATIENT.enregistrerPaiement(laFacture.getFactureMontant(), mode, laFacture);
-                                sessionPATIENT.validerFacturePaiement(laFacture);// Puis valider la facture
-                                request.setAttribute("message", "La facture a été payée avec succès en mode : " + mode);
-                            }
-                        } catch (IllegalArgumentException e) {                   // Si mode_paiement n'existe pas dans l'énum ModePaiement
-                            request.setAttribute("message", "Le mode de paiement '" + mode_paiement + "' est invalide.");
-                            jspClient = "/landing_page.jsp";
-                        }
+                    // Appel du bean session en fonction du rôle
+                    String message;
+                    if (user.getRole() == RoleUSER.PERSONNEL) {
+                        message = sessionPersonnelFinancier.payerFacture(Long.parseLong(id_facture), mode_paiement, user);
+                    } else if (user.getRole() == RoleUSER.PATIENT) {
+                        message = sessionPATIENT.payerFacture(Long.parseLong(id_facture), mode_paiement, user);
                     } else {
-                        request.setAttribute("message", "Facture introuvable ou déjà payée.");
+                        message = "Rôle utilisateur non autorisé pour cette action.";
                     }
+
+                    // Ajouter le message dans la requête
+                    request.setAttribute("message", message);
+                } else {
+                    request.setAttribute("message", "Utilisateur introuvable.");
                 }
+            } else {
+                request.setAttribute("message", "Utilisateur non identifié.");
             }
         }
+
         
             
         else if (act.equals("creerFacture")) { 

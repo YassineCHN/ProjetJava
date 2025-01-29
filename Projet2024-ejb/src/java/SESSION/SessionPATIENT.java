@@ -9,6 +9,7 @@ import ENTITE.DossierHospitalisation;
 import ENTITE.Facture;
 import ENTITE.ModePaiement;
 import ENTITE.Paiement;
+import ENTITE.RoleUSER;
 import ENTITE.Service;
 import ENTITE.Z_PATIENT;
 import ENTITE.Z_PERSONNE;
@@ -109,4 +110,40 @@ public class SessionPATIENT implements SessionPATIENTLocal {
     public Paiement enregistrerPaiement(Double montantPaiement, ModePaiement modePaiement, Facture laFacture) {
         return paiementFacade.enregistrerPaiement(montantPaiement, modePaiement, laFacture);
     }
+       @Override
+public String payerFacture(Long idFacture, String modePaiementStr, Z_USER user) {
+    // Vérification du rôle de l'utilisateur
+    RoleUSER role = user.getRole();
+    Facture laFacture = null;
+
+    if (role == RoleUSER.PERSONNEL) {
+        laFacture = factureFacade.trouverFactureParID(idFacture);
+    } else if (role == RoleUSER.PATIENT) {
+        laFacture = factureFacade.trouverFactureParID(idFacture); // Cette méthode peut être adaptée si nécessaire
+    }
+
+    if (laFacture == null) {
+        return "Facture introuvable.";
+    }
+
+    if (laFacture.isFacturePayee()) {
+        return "Facture déjà payée.";
+    }
+
+    try {
+        // Conversion du mode de paiement en Enum
+        ModePaiement modePaiement = ModePaiement.valueOf(modePaiementStr.trim().toUpperCase());
+
+        // Enregistrer le paiement
+        Paiement paiement = paiementFacade.enregistrerPaiement(laFacture.getFactureMontant(), modePaiement, laFacture);
+
+        // Valider la facture
+        factureFacade.validerFacturePaiement(laFacture);
+
+        return "La facture a été payée avec succès en mode : " + modePaiement;
+    } catch (IllegalArgumentException e) {
+        // Si le mode de paiement est invalide
+        return "Le mode de paiement '" + modePaiementStr + "' est invalide.";
+    }
+}
 }

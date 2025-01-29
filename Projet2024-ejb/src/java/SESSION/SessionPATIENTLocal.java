@@ -43,6 +43,6 @@ public interface SessionPATIENTLocal {
     
     Z_USER trouverUtilisateurParId(Long id);
     Paiement enregistrerPaiement(Double montantPaiement, ModePaiement modePaiement, Facture laFacture);
-    
+    String payerFacture(Long idFacture, String modePaiementStr, Z_USER user) ;
     
 }

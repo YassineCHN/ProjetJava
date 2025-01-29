@@ -78,4 +78,5 @@ public interface SessionPersonnelFinancierLocal {
     List<Acte> trouverTousLesActes();
     
     public List<Z_MEDECIN> trouverTousLesMedecins();
+    String payerFacture(Long idFacture, String modePaiementStr, Z_USER user) ;
 }

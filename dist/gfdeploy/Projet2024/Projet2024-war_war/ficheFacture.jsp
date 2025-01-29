@@ -83,14 +83,6 @@
             </fieldset>
         </form>
                        
-        <%if (role == RoleUSER.PERSONNEL || role == RoleUSER.ADMIN) {%>
-        <!-- Formulaire de suppression de la facture -->
-        <form action="NewServlet" method="post">
-            <input type="hidden" name="id_supprimerFacture" value="<%= facture.getId() %>">
-            <input type="hidden" name="action" value="supprimerFacture">
-            <input type="submit" value="Supprimer Facture">
-        </form>
-            <%}%>
             <form action="NewServlet" method="post">
                 <input type="hidden" name="id_payerFacture" value="<%= facture.getId()%>">
                 <input type="hidden" name="action" value="payerFacture">
