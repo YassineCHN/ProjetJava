@@ -479,14 +479,7 @@ public class NewServlet extends HttpServlet {
                      return;
                  }
                  
-                 if (!utilisateurCree) {
-                     // Si l'utilisateur n'a pas été créé, afficher un message d'erreur
-                     request.setAttribute("erreur", "Ce login existe déjà.");
-                     List<Z_PERSONNE> listePersonnes = sessionADMIN.trouverToutesLesPersonnes();
-                     request.setAttribute("listepersonnes", listePersonnes);
-                     request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
-                     return;
-                 }
+
         }
         else if (act.equals("creerPersonne")) {
                 jspClient="/landing_page.jsp";
