@@ -12,6 +12,7 @@ import ENTITE.Z_PERSONNE;
 import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_PERSONNE;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +24,9 @@ import javax.persistence.Query;
  */
 @Stateless
 public class Z_PERSONNEFacade extends AbstractFacade<Z_PERSONNE> implements Z_PERSONNEFacadeLocal {
+
+    @EJB
+    private ServiceFacadeLocal serviceFacade;
 
     @PersistenceContext(unitName = "Projet2024-ejbPU")
     private EntityManager em;
@@ -181,6 +185,47 @@ public void creerMedecin(String nom, String prenom, String adresse, String speci
     public List<Z_PERSONNEL> trouverTousLesPersonnels() {
         return em.createQuery("SELECT p FROM Z_PERSONNEL as p where p.idpers IS NOT NULL", Z_PERSONNEL.class).getResultList();
     }
+
+    
+    @Override
+public String modifierPersonne(Long idPersonne, String nom, String prenom, String adresse, 
+                               String typePersonne, String specialite, String serviceId, 
+                               String numSecuSoc, String mutuelle, String adresseMutuelle) {
+    Z_PERSONNE personne = trouverPersonneParId(idPersonne);
+    if (personne == null) {
+        return "Personne introuvable.";
+    }
+
+    // Mise à jour des informations générales
+    personne.setNomPersonne(nom);
+    personne.setPrenomPersonne(prenom);
+    personne.setAdresse(adresse);
+
+    try {
+        if (typePersonne.equals("MEDECIN") && personne instanceof Z_MEDECIN) {
+            ((Z_MEDECIN) personne).setSpecialite(specialite);
+            if (serviceId != null && !serviceId.trim().isEmpty()) {
+                Service service = serviceFacade.trouverServiceParId(Long.parseLong(serviceId));
+                ((Z_MEDECIN) personne).setService(service);
+            }
+        } else if (typePersonne.equals("PATIENT") && personne instanceof Z_PATIENT) {
+            ((Z_PATIENT) personne).setNumSecuSoc(numSecuSoc);
+            ((Z_PATIENT) personne).setNomMutuelle(mutuelle);
+            ((Z_PATIENT) personne).setAdresseMutuelle(adresseMutuelle);
+        } else if (typePersonne.equals("PERSONNEL") && personne instanceof Z_PERSONNEL) {
+            if (serviceId != null && !serviceId.trim().isEmpty()) {
+                Service service = serviceFacade.trouverServiceParId(Long.parseLong(serviceId));
+                ((Z_PERSONNEL) personne).setService(service);
+            }
+        }
+
+        // Mise à jour en base
+        getEntityManager().merge(personne);
+        return "Personne modifiée avec succès.";
+    } catch (NumberFormatException e) {
+        return "Erreur : ID du service invalide.";
+    }
+}
 
     
 }

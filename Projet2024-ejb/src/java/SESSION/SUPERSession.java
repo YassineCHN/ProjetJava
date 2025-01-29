@@ -11,6 +11,7 @@ import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import ENTITE.statutDossier;
 import FACADE.DossierHospitalisationFacadeLocal;
+import FACADE.Z_PERSONNEFacade;
 import FACADE.Z_PERSONNEFacadeLocal;
 import FACADE.Z_USERFacadeLocal;
 import java.util.Date;
@@ -166,5 +167,26 @@ public class SUPERSession implements SUPERSessionLocal {
 
         return "Bienvenue, " + role_identifie.name() + "!";
     }
+    
+    
+    
+    @Override
+public String modifierPersonneParID(String idPersonneStr, String nom, String prenom, String adresse, 
+                                    String typePersonne, String specialite, String serviceId, 
+                                    String numSecuSoc, String mutuelle, String adresseMutuelle) {
+    if (idPersonneStr == null || idPersonneStr.trim().isEmpty()) {
+        return "ID de la personne manquant.";
+    }
+
+    try {
+        Long idPersonne = Long.parseLong(idPersonneStr);
+        return z_PERSONNEFacade.modifierPersonne(idPersonne, nom, prenom, adresse, 
+                                               typePersonne, specialite, serviceId, 
+                                               numSecuSoc, mutuelle, adresseMutuelle);
+    } catch (NumberFormatException e) {
+        return "ID de la personne invalide.";
+    }
+}
+
 
 }

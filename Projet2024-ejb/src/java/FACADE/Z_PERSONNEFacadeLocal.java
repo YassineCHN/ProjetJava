@@ -62,6 +62,10 @@ public interface Z_PERSONNEFacadeLocal {
     public void creerPersonnel(String nom, String prenom, String adresse, Service service) ;
     
     public List<Z_PERSONNEL> trouverTousLesPersonnels() ;
+    
+    String modifierPersonne(Long idPersonne, String nom, String prenom, String adresse, 
+                               String typePersonne, String specialite, String serviceId, 
+                               String numSecuSoc, String mutuelle, String adresseMutuelle);
 
     
     

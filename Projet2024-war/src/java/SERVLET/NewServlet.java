@@ -549,43 +549,30 @@ public class NewServlet extends HttpServlet {
         }
 
         else if (act.equals("modifierPersonne")) {
-            jspClient="/landing_page.jsp";
-            Long idPersonne = Long.parseLong(request.getParameter("id_personne"));
+            jspClient = "/landing_page.jsp";
+
+            // Récupération des paramètres
+            String idPersonneStr = request.getParameter("id_personne");
             String nom = request.getParameter("nomPersonne");
             String prenom = request.getParameter("prenomPersonne");
             String adresse = request.getParameter("adressePersonne");
-            String typePersonne = request.getParameter("typePersonne");     
-            // Identifiez le type de la personne et mettez à jour les informations spécifiques
-            Z_PERSONNE personne = sUPERSession.trouverPersonneParId(idPersonne);
-            if (personne != null) {
-                personne.setNomPersonne(nom);
-                personne.setPrenomPersonne(prenom);
-                personne.setAdresse(adresse);
-                // En fonction du type de personne, vous pouvez faire des mises à jour supplémentaires
-                if (typePersonne.equals("MEDECIN")) {
-                    String specialite = request.getParameter("specialiteMedecin");
-                    ((Z_MEDECIN) personne).setSpecialite(specialite);
-                    String serviceparamM = request.getParameter("serviceMedecin");
-                    Service service = sessionMEDECIN.trouverServiceParID(Long.parseLong(serviceparamM));
-                    ((Z_MEDECIN) personne).setService(service);
-                } else if (typePersonne.equals("PATIENT")) {
-                    String numSecuSoc = request.getParameter("numSecuPatient");
-                    String mutuelle = request.getParameter("nomMutuelle");
-                    String adresseMutuelle = request.getParameter("adresseMutuelle");
-                    ((Z_PATIENT) personne).setNumSecuSoc(numSecuSoc);
-                    ((Z_PATIENT) personne).setNomMutuelle(mutuelle);
-                    ((Z_PATIENT) personne).setAdresseMutuelle(adresseMutuelle);
-                } else if (typePersonne.equals("PERSONNEL")) {
-                    String serviceparamP = request.getParameter("servicePersonnel");
-                    Service service = sessionPERSONNEL.trouverServiceParID(Long.parseLong(serviceparamP));
-                    ((Z_PERSONNEL) personne).setService(service);
-                }// Appelez la méthode pour modifier la personne dans la base de données
-                sUPERSession.modifierPersonne(personne);
-                request.setAttribute("message", "Personne modifiée avec succès.");} else {
-                request.setAttribute("message", "Personne non trouvée.");
-            } 
+            String typePersonne = request.getParameter("typePersonne");
+            String specialite = request.getParameter("specialiteMedecin");
+            String serviceId = request.getParameter("serviceMedecin") != null ? request.getParameter("serviceMedecin")
+                    : request.getParameter("servicePersonnel");
+            String numSecuSoc = request.getParameter("numSecuPatient");
+            String mutuelle = request.getParameter("nomMutuelle");
+            String adresseMutuelle = request.getParameter("adresseMutuelle");
+
+            // Appel du Bean Session
+            String message = sUPERSession.modifierPersonneParID(idPersonneStr, nom, prenom, adresse,
+                    typePersonne, specialite, serviceId,
+                    numSecuSoc, mutuelle, adresseMutuelle);
+
+            // Ajout du message dans la requête
+            request.setAttribute("message", message);
         }
-        
+
         
         
         

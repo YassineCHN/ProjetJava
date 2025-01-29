@@ -30,4 +30,9 @@ public interface SUPERSessionLocal {
     
     public void modifierPersonne(Z_PERSONNE pers);
     String authentifierUtilisateur(String login, String password, HttpSession session, HttpServletRequest request);
+    
+    
+    String modifierPersonneParID(String idPersonneStr, String nom, String prenom, String adresse, 
+                                    String typePersonne, String specialite, String serviceId, 
+                                    String numSecuSoc, String mutuelle, String adresseMutuelle);
 }
