@@ -539,8 +539,9 @@ public class NewServlet extends HttpServlet {
             String mdp = request.getParameter("password_ficheUtilisateur");
             String role= request.getParameter("role_ficheUtilisateur");
             String idpersonne=request.getParameter("UserPersonne");
-            if(idpersonne!=null&& !idpersonne.trim().isEmpty()){Long persId= Long.parseLong(idpersonne);}
-            if (sessionADMIN.modifierUtilisateur(idUtilisateur, login, login, idUtilisateur)){
+            Long persId = null;
+            if(idpersonne!=null&& !idpersonne.trim().isEmpty()){ persId= Long.parseLong(idpersonne);}
+            if (sessionADMIN.modifierUtilisateur(idUtilisateur, login, login, persId)){
                 request.setAttribute("message", "Utilisateur modifié avec succès.");              
             }
             else {
