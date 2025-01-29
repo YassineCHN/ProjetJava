@@ -39,7 +39,7 @@ public interface Z_USERFacadeLocal {
 
     boolean creerUtilisateur(String login, String mdp, RoleUSER role, Z_PERSONNE personne);
 
-    void mettreAJourUtilisateur(Z_USER user);
+    void mettreAJourUtilisateur(Z_USER user,String login, String mdp, Z_PERSONNE pers);
 
     void supprimerUtilisateur(Z_USER userSupp);
 

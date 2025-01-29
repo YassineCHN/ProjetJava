@@ -26,7 +26,6 @@ public interface SessionMEDECINLocal {
 
     void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle);
     
-    void modifierActe(Acte acte);
     
     boolean supprimerActe(Long id);
     

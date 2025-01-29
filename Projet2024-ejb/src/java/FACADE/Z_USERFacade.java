@@ -79,12 +79,17 @@ public class Z_USERFacade extends AbstractFacade<Z_USER> implements Z_USERFacade
         getEntityManager().persist(user);
         return true;
     }
+
     
 
     @Override
-    public void mettreAJourUtilisateur(Z_USER user) {
-         getEntityManager().merge(user);
+    public void mettreAJourUtilisateur(Z_USER user,String login, String mdp, Z_PERSONNE pers) {
+        user.setLogin(login);
+        user.setMdp(mdp);
+        user.setPersonne(pers);
+        getEntityManager().merge(user);
     }
+
 
     @Override
     public void supprimerUtilisateur(Z_USER userSupp) {

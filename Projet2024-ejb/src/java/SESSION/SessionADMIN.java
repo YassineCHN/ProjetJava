@@ -75,9 +75,26 @@ public class SessionADMIN implements SessionADMINLocal {
     }
     
     @Override
-    public boolean creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE pers) {
-        return z_USERFacade.creerUtilisateur(login, mdp, role, pers);
+    public String creerUtilisateur(String login, String mdp,RoleUSER role, Long persId) {
+        Z_PERSONNE pers=trouverPersonneParId(persId);
+        if(pers!=null && personneHasUser(persId)){
+            return"USER_ASSOCIE";
+        }
+        if (role!=RoleUSER.ADMIN && pers!=null){
+            String typePersonne=pers.getTYPE();
+            if ((role == RoleUSER.MEDECIN && !"MEDECIN".equals(typePersonne)) ||
+                        (role == RoleUSER.PATIENT && !"PATIENT".equals(typePersonne)) ||
+                        (role == RoleUSER.PERSONNEL && !"PERSONNEL".equals(typePersonne))) 
+                    {return "MAUVAIS_TYPE";}
+        }
+        if (z_USERFacade.trouverUserParLogin(login)!=null){ 
+                return "EXISTANT";
+        }
+       
+        z_USERFacade.creerUtilisateur(login, mdp, role, pers);
+        return "CREE";
     }
+
     
     @Override
     public void creerPersonne(String nom, String prenom,String adresse) {
@@ -104,9 +121,18 @@ public class SessionADMIN implements SessionADMINLocal {
         z_PERSONNEFacade.mettreAJourPersonne(pers);
     }
         @Override
-    public void modifierUtilisateur(Z_USER user) {
-        z_USERFacade.mettreAJourUtilisateur(user);
+    public boolean modifierUtilisateur(Long iduser, String login, String mdp, Long idpersonne) {
+        Z_USER user=z_USERFacade.trouverUtilisateurParId(iduser);
+        Z_PERSONNE pers=z_PERSONNEFacade.trouverPersonneParId(idpersonne);
+        if (user!=null){
+            z_USERFacade.mettreAJourUtilisateur(user,login,mdp,pers);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
     
     @Override
     public boolean supprimerUtilisateur(Long id) {
@@ -254,9 +280,20 @@ public class SessionADMIN implements SessionADMINLocal {
     }
     
     @Override
-    public void modifierActe(Acte acte) {
-        acteFacade.modifierActe(acte);
+    public boolean modifierActe(Long idActe, String nomActe, String descriptionActe,String prixActe,String coefSecu,String coefMutuelle) {
+        Acte acte=acteFacade.trouverActeParId(idActe);
+        if (acte!=null) {
+        Double prix = Double.parseDouble(prixActe);
+        Double coeffSS = Double.parseDouble(coefSecu);
+        Double coeffMutuelle = Double.parseDouble(coefMutuelle);
+        acteFacade.modifierActe(acte, nomActe,descriptionActe,prix,coeffSS,coeffMutuelle);
+        return true;
+        }
+        else {
+            return false;
+        }
     }
+
     @Override
     public String modifierServiceParID(String idServiceStr, String localisation, String nomService) {
         if (idServiceStr == null || idServiceStr.trim().isEmpty()) {

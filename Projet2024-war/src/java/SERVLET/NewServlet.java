@@ -436,14 +436,6 @@ public class NewServlet extends HttpServlet {
             }
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
         else if (act.equals("creerUtilisateur")) {
                 jspClient="/landing_page.jsp";
                 String login = request.getParameter("loginAjouterUser");
@@ -451,55 +443,29 @@ public class NewServlet extends HttpServlet {
                 String roleparam = request.getParameter("roleAjouterUser");
                 String persparam=request.getParameter("UserAjouterPersonne");
                 RoleUSER role=RoleUSER.valueOf(roleparam.toUpperCase());
-                Z_PERSONNE pers=null;
-                if(persparam!=null&& !persparam.trim().isEmpty()){
-                    Long persId= Long.parseLong(persparam);
-                    pers=sessionADMIN.trouverPersonneParId(persId);
-                    
-                    // Validation pour vérifier si la personne a déjà un utilisateur
-                    if (pers != null && sessionADMIN.personneHasUser(persId)) {
-                        request.setAttribute("erreur", "Cette personne a déjà un utilisateur associé.");
-                        List<Z_PERSONNE> listePersonnes = sessionADMIN.trouverPersonnesSansUtilisateur();
-                        request.setAttribute("listepersonnes", listePersonnes);
-                        request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
-                        return;
-                    }
-                }
-                if (role != RoleUSER.ADMIN && pers != null) {
-                    String typePersonne = pers.getTYPE(); 
-                    if ((role == RoleUSER.MEDECIN && !"MEDECIN".equals(typePersonne)) ||
-                        (role == RoleUSER.PATIENT && !"PATIENT".equals(typePersonne)) ||
-                        (role == RoleUSER.PERSONNEL && !"PERSONNEL".equals(typePersonne))) 
-                    {
+                Long persId=null;
+                if(persparam!=null&& !persparam.trim().isEmpty()){persId= Long.parseLong(persparam);} 
+                String Reponse=sessionADMIN.creerUtilisateur(login, mdp, role, persId);
+                    if (Reponse.equals("MAUVAIS_TYPE")){
                         request.setAttribute("erreur", "Le rôle sélectionné ne correspond pas au type de la personne.");
                         List<Z_PERSONNE> listePersonnes = sessionADMIN.trouverPersonnesSansUtilisateur(); // Charger la liste des personnes
                         request.setAttribute("listepersonnes", listePersonnes);
                         request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
-                        return;
-                    }
-                }
-                
-                boolean utilisateurCree = sessionADMIN.creerUtilisateur(login, mdp, role, pers);
-                 if (!utilisateurCree) {        // Si l'utilisateur n'a pas été créé, afficher un message d'erreur
+                    } else if (Reponse.equals("EXISTANT")) {        // Si l'utilisateur n'a pas été créé, afficher un message d'erreur
                      request.setAttribute("erreur", "Ce login existe déjà.");
                      List<Z_PERSONNE> listePersonnes = sessionADMIN.trouverPersonnesSansUtilisateur();
                      request.setAttribute("listepersonnes", listePersonnes);
                      request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
-                     return;
-                 }
+                    } else if (Reponse.equals("USER_ASSOCIE")) {
+                        request.setAttribute("erreur", "Cette personne a déjà un utilisateur associé.");
+                        List<Z_PERSONNE> listePersonnes = sessionADMIN.trouverPersonnesSansUtilisateur();
+                        request.setAttribute("listepersonnes", listePersonnes);
+                        request.getRequestDispatcher("/AjouterUtilisateur.jsp").forward(request, response);
+                    } else if (Reponse.equals("CREE")){
+                        request.setAttribute("message", "Utilisateur cree avec succès");
+                        request.getRequestDispatcher("/landing_page.jsp").forward(request, response);
+                    }
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         else if (act.equals("creerPersonne")) {
                 jspClient="/landing_page.jsp";
                     String nom = request.getParameter("nomPersonne");
@@ -573,22 +539,15 @@ public class NewServlet extends HttpServlet {
             String mdp = request.getParameter("password_ficheUtilisateur");
             String role= request.getParameter("role_ficheUtilisateur");
             String idpersonne=request.getParameter("UserPersonne");
-            
-            Z_USER user=sessionADMIN.trouverUtilisateurParId(idUtilisateur);
-            Z_PERSONNE pers=null;
-            if(user !=null){
-                if(idpersonne!=null&& !idpersonne.trim().isEmpty()){
-                    Long persId= Long.parseLong(idpersonne);
-                    pers=sessionADMIN.trouverPersonneParId(persId);
-                }
-                user.setLogin(login);
-                user.setMdp(mdp);
-                user.setPersonne(pers);
-                sessionADMIN.modifierUtilisateur(user);
-                request.setAttribute("message", "Personne modifiée avec succès.");
-            } else {request.setAttribute("message", "Personne non trouvée.");}
-            
+            if(idpersonne!=null&& !idpersonne.trim().isEmpty()){Long persId= Long.parseLong(idpersonne);}
+            if (sessionADMIN.modifierUtilisateur(idUtilisateur, login, login, idUtilisateur)){
+                request.setAttribute("message", "Utilisateur modifié avec succès.");              
+            }
+            else {
+                request.setAttribute("message", "Personne ou utilisateur non trouvé.");
+            }   
         }
+
         else if (act.equals("modifierPersonne")) {
             jspClient="/landing_page.jsp";
             Long idPersonne = Long.parseLong(request.getParameter("id_personne"));
@@ -660,10 +619,7 @@ public class NewServlet extends HttpServlet {
             // Ajout du message dans la requête
             request.setAttribute("message", message);
         }
-        
-        
-        
-        
+  
         else if (act.equals("modifierActe")){
             jspClient="/landing_page.jsp";
             Long idActe=Long.parseLong(request.getParameter("id_acte"));
@@ -672,26 +628,18 @@ public class NewServlet extends HttpServlet {
             String prixActe=request.getParameter("acte_prix");
             String coefSecu = request.getParameter("coefSecu");
             String coefMutuelle = request.getParameter("coefMutuelle");
-            
-            Acte acte=sessionADMIN.trouverActeParId(idActe);
-            if(acte!=null){
-                if(nomActe.trim().isEmpty() || descriptionActe.trim().isEmpty() || prixActe.trim().isEmpty() || coefSecu.trim().isEmpty() || coefMutuelle.trim().isEmpty()){    request.setAttribute("message", "ERREUR dans le formulaire de modification, l'un des champs est vide");
-                
+            if(nomActe.trim().isEmpty() || descriptionActe.trim().isEmpty() || prixActe.trim().isEmpty() || coefSecu.trim().isEmpty() || coefMutuelle.trim().isEmpty()){    
+                    request.setAttribute("message", "ERREUR dans le formulaire de modification, l'un des champs est vide");
                 }
-                else{
-                    acte.setActeNom(nomActe);
-                acte.setActeDescription(descriptionActe);
-                acte.setActePrix(Double.parseDouble(prixActe));
-                acte.setCoefficient_SecuriteSociale(Double.parseDouble(coefSecu));
-                acte.setCoefficient_Mutuelle(Double.parseDouble(coefMutuelle));
-                sessionADMIN.modifierActe(acte);
+            else{
+                if(sessionADMIN.modifierActe(idActe,nomActe,descriptionActe, prixActe, coefSecu,coefMutuelle)){
                 request.setAttribute("message", "Acte modifié avec succès.");
-                System.out.println("Modification réussie : " + acte.getId());
+                } else {
+                 request.setAttribute("message", "Acte non modfié car Introuvable"); 
                 }
-            }else {
-                request.setAttribute("message", "Acte introuvable.");
-            }
+            }                 
         }
+
         else if (act.equals("afficherInfosPerso")) {
             String utilisateurIdentifie = (String) session.getAttribute("utilisateur2");
             if (utilisateurIdentifie != null) {

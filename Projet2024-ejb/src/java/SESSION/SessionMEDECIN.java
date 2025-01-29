@@ -60,10 +60,6 @@ public class SessionMEDECIN implements SessionMEDECINLocal {
         acteFacade.creerActe(nom, description, prix, coefSecu, coefMutuelle);
     }
 
-    @Override
-    public void modifierActe(Acte acte) {
-        acteFacade.modifierActe(acte);
-    }
  
     @Override
     public boolean supprimerActe(Long id) {

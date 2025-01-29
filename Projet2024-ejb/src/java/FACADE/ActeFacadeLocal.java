@@ -31,7 +31,7 @@ public interface ActeFacadeLocal {
 
     void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle);
 
-    void modifierActe(Acte acte);
+    void modifierActe(Acte acte,String nom, String description, Double prix, Double coeffSS, Double coeffMut);
 
     void supprimerActe(Acte acteSupp);
 

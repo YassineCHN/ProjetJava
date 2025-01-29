@@ -33,7 +33,7 @@ public interface SessionADMINLocal {
     
     public Z_USER trouverUtilisateurParPers(Long id);
     
-    boolean creerUtilisateur(String login, String mdp,RoleUSER role, Z_PERSONNE pers);
+    String creerUtilisateur(String login, String mdp,RoleUSER role, Long persId);
     
     public void creerPersonne(String nom, String prenom,String adresse);
     
@@ -45,7 +45,7 @@ public interface SessionADMINLocal {
     
     public void modifierPersonne(Z_PERSONNE pers);
     
-    public void modifierUtilisateur(Z_USER user);
+    public boolean modifierUtilisateur(Long iduser, String login, String mdp, Long idpersonne) ;
     
     boolean supprimerPersonne(Long id_test) ;
     
@@ -83,7 +83,7 @@ public interface SessionADMINLocal {
 
     void creerActe(String nom, String description, double prix,double coefSecu, double coefMutuelle);
     
-    void modifierActe(Acte acte);
+    boolean modifierActe(Long idActe, String nomActe, String descriptionActe,String prixActe,String coefSecu,String coefMutuelle);
     
     String modifierServiceParID(String idServiceStr, String localisation, String nomService) ;
 }

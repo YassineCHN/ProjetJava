@@ -41,9 +41,15 @@ public class ActeFacade extends AbstractFacade<Acte> implements ActeFacadeLocal 
     }
 
     @Override
-    public void modifierActe(Acte acte) {
+    public void modifierActe(Acte acte,String nom, String description, Double prix, Double coeffSS, Double coeffMut) {
+        acte.setActeNom(nom);
+        acte.setActeDescription(description);
+        acte.setActePrix(prix);
+        acte.setCoefficient_SecuriteSociale(coeffSS);
+        acte.setCoefficient_Mutuelle(coeffMut);
         getEntityManager().merge(acte);
     }
+
 
     @Override
     public void supprimerActe(Acte acteSupp) {
