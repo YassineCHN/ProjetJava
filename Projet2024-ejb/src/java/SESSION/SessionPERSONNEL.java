@@ -15,6 +15,8 @@ import FACADE.LigneJournalFacadeLocal;
 import FACADE.ServiceFacadeLocal;
 import FACADE.Z_PERSONNEFacadeLocal;
 import FACADE.Z_USERFacadeLocal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -50,10 +52,10 @@ public class SessionPERSONNEL implements SessionPERSONNELLocal {
       return dossierHospitalisationFacade.trouverTousLesDossiersUnService(service);
     }
     
-    @Override
-    public void modifierDossier(DossierHospitalisation dossier) {
-        dossierHospitalisationFacade.modifierDossier(dossier);
-    }
+//    @Override
+//    public void modifierDossier(DossierHospitalisation dossier) {
+//        dossierHospitalisationFacade.modifierDossier(dossier);
+//    }
     
     @Override
     public void annulerDossierHospitalisation(Long id) {
@@ -95,4 +97,20 @@ public class SessionPERSONNEL implements SessionPERSONNELLocal {
         return user;
     }
     
+  @Override
+public String modifierDossierParPersonnel(String idDossierStr, String dateArriveeStr, String dateDepartStr) {
+    if (idDossierStr == null || idDossierStr.trim().isEmpty()) {
+        return "ID du dossier manquant.";
+    }
+
+    try {
+        Long idDossier = Long.parseLong(idDossierStr);
+        return dossierHospitalisationFacade.modifierDossierPersonnel(idDossier, dateArriveeStr, dateDepartStr);
+    } catch (NumberFormatException e) {
+        return "ID du dossier invalide.";
+    }
+}
+
+
+
 }

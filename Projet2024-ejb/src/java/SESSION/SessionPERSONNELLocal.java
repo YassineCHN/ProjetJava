@@ -8,6 +8,7 @@ import ENTITE.DossierHospitalisation;
 import ENTITE.Service;
 import ENTITE.Z_PERSONNE;
 import ENTITE.Z_USER;
+import java.text.ParseException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -20,7 +21,7 @@ public interface SessionPERSONNELLocal {
     
     public List<DossierHospitalisation> trouverTousLesDossiersUnService(Service service);
     
-    public void modifierDossier(DossierHospitalisation dossier) ;
+//    public void modifierDossier(DossierHospitalisation dossier) ;
     
     void annulerDossierHospitalisation(Long id) ;
     
@@ -35,4 +36,6 @@ public interface SessionPERSONNELLocal {
     public Z_USER trouverUtilisateurParPers(Long id);
     
     Z_USER trouverUtilisateurParId(Long id);
+    
+    String modifierDossierParPersonnel(String idDossierStr, String dateArriveeStr, String dateDepartStr) throws ParseException ;
 }

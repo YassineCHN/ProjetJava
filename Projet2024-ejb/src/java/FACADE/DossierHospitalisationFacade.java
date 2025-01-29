@@ -12,6 +12,8 @@ import ENTITE.Service;
 import ENTITE.Z_PATIENT;
 import ENTITE.Z_USER;
 import ENTITE.statutDossier;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -86,9 +88,31 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
     }
 
     @Override
-    public void modifierDossier(DossierHospitalisation dossier) {
-        getEntityManager().merge(dossier);
+public String modifierDossier(Long idDossier, String dateArriveeStr, String dateDepartStr) {
+    DossierHospitalisation dossier = trouverDossierHospitalisationParId(idDossier);
+    if (dossier == null) {
+        return "Dossier introuvable.";
     }
+
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+        // Mise à jour des dates si elles sont fournies
+        if (dateArriveeStr != null && !dateArriveeStr.trim().isEmpty()) {
+            dossier.setHeureArrivee(sdf.parse(dateArriveeStr));
+        }
+        if (dateDepartStr != null && !dateDepartStr.trim().isEmpty()) {
+            dossier.setHeureDepart(sdf.parse(dateDepartStr));
+        }
+
+        // Mise à jour en base
+        getEntityManager().merge(dossier);
+        return "Dossier modifié en base avec succès.";
+    } catch (ParseException e) {
+        return "Format de date invalide.";
+    }
+}
+
 
     @Override
     public DossierHospitalisation trouverDossierParPatient(Z_USER user) {
@@ -124,7 +148,67 @@ public class DossierHospitalisationFacade extends AbstractFacade<DossierHospital
             em.remove(dossier);
     }
     
-    
-    
+  @Override
+public String modifierDossierMedecin(Long idDossier, String dateHospitalisationStr) {
+    DossierHospitalisation dossier = trouverDossierHospitalisationParId(idDossier);
+    if (dossier == null) {
+        return "Dossier introuvable.";
+    }
+
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+        // Mise à jour de la date d'hospitalisation uniquement
+        if (dateHospitalisationStr != null && !dateHospitalisationStr.trim().isEmpty()) {
+            dossier.setDateHospitalisation(sdf.parse(dateHospitalisationStr));
+        } else {
+            return "Date d'hospitalisation obligatoire.";
+        }
+
+        // Mise à jour en base
+        getEntityManager().merge(dossier);
+        return "Dossier mis à jour par le médecin avec succès.";
+    } catch (ParseException e) {
+        return "Format de date invalide.";
+    }
+}
+
+
+    @Override
+public String modifierDossierPersonnel(Long idDossier, String dateArriveeStr, String dateDepartStr) {
+    DossierHospitalisation dossier = trouverDossierHospitalisationParId(idDossier);
+    if (dossier == null) {
+        return "Dossier introuvable.";
+    }
+
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+        // Mise à jour de l'heure d'arrivée si fournie
+        if (dateArriveeStr != null && !dateArriveeStr.trim().isEmpty()) {
+            dossier.setHeureArrivee(sdf.parse(dateArriveeStr));
+        }
+
+        // Mise à jour de l'heure de départ si fournie
+        if (dateDepartStr != null && !dateDepartStr.trim().isEmpty()) {
+            dossier.setHeureDepart(sdf.parse(dateDepartStr));
+        }
+
+        // Mise à jour en base
+        getEntityManager().merge(dossier);
+        return "Dossier mis à jour par le personnel avec succès.";
+    } catch (ParseException e) {
+        return "Format de date invalide.";
+    }
+}
+
+    @Override
+    public void modifierDossier(DossierHospitalisation dossier) {
+        em.merge(dossier);
+    }
+
+
+
+
     
 }

@@ -44,7 +44,7 @@ public interface DossierHospitalisationFacadeLocal {
 
     List<DossierHospitalisation> trouverTousLesDossiers();
 
-    void modifierDossier(DossierHospitalisation dossier);
+    String modifierDossier(Long idDossier, String dateArriveeStr, String dateDepartStr);
 
     DossierHospitalisation trouverDossierParPatient(Z_USER id);
     
@@ -53,4 +53,9 @@ public interface DossierHospitalisationFacadeLocal {
     List<DossierHospitalisation> trouverTousLesDossiersUnService(Service service);
 
     void supprimerDossierHospitalisation(Long id);
+    
+    String modifierDossierMedecin(Long idDossier, String dateHospitalisationStr)  ;
+    String modifierDossierPersonnel(Long idDossier, String dateArriveeStr, String dateDepartStr); 
+
+    void modifierDossier(DossierHospitalisation dossier);
 }

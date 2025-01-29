@@ -631,31 +631,39 @@ public class NewServlet extends HttpServlet {
         
         
         
-        
-        
-        
-        
-        else if (act.equals("modifierDossierPersonnel")){
-            jspClient="/landing_page.jsp";
-            Long idDossier= Long.parseLong(request.getParameter("id_dossierFiche"));
+        else if (act.equals("modifierDossierMedecin")) {
+            jspClient = "/landing_page.jsp";
+
+            // Récupération des paramètres
+            String idDossierStr = request.getParameter("id_dossierFiche");
+            String dateHospitalisationStr = request.getParameter("DateHospitalisation_ficheDossier");
+
+            // Appel du Bean Session
+            String message = sessionMEDECIN.modifierDossierParMedecin(idDossierStr, dateHospitalisationStr);
+
+            // Ajout du message dans la requête
+            request.setAttribute("message", message);
+        }
+
+
+        else if (act.equals("modifierDossierPersonnel")) {
+            jspClient = "/landing_page.jsp";
+
+            // Récupération des paramètres du formulaire
+            String idDossierStr = request.getParameter("id_dossierFiche");
             String dateArriveeStr = request.getParameter("DateArrivee_ficheDossier");
             String dateDepartStr = request.getParameter("DateDepart_ficheDossier");
-            DossierHospitalisation dossier = sessionPERSONNEL.trouverDossierParId(idDossier);
-            if (dossier != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                if (dateArriveeStr != null && !dateArriveeStr.isEmpty()) {
-                    dossier.setHeureArrivee(sdf.parse(dateArriveeStr));
-                }
-                if (dateDepartStr != null && !dateDepartStr.isEmpty()) {
-                    dossier.setHeureDepart(sdf.parse(dateDepartStr));
-                }
-                sessionPERSONNEL.modifierDossier(dossier);
-                request.setAttribute("message", "Dossier modifié avec succès.");
-                System.out.println("Modification réussie : " + dossier.getId());
-            } else {
-                request.setAttribute("message", "Dossier introuvable.");
-            }
-        } 
+
+            // Appel du Bean Session pour modifier le dossier
+            String message = sessionPERSONNEL.modifierDossierParPersonnel(idDossierStr, dateArriveeStr, dateDepartStr);
+
+            // Ajout du message dans la requête
+            request.setAttribute("message", message);
+        }
+        
+        
+        
+        
         else if (act.equals("modifierActe")){
             jspClient="/landing_page.jsp";
             Long idActe=Long.parseLong(request.getParameter("id_acte"));

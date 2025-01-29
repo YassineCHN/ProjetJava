@@ -64,7 +64,7 @@ public class SessionMEDECIN implements SessionMEDECINLocal {
     public void modifierActe(Acte acte) {
         acteFacade.modifierActe(acte);
     }
-
+ 
     @Override
     public boolean supprimerActe(Long id) {
         Acte acte = acteFacade.trouverActeParId(id);
@@ -107,10 +107,10 @@ public class SessionMEDECIN implements SessionMEDECINLocal {
         dossierHospitalisationFacade.creerDossierHospitalisation(patient, service, dateHospitalisation, heureArrivee, heureDepart);
     }
 
-    @Override
-    public void modifierDossier(DossierHospitalisation dossier) {
-        dossierHospitalisationFacade.modifierDossier(dossier);
-    }
+//    @Override
+//    public void modifierDossier(DossierHospitalisation dossier) {
+//        dossierHospitalisationFacade.modifierDossier(dossier);
+//    }
 
     @Override
     public void annulerDossierHospitalisation(Long id) {
@@ -267,37 +267,20 @@ public class SessionMEDECIN implements SessionMEDECINLocal {
         return "Dossier médical créé avec succès.";
     }
 
-    @Override
-    public String modifierDossierParID(String idDossierStr, String dateHospitalisationStr) {
-        if (idDossierStr == null || idDossierStr.trim().isEmpty()) {
-            return "ID du dossier manquant.";
-        }
-
-        try {
-            Long idDossier = Long.parseLong(idDossierStr);
-
-            // Recherche du dossier
-            DossierHospitalisation dossier = dossierHospitalisationFacade.trouverDossierHospitalisationParId(idDossier);
-            if (dossier == null) {
-                return "Dossier introuvable.";
-            }
-
-            // Mise à jour de la date d'hospitalisation si fournie
-            if (dateHospitalisationStr != null && !dateHospitalisationStr.trim().isEmpty()) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                dossier.setDateHospitalisation(sdf.parse(dateHospitalisationStr));
-            }
-
-            // Mise à jour en base de données
-            dossierHospitalisationFacade.modifierDossier(dossier);
-            System.out.println("[GestionDossier] Dossier modifié avec succès : " + dossier.getId());
-
-            return "Dossier modifié avec succès.";
-        } catch (NumberFormatException e) {
-            return "ID du dossier invalide.";
-        } catch (ParseException e) {
-            return "Format de date invalide.";
-        }
+  @Override
+public String modifierDossierParMedecin(String idDossierStr, String dateHospitalisationStr) {
+    if (idDossierStr == null || idDossierStr.trim().isEmpty()) {
+        return "ID du dossier manquant.";
     }
+
+    try {
+        Long idDossier = Long.parseLong(idDossierStr);
+        return dossierHospitalisationFacade.modifierDossierMedecin(idDossier, dateHospitalisationStr);
+    } catch (NumberFormatException e) {
+        return "ID du dossier invalide.";
+    }
+}
+
+
 
 }

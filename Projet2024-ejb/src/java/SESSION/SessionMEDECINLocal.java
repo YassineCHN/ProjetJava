@@ -40,7 +40,7 @@ public interface SessionMEDECINLocal {
 
     void creerDossier(Z_PATIENT patient, Service service, Date dateHospitalisation, Date heureArrivee, Date heureDepart);
     
-    public void modifierDossier(DossierHospitalisation dossier) ;
+//    public void modifierDossier(DossierHospitalisation dossier) ;
     
     void annulerDossierHospitalisation(Long id) ;
     
@@ -91,5 +91,7 @@ public interface SessionMEDECINLocal {
                                   String nomMutuelle, String adresseMutuelle) ;
     
     
-    String modifierDossierParID(String idDossierStr, String dateHospitalisationStr) ;
+   
+    
+    String modifierDossierParMedecin(String idDossierStr, String dateHospitalisationStr) ;
 }
