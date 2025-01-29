@@ -5,7 +5,9 @@
 package SESSION;
 
 import ENTITE.DossierHospitalisation;
+import ENTITE.RoleUSER;
 import ENTITE.Z_PERSONNE;
+import ENTITE.Z_PERSONNEL;
 import ENTITE.Z_USER;
 import ENTITE.statutDossier;
 import FACADE.DossierHospitalisationFacadeLocal;
@@ -16,6 +18,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -125,4 +129,42 @@ public class SUPERSession implements SUPERSessionLocal {
         
 
     }
+    
+     @Override
+    public String authentifierUtilisateur(String login, String password, HttpSession session, HttpServletRequest request) {
+        // Vérification des champs vides
+        if (login == null || password == null || login.trim().isEmpty() || password.trim().isEmpty()) {
+            return "L'un des champs du formulaire est vide, veuillez réessayer !";
+        }
+
+        // Authentification de l'utilisateur
+        Z_USER user = Z_authentificationUtilisateur(login, password);
+        if (user == null) {
+            return "Erreur d'authentification. Veuillez vérifier vos identifiants.";
+        }
+
+        // Récupération des informations de l'utilisateur
+        String user_identifie = user.getLogin();
+        RoleUSER role_identifie = user.getRole();
+        String id_user = String.valueOf(user.getId());
+
+        // Stocker les informations de l'utilisateur dans la session
+        session.setAttribute("utilisateur2", user_identifie);
+        session.setAttribute("role2", role_identifie.name());
+        session.setAttribute("id_user", id_user);
+
+        // Vérification si l'utilisateur fait partie du service financier
+        if (role_identifie == RoleUSER.PERSONNEL) {
+            Z_PERSONNE personne = user.getPersonne();
+            if (personne instanceof Z_PERSONNEL) {
+                Z_PERSONNEL personnel = (Z_PERSONNEL) personne;
+                if ("Financier".equalsIgnoreCase(personnel.getService().getServiceNom())) {
+                    session.setAttribute("ServiceFinancier", "ServiceFinancier");
+                }
+            }
+        }
+
+        return "Bienvenue, " + role_identifie.name() + "!";
+    }
+
 }

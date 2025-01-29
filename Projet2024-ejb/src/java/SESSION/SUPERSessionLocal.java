@@ -7,6 +7,8 @@ package SESSION;
 import ENTITE.Z_PERSONNE;
 import ENTITE.Z_USER;
 import javax.ejb.Local;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,4 +29,5 @@ public interface SUPERSessionLocal {
     public Z_USER trouverUtilisateurParPers(Long id);
     
     public void modifierPersonne(Z_PERSONNE pers);
+    String authentifierUtilisateur(String login, String password, HttpSession session, HttpServletRequest request);
 }

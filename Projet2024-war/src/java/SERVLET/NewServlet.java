@@ -96,56 +96,22 @@ public class NewServlet extends HttpServlet {
             request.setAttribute("message", "pas d'informations");
 
         } 
+        
+        
         else if (act.equals("authentificationUtilisateur_HERITAGE")) {
             jspClient = "/landing_page.jsp";
+
+            // Récupération des paramètres du formulaire
             String login = request.getParameter("loginHeritage");
             String password = request.getParameter("passwordHeritage");
-            
-            
-                
-            
-            
-            
-            if (login.trim().isEmpty() || password.trim().isEmpty()) {
-                // Vérification des champs vides pour le login et le mot de passe
-                String message = "L'un des items du formulaire est vide, reessayez!";
-                request.setAttribute("message", message);
-            } else {
-                Z_USER user = sUPERSession.Z_authentificationUtilisateur(login, password);
-                // Vérification si l'authentification renvoie bien un utilisateur
-                if (user != null) {
-                    String user_identifié = user.getLogin();
-                    RoleUSER role_identifié = user.getRole();
-                    String id_user = String.valueOf(user.getId());
-                    
-                    if (role_identifié != null) {
-                        session.setAttribute("utilisateur2", user_identifié);
-                        session.setAttribute("role2", role_identifié.name());
-                        session.setAttribute("id_user", id_user);
-                        request.setAttribute("message", "Bienvenue, " + role_identifié.name() + "!");
-                        request.setAttribute("utilisateurConnecte", user);
-                                                if (role_identifié == RoleUSER.PERSONNEL) {
-                            Z_PERSONNE test = user.getPersonne();
-                            Z_PERSONNEL test2 = (Z_PERSONNEL) test;
-                            String serviceNom =test2.getService().getServiceNom();
-                            
-                            if (test2.getService().getServiceNom().equals("Financier")) {
-                                String ServiceFinancier2 = "ServiceFinancier";
-                                session.setAttribute("ServiceFinancier", ServiceFinancier2);
-                            }
-                        }
-                    }
 
-                    // Définir un message de bienvenue
-                    String message = "Bienvenue, " + role_identifié.name() + "!";
-                    request.setAttribute("message", message);
-                } else {
-                    // Si l'authentification échoue
-                    String message = "Erreur d'authentification. Veuillez vérifier vos identifiants.";
-                    request.setAttribute("message", message);
-                }
-            }
+            // Appel du Bean Session pour l'authentification
+            String message = sUPERSession.authentifierUtilisateur(login, password, session, request);
+
+            // Ajout du message dans la requête
+            request.setAttribute("message", message);
         }
+
         else if (act.equals("logout")) {
             jspClient = "/landing_page.jsp";
             request.setAttribute("message", "Vous avez été déconnecté avec succès.");
