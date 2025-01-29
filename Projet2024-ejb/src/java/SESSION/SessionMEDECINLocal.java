@@ -83,4 +83,10 @@ public interface SessionMEDECINLocal {
     public List<Z_MEDECIN> trouverTousLesMedecins();
     
     public List<Z_PATIENT> trouverTousLesPatients() ;
+    
+    String creerDossierMedical(String dateHospitalisationStr, String serviceIdStr, 
+                                  String patientIdStr, boolean isNewPatient, 
+                                  String nomPatient, String prenomPatient, 
+                                  String adressePatient, String numSecuPatient, 
+                                  String nomMutuelle, String adresseMutuelle) ;
 }

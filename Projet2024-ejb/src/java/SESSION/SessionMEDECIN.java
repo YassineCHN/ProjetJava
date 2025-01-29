@@ -20,6 +20,8 @@ import FACADE.LigneJournalFacadeLocal;
 import FACADE.ServiceFacadeLocal;
 import FACADE.Z_PERSONNEFacadeLocal;
 import FACADE.Z_USERFacadeLocal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -222,4 +224,50 @@ public class SessionMEDECIN implements SessionMEDECINLocal {
     public List<Z_PATIENT> trouverTousLesPatients() {
         return z_PERSONNEFacade.trouverTousLesPatients();
     }
+    
+    
+    
+    @Override
+public String creerDossierMedical(String dateHospitalisationStr, String serviceIdStr, String patientIdStr, boolean isNewPatient, String nomPatient, String prenomPatient,String adressePatient, String numSecuPatient, String nomMutuelle, String adresseMutuelle) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+    Date dateHospitalisation = null;
+    Date heureArrivee = null;
+    Date heureDepart = null;
+    // Vérifier la date d'hospitalisation
+    try {
+        if (dateHospitalisationStr != null && !dateHospitalisationStr.trim().isEmpty()) {
+            dateHospitalisation = sdf.parse(dateHospitalisationStr);
+        } else {
+            return "Date d'hospitalisation obligatoire !";
+        }
+    } catch (ParseException e) {
+        return "Format de date invalide.";
+    }
+    // Récupération du service
+    Long serviceId = Long.valueOf(serviceIdStr);
+    Service service = serviceFacade.trouverServiceParId(serviceId);
+    if (service == null) {
+        return "Service introuvable.";
+    }
+    Z_PATIENT patient = null;
+    if (isNewPatient) {
+        // Vérifier les champs obligatoires pour un nouveau patient
+        if (nomPatient.trim().isEmpty() || prenomPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty()) {
+            return "Informations patient incomplètes.";
+        }
+        // Création du patient
+        patient = creerPatientCheckBox(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMutuelle, adresseMutuelle);
+    } else {
+        // Récupération du patient existant
+        Long patientId = Long.valueOf(patientIdStr);
+        patient = (Z_PATIENT) trouverPersonneParId(patientId);
+        if (patient == null) {
+            return "Patient introuvable.";
+        }
+    }
+    // Création du dossier médical
+    dossierHospitalisationFacade.creerDossierHospitalisation(patient, service, dateHospitalisation, heureArrivee, heureDepart);
+    return "Dossier médical créé avec succès.";
+}
+
 }

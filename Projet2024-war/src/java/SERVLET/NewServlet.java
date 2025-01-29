@@ -934,50 +934,29 @@ public class NewServlet extends HttpServlet {
             }
         }        
         else if (act.equals("creerDossierMedical")) {
-
             jspClient = "/landing_page.jsp";
 
             String dateHospitalisationStr = request.getParameter("dateHospitalisation");
-            String serviceIdStr = request.getParameter("serviceId"); 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-             
-            Date dateHospitalisation_test = null;
-            Date heureArrivee_test = null;
-            Date heureDepart_test = null;
-            if (dateHospitalisationStr != null && !dateHospitalisationStr.trim().isEmpty()) {
-                dateHospitalisation_test = sdf.parse(dateHospitalisationStr);
-            }
+            String serviceIdStr = request.getParameter("serviceId");
+            String patientIdStr = request.getParameter("patientId");
+            boolean isNewPatient = request.getParameter("newPatientCheckbox") != null;
 
-            
-            Z_PATIENT patient = null;
-            Long serviceId = Long.valueOf(serviceIdStr);
-            Service service = sessionMEDECIN.trouverServiceParID(serviceId);
-            
-            if (dateHospitalisation_test == null) {
-                jspClient = "/landing_page.jsp";
-                request.setAttribute("message", "Date d'hospitalisation obligatoire !");
-            } else {
-                if (request.getParameter("newPatientCheckbox") != null) {
-                    String nomPatient = request.getParameter("nomPersonne");
-                    String prenomPatient = request.getParameter("prenomPersonne");
-                    String adressePatient = request.getParameter("adressePersonne");
-                    String numSecuPatient = request.getParameter("numSecuPatient");
-                    String nomMut = request.getParameter("nomMutuelle");
-                    String adresseMut = request.getParameter("adresseMutuelle");
-                    if (nomPatient.trim().isEmpty() || prenomPatient.trim().isEmpty() || numSecuPatient.trim().isEmpty()) {
-                        jspClient = "/landing_page.jsp";
-                    } else {
-                        patient=sessionMEDECIN.creerPatientCheckBox(nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMut, adresseMut);
-                    }
-                    sessionMEDECIN.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
-                } else {
-                    String patientIdStr = request.getParameter("patientId");
-                    Long patientId = Long.valueOf(patientIdStr);
-                    patient = (Z_PATIENT) sessionMEDECIN.trouverPersonneParId(patientId);
-                    sessionMEDECIN.creerDossier(patient, service, dateHospitalisation_test, heureArrivee_test, heureDepart_test);
-                }
-            }
+            String nomPatient = request.getParameter("nomPersonne");
+            String prenomPatient = request.getParameter("prenomPersonne");
+            String adressePatient = request.getParameter("adressePersonne");
+            String numSecuPatient = request.getParameter("numSecuPatient");
+            String nomMutuelle = request.getParameter("nomMutuelle");
+            String adresseMutuelle = request.getParameter("adresseMutuelle");
+
+            // Appel du Bean Session
+            String message = sessionMEDECIN.creerDossierMedical(
+                    dateHospitalisationStr, serviceIdStr, patientIdStr, isNewPatient,
+                    nomPatient, prenomPatient, adressePatient, numSecuPatient, nomMutuelle, adresseMutuelle
+            );
+
+            request.setAttribute("message", message);
         }
+
 
         else if (act.equals("payerFacture")) {
             jspClient = "/landing_page.jsp";
