@@ -626,23 +626,15 @@ public class NewServlet extends HttpServlet {
                 request.setAttribute("message", "Personne non trouvée.");
             } 
         }
-        else if (act.equals("modifierDossierMedecin")){
-            jspClient="/landing_page.jsp";
-            Long idDossier= Long.parseLong(request.getParameter("id_dossierFiche"));
-            String dateHospitalisationStr = request.getParameter("DateHospitalisation_ficheDossier");
-            DossierHospitalisation dossier = sessionMEDECIN.trouverDossierParId(idDossier);
-            if (dossier != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                if (dateHospitalisationStr != null && !dateHospitalisationStr.isEmpty()) {
-                    dossier.setDateHospitalisation(sdf.parse(dateHospitalisationStr));
-                }
-                sessionMEDECIN.modifierDossier(dossier);
-                request.setAttribute("message", "Dossier modifié avec succès.");
-                System.out.println("Modification réussie : " + dossier.getId());
-            } else {
-                request.setAttribute("message", "Dossier introuvable.");
-            }
-        } 
+        
+        
+        
+        
+        
+        
+        
+        
+        
         else if (act.equals("modifierDossierPersonnel")){
             jspClient="/landing_page.jsp";
             Long idDossier= Long.parseLong(request.getParameter("id_dossierFiche"));

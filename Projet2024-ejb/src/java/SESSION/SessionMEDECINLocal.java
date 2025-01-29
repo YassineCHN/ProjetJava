@@ -89,4 +89,7 @@ public interface SessionMEDECINLocal {
                                   String nomPatient, String prenomPatient, 
                                   String adressePatient, String numSecuPatient, 
                                   String nomMutuelle, String adresseMutuelle) ;
+    
+    
+    String modifierDossierParID(String idDossierStr, String dateHospitalisationStr) ;
 }
