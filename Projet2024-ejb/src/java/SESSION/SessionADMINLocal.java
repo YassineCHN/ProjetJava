@@ -65,7 +65,7 @@ public interface SessionADMINLocal {
     
     void CreerService(String nomService, String localisationService) ;
     
-    void modifierService(Service serv);
+//    void modifierService(Service serv);
 
     boolean SupprimerService(Long idService);
 
@@ -85,5 +85,5 @@ public interface SessionADMINLocal {
     
     void modifierActe(Acte acte);
     
-    
+    String modifierServiceParID(String idServiceStr, String localisation, String nomService) ;
 }

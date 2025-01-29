@@ -39,8 +39,15 @@ public class ServiceFacade extends AbstractFacade<Service> implements ServiceFac
     }
 
     @Override
-    public void modifierService(Service serv) {
-        getEntityManager().merge(serv);
+    public void modifierService(Service serv, String nouvelleLocalisation, String nouveauNom) {
+        
+        if (serv != null) {
+            serv.setServiceLocalisation(nouvelleLocalisation);
+            serv.setServiceNom(nouveauNom);
+            em.merge(serv); // Mettre à jour l'entité dans la base de données
+        } else {
+            throw new IllegalArgumentException("Service introuvable.");
+        }
     }
 
     @Override

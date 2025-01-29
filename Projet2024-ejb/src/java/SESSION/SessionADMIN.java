@@ -184,10 +184,11 @@ public class SessionADMIN implements SessionADMINLocal {
             serviceFacade.creerService(nomService, localisationService);
        
     }
-    @Override
-    public void modifierService(Service serv){
-        serviceFacade.modifierService(serv);
-    }
+//    a supprimer
+//    @Override
+//    public void modifierService(Service serv){
+//        serviceFacade.modifierService(serv);
+//    }
 
     @Override
     public boolean SupprimerService(Long idService) {
@@ -256,6 +257,27 @@ public class SessionADMIN implements SessionADMINLocal {
     public void modifierActe(Acte acte) {
         acteFacade.modifierActe(acte);
     }
-    
+    @Override
+    public String modifierServiceParID(String idServiceStr, String localisation, String nomService) {
+        if (idServiceStr == null || idServiceStr.trim().isEmpty()) {
+            return "ID du service manquant.";
+        }
+
+        try {
+            Long idService = Long.parseLong(idServiceStr);
+            // Récupération du service
+            Service service = serviceFacade.trouverServiceParId(idService);
+            if (service == null) {
+                return "Service non trouvé.";
+            }
+            // Persistance de la modification
+            serviceFacade.modifierService(service,localisation,nomService);
+
+            return "Service modifié avec succès.";
+        } catch (NumberFormatException e) {
+            return "ID du service invalide.";
+        }
+    }
+
      
 }

@@ -529,30 +529,23 @@ public class NewServlet extends HttpServlet {
                     }
                 }
         }      
+        
+        
         else if (act.equals("modifierService")) {
-            jspClient="/landing_page.jsp";
+            jspClient = "/landing_page.jsp";
+
+            // Récupération des paramètres du formulaire
             String idServiceStr = request.getParameter("id_service");
-            if (idServiceStr != null && !idServiceStr.isEmpty()) {
-        try {
-            Long idService = Long.parseLong(idServiceStr);  
-            String loc = request.getParameter("localisation");
+            String localisation = request.getParameter("localisation");
             String nomService = request.getParameter("nomService");
 
-            Service serv = sessionADMIN.trouverServiceParID(idService);
-            if (serv != null) {
-                serv.setServiceLocalisation(loc);
-                serv.setServiceNom(nomService);
-                sessionADMIN.modifierService(serv);
-            } else {
-                request.setAttribute("message", "Service non trouvé.");
-            }
-        } catch (NumberFormatException e) {
-            request.setAttribute("message", "ID du service invalide.");
+            // Appel du Bean Session pour la mise à jour
+            String message = sessionADMIN.modifierServiceParID(idServiceStr, localisation, nomService);
+
+            // Ajout du message dans la requête
+            request.setAttribute("message", message);
         }
-            } else {
-                request.setAttribute("message", "ID du service manquant.");
-            }
-        }
+
 
         else if (act.equals("modifierUtilisateur")) {
             jspClient="/landing_page.jsp";
